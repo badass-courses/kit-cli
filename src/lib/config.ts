@@ -5,6 +5,7 @@ import type { BroadcastDefaults, KitConfig, KitHomeConfig } from "./types";
 
 const defaultConfigPath = () =>
   join(homedir(), ".config", "kit-cli", "config.json");
+const defaultProjectConfigPath = () => join(process.cwd(), ".kit", "config.json");
 const defaultKitHomeConfigPath = () => join(homedir(), ".kit", "config.json");
 
 export const defaultConfig = (): KitConfig => ({
@@ -13,19 +14,41 @@ export const defaultConfig = (): KitConfig => ({
 
 export const getConfigPath = () =>
   process.env.KIT_CONFIG_PATH ?? defaultConfigPath();
+export const getProjectConfigPath = () =>
+  process.env.KIT_PROJECT_CONFIG_PATH ?? defaultProjectConfigPath();
 export const getKitHomeConfigPath = () =>
   process.env.KIT_HOME_CONFIG_PATH ?? defaultKitHomeConfigPath();
 
-export const loadConfig = async (): Promise<KitConfig> => {
+const readConfigFile = async (path: string): Promise<Partial<KitConfig>> => {
   try {
-    const raw = await readFile(getConfigPath(), "utf8");
-    return {
-      ...defaultConfig(),
-      ...(JSON.parse(raw) as KitConfig),
-    };
+    const raw = await readFile(path, "utf8");
+    return JSON.parse(raw) as Partial<KitConfig>;
   } catch {
-    return defaultConfig();
+    return {};
   }
+};
+
+const mergeConfig = (...configs: Array<Partial<KitConfig>>): KitConfig => {
+  const merged: KitConfig = defaultConfig();
+
+  for (const config of configs) {
+    Object.assign(merged, config);
+    if (config.oauth) merged.oauth = { ...merged.oauth, ...config.oauth };
+    if (config.accounts) {
+      merged.accounts = {
+        ...(merged.accounts ?? {}),
+        ...config.accounts,
+      };
+    }
+  }
+
+  return merged;
+};
+
+export const loadConfig = async (): Promise<KitConfig> => {
+  const userConfig = await readConfigFile(getConfigPath());
+  const projectConfig = await readConfigFile(getProjectConfigPath());
+  return mergeConfig(userConfig, projectConfig);
 };
 
 export const loadKitHomeConfig = async (): Promise<KitHomeConfig> => {
@@ -111,6 +134,12 @@ export const getEffectiveBroadcastDefaults = async (
 
 export const saveConfig = async (config: KitConfig) => {
   const configPath = getConfigPath();
+  await mkdir(dirname(configPath), { recursive: true });
+  await writeFile(configPath, JSON.stringify(config, null, 2));
+};
+
+export const saveProjectConfig = async (config: Pick<KitConfig, "currentKitAccount">) => {
+  const configPath = getProjectConfigPath();
   await mkdir(dirname(configPath), { recursive: true });
   await writeFile(configPath, JSON.stringify(config, null, 2));
 };

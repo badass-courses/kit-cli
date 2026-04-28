@@ -63,10 +63,11 @@ kit account add code-with-antonio --api-key "..." --alias cwa,antonio --name "Co
 kit account add totaltypescript-ai-hero --api-key "..." --alias aih,aihero --name "AI Hero / Total TypeScript"
 kit account list
 kit account use cwa
+kit account pin cwa
 kit whoami --auth api-key
 ```
 
-`kit account use <id-or-alias>` sets the default Kit account in `~/.config/kit-cli/config.json`. API keys live in `~/.config/kit-cli/credentials.json` under provider keys like `kit:code-with-antonio`.
+`kit account use <id-or-alias>` sets the user default Kit account in `~/.config/kit-cli/config.json`. `kit account pin <id-or-alias>` writes a project-local `.kit/config.json` for the current directory so repo-specific account selection wins without env vars. API keys live in `~/.config/kit-cli/credentials.json` under provider keys like `kit:code-with-antonio`.
 
 For one-off scripts, you can still use an env var:
 

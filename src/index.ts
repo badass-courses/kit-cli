@@ -48,8 +48,10 @@ import {
   getConfigPath,
   getEffectiveBroadcastDefaults,
   getKitHomeConfigPath,
+  getProjectConfigPath,
   loadConfig,
   resolveKitAccountId,
+  saveProjectConfig,
   setCurrentKitAccount,
   upsertKitAccount,
 } from "./lib/config";
@@ -596,6 +598,7 @@ const accountListCommand = Command.make("list", {}, () =>
         "kit account list",
         {
           config_path: getConfigPath(),
+          project_config_path: getProjectConfigPath(),
           current_account: config.currentKitAccount ?? null,
           accounts,
         },
@@ -616,6 +619,7 @@ const accountCurrentCommand = Command.make("current", {}, () =>
         "kit account current",
         {
           config_path: getConfigPath(),
+          project_config_path: getProjectConfigPath(),
           current_account: config.currentKitAccount ?? null,
           account: current ?? null,
         },
@@ -653,6 +657,38 @@ const accountUseCommand = Command.make(
       );
     })
 ).pipe(Command.withDescription("Set the default Kit account by id or short alias"));
+
+const accountPinCommand = Command.make(
+  "pin",
+  { account: Args.text({ name: "account-or-alias" }) },
+  ({ account }) =>
+    Effect.gen(function* () {
+      const config = yield* Effect.promise(() => loadConfig());
+      const resolved = resolveKitAccountId(config, account) ?? account;
+      yield* Effect.promise(() => saveProjectConfig({ currentKitAccount: resolved }));
+      printEnvelope(
+        success(
+          `kit account pin ${account}`,
+          {
+            project_config_path: getProjectConfigPath(),
+            requested: account,
+            pinned_account: resolved,
+            account: config.accounts?.[resolved] ?? null,
+          },
+          [
+            {
+              command: "kit account current",
+              description: "Confirm the project-local account selection",
+            },
+            {
+              command: "kit whoami --auth api-key",
+              description: "Verify the pinned account against Kit",
+            },
+          ]
+        )
+      );
+    })
+).pipe(Command.withDescription("Pin the current project directory to a Kit account"));
 
 const accountAddCommand = Command.make(
   "add",
@@ -723,6 +759,11 @@ const accountCommand = Command.make("account", {}, () =>
           usage: "kit account use <account-or-alias>",
         },
         {
+          name: "pin",
+          description: "Write .kit/config.json for this project directory",
+          usage: "kit account pin <account-or-alias>",
+        },
+        {
           name: "add",
           description: "Store an API key account with aliases",
           usage: "kit account add <id> --api-key <key> [--alias <aliases>]",
@@ -736,6 +777,7 @@ const accountCommand = Command.make("account", {}, () =>
     accountListCommand,
     accountCurrentCommand,
     accountUseCommand,
+    accountPinCommand,
     accountAddCommand,
   ])
 );
