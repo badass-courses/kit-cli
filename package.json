@@ -1,0 +1,51 @@
+{
+  "name": "kit-cli",
+  "version": "0.1.0",
+  "description": "Effect-powered CLI wrapper around the Kit API v4",
+  "bin": {
+    "kit": "src/index.ts",
+    "kit-cli": "src/index.ts"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "module": "src/index.ts",
+  "scripts": {
+    "gen": "bun run scripts/generate-operations.ts",
+    "build": "bun run gen && bun build src/index.ts --target node --outfile dist/index.js",
+    "compile": "bun run gen && bun build src/index.ts --compile --outfile dist/kit",
+    "dev": "bun run src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "lint": "oxfmt --check . && oxlint .",
+    "format": "oxfmt . --write",
+    "check": "ultracite check",
+    "fix": "ultracite fix"
+  },
+  "dependencies": {
+    "@effect/cli": "^0.73.0",
+    "@effect/platform": "^0.93.0",
+    "@effect/platform-node": "^0.104.0",
+    "effect": "^3.19.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.5",
+    "@types/bun": "latest",
+    "oxfmt": "^0.38.0",
+    "oxlint": "^1.32.0",
+    "typescript": "^5.9.3",
+    "ultracite": "7.2.5"
+  },
+  "packageManager": "bun@1.2.23",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badass-courses/kit-cli.git"
+  },
+  "homepage": "https://github.com/badass-courses/kit-cli#readme",
+  "bugs": {
+    "url": "https://github.com/badass-courses/kit-cli/issues"
+  },
+  "license": "MIT"
+}

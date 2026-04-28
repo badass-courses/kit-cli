@@ -1,0 +1,128 @@
+# Kit Developer Documentation
+
+## Docs
+
+- [Get Creator Profile](https://developers.kit.com/api-reference/accounts/get-creator-profile.md)
+- [Get current account](https://developers.kit.com/api-reference/accounts/get-current-account.md)
+- [Get email stats](https://developers.kit.com/api-reference/accounts/get-email-stats.md)
+- [Get growth stats](https://developers.kit.com/api-reference/accounts/get-growth-stats.md): Get growth stats for a specific time period. Defaults to last 90 days.<br/><br/>NOTE: We return your stats in your sending time zone. This endpoint does not return timestamps in UTC.
+- [List colors](https://developers.kit.com/api-reference/accounts/list-colors.md)
+- [Update colors](https://developers.kit.com/api-reference/accounts/update-colors.md)
+- [API Authentication](https://developers.kit.com/api-reference/authentication.md): Authenticating with the Kit API for apps and personal use
+- [Create a broadcast](https://developers.kit.com/api-reference/broadcasts/create-a-broadcast.md): Draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `send_at` to `null`.<br/><br/>To publish to the web, set `public` to `true`.<br/><br/>To schedule the broadcast for sending, provide a `send_at` timestamp. Scheduled broadcasts should contain…
+- [Delete a broadcast](https://developers.kit.com/api-reference/broadcasts/delete-a-broadcast.md)
+- [Get a broadcast](https://developers.kit.com/api-reference/broadcasts/get-a-broadcast.md)
+- [Get link clicks for a broadcast](https://developers.kit.com/api-reference/broadcasts/get-link-clicks-for-a-broadcast.md): NOTE: Pagination parameters control the list of clicks for the top level broadcast.
+- [Get stats for a broadcast](https://developers.kit.com/api-reference/broadcasts/get-stats-for-a-broadcast.md)
+- [Get stats for a list of broadcasts](https://developers.kit.com/api-reference/broadcasts/get-stats-for-a-list-of-broadcasts.md)
+- [List broadcasts](https://developers.kit.com/api-reference/broadcasts/list-broadcasts.md)
+- [Update a broadcast](https://developers.kit.com/api-reference/broadcasts/update-a-broadcast.md): Update an existing broadcast. Continue to draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `public` to false.<br/><br/>To schedule the broadcast for sending, set `public` to true and provide `send_at`. Scheduled broadcasts should contain a s…
+- [Bulk & async processing](https://developers.kit.com/api-reference/bulk-and-async-processing.md): Working with our bulk endpoints
+- [Bulk create custom fields](https://developers.kit.com/api-reference/custom-fields/bulk-create-custom-fields.md): See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.
+- [Bulk update subscriber custom field values](https://developers.kit.com/api-reference/custom-fields/bulk-update-subscriber-custom-field-values.md)
+- [Create a custom field](https://developers.kit.com/api-reference/custom-fields/create-a-custom-field.md): Create a custom field for your account. The label field must be unique to your account. Whitespace will be removed from the beginning and the end of your label.<br/><br/>Additionally, a key field and a name field will be generated for you. The key is an ASCII-only, lowercased, underscored representa…
+- [Delete custom field](https://developers.kit.com/api-reference/custom-fields/delete-custom-field.md): This will remove all data in this field from your subscribers.
+- [List custom fields](https://developers.kit.com/api-reference/custom-fields/list-custom-fields.md): A custom field allows you to collect subscriber information beyond the standard fields of first name and email address. An example would be a custom field called last name so you can get the full names of your subscribers.<br/><br/>You create a custom field, and then you're able to use that in your…
+- [Update a custom field](https://developers.kit.com/api-reference/custom-fields/update-a-custom-field.md): Updates a custom field label (see [Create a custom field](#create-a-custom-field) above for more information on labels). Note that the key will change but the name remains the same when the label is updated.<br/><br/><strong>Warning: </strong>An update to a custom field will break all of the liquid…
+- [Dates](https://developers.kit.com/api-reference/dates.md): Working with dates
+- [List email templates](https://developers.kit.com/api-reference/email-templates/list-email-templates.md)
+- [Add subscriber to form](https://developers.kit.com/api-reference/forms/add-subscriber-to-form.md): The subscriber being added to the form must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
+- [Add subscriber to form by email address](https://developers.kit.com/api-reference/forms/add-subscriber-to-form-by-email-address.md): The subscriber being added to the form must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
+- [Bulk add subscribers to forms](https://developers.kit.com/api-reference/forms/bulk-add-subscribers-to-forms.md): Adding subscribers to double opt-in forms will trigger sending an Incentive Email. Subscribers already added to the specified form will not receive the Incentive Email again. For more information about double opt-in see "[Double opt-in](#double-opt-in)". <br/><br/>The subscribers being added to the…
+- [List forms](https://developers.kit.com/api-reference/forms/list-forms.md)
+- [List subscribers for a form](https://developers.kit.com/api-reference/forms/list-subscribers-for-a-form.md)
+- [Proof Key for Code Exchange (PKCE) flow](https://developers.kit.com/api-reference/oauth-proof-key-for-code-exchange-flow.md)
+- [OAuth refresh token flow](https://developers.kit.com/api-reference/oauth-refresh-token-flow.md)
+- [API Overview](https://developers.kit.com/api-reference/overview.md)
+- [Pagination](https://developers.kit.com/api-reference/pagination.md): Working with paginated responses
+- [Create a purchase](https://developers.kit.com/api-reference/purchases/create-a-purchase.md)
+- [Get a purchase](https://developers.kit.com/api-reference/purchases/get-a-purchase.md)
+- [List purchases](https://developers.kit.com/api-reference/purchases/list-purchases.md)
+- [API response codes](https://developers.kit.com/api-reference/response-codes.md): Key response codes you may encounter while using the Kit API
+- [List segments](https://developers.kit.com/api-reference/segments/list-segments.md)
+- [Add subscriber to sequence](https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence.md): The subscriber being added to the sequence must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
+- [Add subscriber to sequence by email address](https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence-by-email-address.md): The subscriber being added to the sequence must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
+- [List sequences](https://developers.kit.com/api-reference/sequences/list-sequences.md)
+- [List subscribers for a sequence](https://developers.kit.com/api-reference/sequences/list-subscribers-for-a-sequence.md)
+- [Bulk create subscribers](https://developers.kit.com/api-reference/subscribers/bulk-create-subscribers.md): See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.
+- [Create a subscriber](https://developers.kit.com/api-reference/subscribers/create-a-subscriber.md): Behaves as an upsert. If a subscriber with the provided email address does not exist, it creates one with the specified first name and state. If a subscriber with the provided email address already exists, it updates the first name.<br/><br/>We will ignore custom fields that don't already exist in y…
+- [Filter subscribers based on engagement](https://developers.kit.com/api-reference/subscribers/filter-subscribers-based-on-engagement.md)
+- [Get a subscriber](https://developers.kit.com/api-reference/subscribers/get-a-subscriber.md)
+- [List stats for a subscriber](https://developers.kit.com/api-reference/subscribers/list-stats-for-a-subscriber.md): Retrieve email stats for a specific subscriber. You can filter the stats by providing `email_sent_after` and/or `email_sent_before` query parameters to limit the stats to emails sent within a specific date range. Note: this functionality was added in June 2025, so no data for events before that date…
+- [List subscribers](https://developers.kit.com/api-reference/subscribers/list-subscribers.md)
+- [List tags for a subscriber](https://developers.kit.com/api-reference/subscribers/list-tags-for-a-subscriber.md)
+- [Unsubscribe subscriber](https://developers.kit.com/api-reference/subscribers/unsubscribe-subscriber.md)
+- [Update a subscriber](https://developers.kit.com/api-reference/subscribers/update-a-subscriber.md): We will ignore custom fields that don't already exist in your account. We will not return an error if you try to add data to a custom field that does not exist. Please use <a href="#create-a-custom-field">Create a custom field</a> to create custom fields before setting for subscribers.<br/><br/><str…
+- [Bulk create tags](https://developers.kit.com/api-reference/tags/bulk-create-tags.md): See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.
+- [Bulk remove tags from subscribers](https://developers.kit.com/api-reference/tags/bulk-remove-tags-from-subscribers.md): See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.
+- [Bulk tag subscribers](https://developers.kit.com/api-reference/tags/bulk-tag-subscribers.md): The subscribers being tagged must already exist. Subscribers can be created in bulk using the "[Bulk create subscriber](#bulk-create-subscribers)" endpoint.<br/><br/>See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.
+- [Create a tag](https://developers.kit.com/api-reference/tags/create-a-tag.md)
+- [List subscribers for a tag](https://developers.kit.com/api-reference/tags/list-subscribers-for-a-tag.md)
+- [List tags](https://developers.kit.com/api-reference/tags/list-tags.md)
+- [Remove tag from subscriber](https://developers.kit.com/api-reference/tags/remove-tag-from-subscriber.md)
+- [Remove tag from subscriber by email address](https://developers.kit.com/api-reference/tags/remove-tag-from-subscriber-by-email-address.md)
+- [Tag a subscriber](https://developers.kit.com/api-reference/tags/tag-a-subscriber.md): The subscriber being tagged must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
+- [Tag a subscriber by email address](https://developers.kit.com/api-reference/tags/tag-a-subscriber-by-email-address.md): The subscriber being tagged must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
+- [Update tag name](https://developers.kit.com/api-reference/tags/update-tag-name.md)
+- [Upgrading to V4](https://developers.kit.com/api-reference/upgrading-to-v4.md): Helping you upgrade from V3 of the API to V4
+- [Create a webhook](https://developers.kit.com/api-reference/webhooks/create-a-webhook.md): Available event types:<br/>- `subscriber.subscriber_activate`<br/>- `subscriber.subscriber_unsubscribe`<br/>- `subscriber.subscriber_bounce`<br/>- `subscriber.subscriber_complain`<br/>- `subscriber.form_subscribe`, required parameter `form_id` [Integer]<br/>- `subscriber.course_subscribe`, required…
+- [Delete a webhook](https://developers.kit.com/api-reference/webhooks/delete-a-webhook.md)
+- [List webhooks](https://developers.kit.com/api-reference/webhooks/list-webhooks.md): Webhooks are automations that will receive subscriber data when a subscriber event is triggered, such as when a subscriber completes a sequence.<br/><br/>When a webhook is triggered, a `POST` request will be made to your URL with a JSON payload.
+- [Changelog](https://developers.kit.com/changelog.md): Developer platform updates and new features.
+- [App details page](https://developers.kit.com/kit-app-store/app-details-page.md): Help creators get the most from your app by setting up a comprehensive app details page.
+- [App versioning](https://developers.kit.com/kit-app-store/app-versioning.md): Ensure creators have access to your latest functionality through app versioning
+- [App Authentication](https://developers.kit.com/kit-app-store/authentication.md): Setting up authentication for your app
+- [Best practices](https://developers.kit.com/kit-app-store/best-practices.md): What makes a good App on Kit?
+- [Building apps](https://developers.kit.com/kit-app-store/building-apps.md): Building an app for the Kit App Store
+- [Going live](https://developers.kit.com/kit-app-store/going-live.md): Getting your app live onto the Kit App Store
+- [Kit Developer Assistant](https://developers.kit.com/kit-app-store/kit-developer-assistant.md)
+- [Managing your apps](https://developers.kit.com/kit-app-store/managing-your-apps.md): Updating your app once it's live
+- [Kit App Store overview](https://developers.kit.com/kit-app-store/overview.md)
+- [Quick start guide](https://developers.kit.com/kit-app-store/quick-start-guide.md): Getting you up and running on the Kit App Store
+- [Kit Developer Docs MCP](https://developers.kit.com/mcp/kit-developer-docs-mcp.md): Connect AI coding agents directly to Kit's developer documentation using the Model Context Protocol
+- [Color picker](https://developers.kit.com/plugins/component-library/color-picker.md)
+- [Date picker](https://developers.kit.com/plugins/component-library/date-picker.md)
+- [Dependencies](https://developers.kit.com/plugins/component-library/dependencies.md)
+- [Dynamic select input](https://developers.kit.com/plugins/component-library/dynamic-select-input.md)
+- [Font picker](https://developers.kit.com/plugins/component-library/font-picker.md)
+- [Group](https://developers.kit.com/plugins/component-library/group.md)
+- [Numerical input](https://developers.kit.com/plugins/component-library/numerical-input.md)
+- [Overview](https://developers.kit.com/plugins/component-library/overview.md)
+- [Radio group](https://developers.kit.com/plugins/component-library/radio-group.md)
+- [Search input](https://developers.kit.com/plugins/component-library/search-input.md)
+- [Select input](https://developers.kit.com/plugins/component-library/select-input.md)
+- [Slider](https://developers.kit.com/plugins/component-library/slider.md)
+- [Text input](https://developers.kit.com/plugins/component-library/text-input.md)
+- [Textarea](https://developers.kit.com/plugins/component-library/textarea.md)
+- [Toggle](https://developers.kit.com/plugins/component-library/toggle.md)
+- [Example content block plugin](https://developers.kit.com/plugins/content-blocks/example-plugin.md): Simple example content block plugin
+- [Content blocks overview](https://developers.kit.com/plugins/content-blocks/overview.md): Introducing content block plugins
+- [Content blocks plugin configuration](https://developers.kit.com/plugins/content-blocks/plugin-configuration.md): Setting up your content block plugins
+- [Content blocks plugin flow](https://developers.kit.com/plugins/content-blocks/plugin-flow.md): Example flow for the content block plugin
+- [Content blocks plugin recommendations](https://developers.kit.com/plugins/content-blocks/plugin-recommendations.md): Best practices, tips and tricks to get the most out of content block plugins
+- [Plugin security](https://developers.kit.com/plugins/content-blocks/plugin-security.md): Security for your content block plugins
+- [Content blocks plugin settings](https://developers.kit.com/plugins/content-blocks/plugin-settings.md): Sidebar settings components
+- [Managing plugins](https://developers.kit.com/plugins/managing-plugins.md): Creating and configuring your app's plugins
+- [Example media source plugin](https://developers.kit.com/plugins/media-source/example-plugin.md): Simple example media source plugin
+- [Media source overview](https://developers.kit.com/plugins/media-source/overview.md): Introducing media source plugins
+- [Media source plugin configuration](https://developers.kit.com/plugins/media-source/plugin-configuration.md): Setting up your media source plugins
+- [Media source plugin flow](https://developers.kit.com/plugins/media-source/plugin-flow.md): Example flow for the media source plugin
+- [Media source plugin recommendations](https://developers.kit.com/plugins/media-source/plugin-recommendations.md): Best practices, tips and tricks to get the most out of media source plugins
+- [Media source plugin settings](https://developers.kit.com/plugins/media-source/plugin-settings.md): Media gallery settings components
+- [OAuth authorization](https://developers.kit.com/plugins/oauth-authorization.md): Setting up OAuth authorization for your plugins
+- [Plugin overview](https://developers.kit.com/plugins/overview.md)
+- [Welcome](https://developers.kit.com/welcome.md)
+
+## OpenAPI Specs
+
+- [v4](https://developers.kit.com/api-reference/v4.json)
+
+## Optional
+
+- [Kit](https://kit.com)
+- [Developer Community](https://kit.typeform.com/to/f8urvmPe)
+- [Blog](https://kit.com/resources)
+- [Support](https://kit.com/support)
+
+
+Built with [Mintlify](https://mintlify.com).

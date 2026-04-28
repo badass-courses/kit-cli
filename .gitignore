@@ -1,0 +1,9 @@
+node_modules
+dist
+*.tsbuildinfo
+.config.local.json
+
+.env
+.DS_Store
+.pi/tmp/
+.pi/tasks/tasks-*.json
