@@ -1,14 +1,15 @@
 {
   "name": "kit-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Effect-powered CLI wrapper around the Kit API v4",
   "bin": {
-    "kit": "src/index.ts",
-    "kit-cli": "src/index.ts"
+    "kit": "dist/index.js",
+    "kit-cli": "dist/index.js"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "package.json"
   ],
   "type": "module",
   "module": "src/index.ts",
@@ -22,7 +23,9 @@
     "lint": "oxfmt --check . && oxlint .",
     "format": "oxfmt . --write",
     "check": "ultracite check",
-    "fix": "ultracite fix"
+    "fix": "ultracite fix",
+    "prepack": "bun run build",
+    "release:binaries": "bash scripts/build-release-binaries.sh"
   },
   "dependencies": {
     "@effect/cli": "^0.73.0",
