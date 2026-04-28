@@ -4,10 +4,9 @@
  * Resolution order: env vars -> file store (~/.config/kit-cli/credentials.json)
  *
  * Providers:
- *   kit:<account-id>    - Kit API keys (e.g. kit:totaltypescript-ai-hero)
- *   site:<site-id>      - Course-builder site tokens (e.g. site:ai-hero)
- *   stripe:<account>    - Stripe API keys
- *   analytics:<account> - Google Analytics OAuth tokens
+ *   kit:<account-id>    - Kit API keys (e.g. kit:totaltypescript-example-site)
+ *   site:<site-id>      - Course-builder site tokens (e.g. site:example-site)
+ *    *   analytics:<account> - Google Analytics OAuth tokens
  */
 
 export {

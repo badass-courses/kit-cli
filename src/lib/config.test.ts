@@ -36,8 +36,8 @@ describe("resolveBroadcastDefaults", () => {
   test("uses the default account from ~/.kit/config.json", async () => {
     const expected: BroadcastDefaults = {
       templateId: 4_389_070,
-      templateName: "AI Hero",
-      fromAddress: "matt@aihero.dev",
+      templateName: "Example Site",
+      fromAddress: "newsletter@example.com",
       subscriberFilter: [
         {
           none: [
@@ -51,9 +51,9 @@ describe("resolveBroadcastDefaults", () => {
     };
 
     const configPath = await writeKitHomeConfig({
-      defaultAccount: "totaltypescript-ai-hero",
+      defaultAccount: "totaltypescript-example-site",
       accounts: {
-        "totaltypescript-ai-hero": {
+        "totaltypescript-example-site": {
           broadcastDefaults: expected,
         },
       },
@@ -62,7 +62,7 @@ describe("resolveBroadcastDefaults", () => {
     expect(await resolveBroadcastDefaults()).toEqual(expected);
     expect(await getEffectiveBroadcastDefaults()).toEqual({
       config_path: configPath,
-      selected_account_id: "totaltypescript-ai-hero",
+      selected_account_id: "totaltypescript-example-site",
       broadcast_defaults: expected,
     });
   });
@@ -100,7 +100,7 @@ describe("mergeBroadcastDefaults", () => {
       },
       {
         templateId: 4_389_070,
-        fromAddress: "matt@aihero.dev",
+        fromAddress: "newsletter@example.com",
         subscriberFilter: [
           {
             none: [
@@ -118,7 +118,7 @@ describe("mergeBroadcastDefaults", () => {
       subject: "Hello!",
       public: false,
       email_template_id: 4_389_070,
-      email_address: "matt@aihero.dev",
+      email_address: "newsletter@example.com",
       subscriber_filter: [
         {
           none: [
@@ -141,7 +141,7 @@ describe("mergeBroadcastDefaults", () => {
       },
       {
         templateId: 4_389_070,
-        fromAddress: "matt@aihero.dev",
+        fromAddress: "newsletter@example.com",
         subscriberFilter: [{ none: [{ type: "tag", ids: [8_244_351] }] }],
       }
     );

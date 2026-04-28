@@ -3,9 +3,9 @@
  *
  * Ported from @stats/auth. Provides a unified interface for storing and
  * retrieving credentials across providers (Kit API keys, site tokens,
- * Stripe keys, etc.).
+ * third-party API keys, etc.).
  *
- * Key format: provider:account (e.g. "kit:totaltypescript-ai-hero", "site:ai-hero")
+ * Key format: provider:account (e.g. "kit:totaltypescript-example-site", "site:example-site")
  */
 
 import { Context, Effect, Schema } from "effect";

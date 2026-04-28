@@ -34,10 +34,10 @@ export interface SiteDefinition {
  * Add new sites here as they come online.
  */
 export const KNOWN_SITES: Record<string, SiteDefinition> = {
-  "ai-hero": {
-    id: "ai-hero",
-    displayName: "AI Hero",
-    baseUrl: "https://www.aihero.dev",
+  "example-site": {
+    id: "example-site",
+    displayName: "Example Site",
+    baseUrl: "https://example.com",
     auth: {
       deviceCodePath: "/oauth/device/code",
       tokenPath: "/oauth/token",
@@ -83,7 +83,7 @@ export const loadPreferences = async (): Promise<Preferences> => {
     const raw = await readFile(prefsPath(), "utf-8");
     return JSON.parse(raw) as Preferences;
   } catch {
-    return { currentSite: "ai-hero" };
+    return { currentSite: "example-site" };
   }
 };
 

@@ -50,12 +50,12 @@ const writeKitHomeConfig = async () => {
     "kit-home-config.json",
     JSON.stringify(
       {
-        defaultAccount: "totaltypescript-ai-hero",
+        defaultAccount: "totaltypescript-example-site",
         accounts: {
-          "totaltypescript-ai-hero": {
+          "totaltypescript-example-site": {
             broadcastDefaults: {
               templateId: 4_389_070,
-              fromAddress: "matt@aihero.dev",
+              fromAddress: "newsletter@example.com",
               subscriberFilter: [
                 {
                   none: [
@@ -123,7 +123,7 @@ describe("executeOperation broadcast defaults", () => {
       preview_text: "Preview",
       description: "Desc",
       email_template_id: 4_389_070,
-      email_address: "matt@aihero.dev",
+      email_address: "newsletter@example.com",
       subscriber_filter: [
         {
           none: [

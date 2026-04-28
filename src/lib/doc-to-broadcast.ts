@@ -5,7 +5,7 @@
  * and prepares a broadcast-ready payload.
  */
 
-const DEFAULT_DOC_ID = "1Xu6AoP6X7Zg8QfB4RtF4Z1-HS2bdsJotkp3MQwaH4gc";
+const DEFAULT_DOC_ID = "REPLACE_WITH_GOOGLE_DOC_ID";
 
 /**
  * Fetch the Google Doc as plain text.
@@ -107,7 +107,7 @@ export const textToHtml = (
   text: string,
   options?: { shortlinkBase?: string },
 ): string => {
-  const shortlinkBase = options?.shortlinkBase ?? "https://www.aihero.dev";
+  const shortlinkBase = options?.shortlinkBase ?? "https://example.com";
 
   // Clean up doc artifacts
   let cleaned = text
@@ -196,7 +196,7 @@ export const textToHtml = (
       htmlParts.push(
         '<table cellpadding="0" cellspacing="0" border="0" style="margin:24px auto;">' +
           '<tr><td align="center" bgcolor="#2563EB" style="border-radius:8px;">' +
-          `<a href="${shortlinkBase}/s/cc-cohort-003-e4" style="display:inline-block;padding:16px 48px;font-size:18px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:8px;">${ctaText}</a>` +
+          `<a href="${shortlinkBase}/s/broadcast-cta" style="display:inline-block;padding:16px 48px;font-size:18px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:8px;">${ctaText}</a>` +
           "</td></tr></table>",
       );
       continue;
@@ -252,13 +252,13 @@ const inlineFormat = (text: string, shortlinkBase: string): string => {
   // Watch the full video -> (with arrow)
   result = result.replace(
     /Watch the full video &rarr;/g,
-    `<strong><a href="${shortlinkBase}/s/cc-cohort-003-e4-video">Watch the full video &rarr;</a></strong>`,
+    `<strong><a href="${shortlinkBase}/s/broadcast-video">Watch the full video &rarr;</a></strong>`,
   );
 
-  // "Claude Code for Real Engineers" as a link when standalone
+  // "Example Offer" as a link when standalone
   result = result.replace(
-    /Claude Code for Real Engineers(?![<])/g,
-    `<a href="${shortlinkBase}/s/cc-cohort-003-e4">Claude Code for Real Engineers</a>`,
+    /Example Offer(?![<])/g,
+    `<a href="${shortlinkBase}/s/broadcast-cta">Example Offer</a>`,
   );
 
   return result;
