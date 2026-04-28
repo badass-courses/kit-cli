@@ -17,7 +17,7 @@ kit --help
 kit-cli --help
 ```
 
-The npm package ships the bundled JavaScript CLI in `dist/index.js`. It is built by Bun and expects Bun to be available as the runtime.
+The npm/GitHub package executes `src/index.ts` directly via Bun, so Bun must be installed and on your `PATH`. Use the standalone GitHub release binaries if you want the Bun runtime embedded.
 
 ### Standalone binaries with Bun runtime embedded
 
@@ -98,10 +98,9 @@ The GitHub Action:
 
 1. installs dependencies with Bun
 2. runs typecheck and tests
-3. builds `dist/index.js`
-4. publishes the npm package with `bun publish --access public`
-5. compiles standalone Linux/macOS binaries with the Bun runtime embedded
-6. uploads binaries and checksums to the GitHub release
+3. publishes the Bun-source npm package with `bun publish --access public`
+4. compiles standalone Linux/macOS binaries with the Bun runtime embedded
+5. uploads binaries and checksums to the GitHub release
 
 Required repo secret:
 

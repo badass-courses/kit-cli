@@ -3,11 +3,13 @@
   "version": "0.2.0",
   "description": "Effect-powered CLI wrapper around the Kit API v4",
   "bin": {
-    "kit": "dist/index.js",
-    "kit-cli": "dist/index.js"
+    "kit": "src/index.ts",
+    "kit-cli": "src/index.ts"
   },
   "files": [
-    "dist",
+    "src",
+    "openapi",
+    "scripts",
     "README.md",
     "package.json"
   ],
@@ -24,7 +26,6 @@
     "format": "oxfmt . --write",
     "check": "ultracite check",
     "fix": "ultracite fix",
-    "prepack": "bun run build",
     "release:binaries": "bash scripts/build-release-binaries.sh"
   },
   "dependencies": {
