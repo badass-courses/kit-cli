@@ -54,19 +54,24 @@ bun run build
 bun link
 ```
 
-## Auth
+## Accounts and auth
 
-Use a Kit API key from the environment:
+Store named accounts with short aliases:
+
+```bash
+kit account add code-with-antonio --api-key "..." --alias cwa,antonio --name "Code with Antonio"
+kit account add totaltypescript-ai-hero --api-key "..." --alias aih,aihero --name "AI Hero / Total TypeScript"
+kit account list
+kit account use cwa
+kit whoami --auth api-key
+```
+
+`kit account use <id-or-alias>` sets the default Kit account in `~/.config/kit-cli/config.json`. API keys live in `~/.config/kit-cli/credentials.json` under provider keys like `kit:code-with-antonio`.
+
+For one-off scripts, you can still use an env var:
 
 ```bash
 KIT_API_KEY="..." kit whoami --auth api-key
-```
-
-Or store one with the CLI:
-
-```bash
-kit auth api set --api-key "..."
-kit whoami --auth api-key
 ```
 
 ## Common commands

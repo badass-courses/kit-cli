@@ -18,6 +18,7 @@ import {
 import { curatedAliases } from "./lib/aliases";
 import {
   buildAuthorizeUrl,
+  addKitAccount,
   clearStoredAuth,
   exchangeOAuthCode,
   getMergedConfig,
@@ -47,6 +48,10 @@ import {
   getConfigPath,
   getEffectiveBroadcastDefaults,
   getKitHomeConfigPath,
+  loadConfig,
+  resolveKitAccountId,
+  setCurrentKitAccount,
+  upsertKitAccount,
 } from "./lib/config";
 import { executeOperation, fetchBroadcast } from "./lib/execute";
 import {
@@ -546,6 +551,192 @@ const authCommand = Command.make("auth", {}, () =>
     authApiCommand,
     authOauthCommand,
     authClearCommand,
+  ])
+);
+
+const splitAliases = (value: Option.Option<string>) =>
+  value._tag === "Some"
+    ? value.value.split(",").map((entry) => entry.trim()).filter(Boolean)
+    : [];
+
+const accountNextActions = (): NextAction[] => [
+  {
+    command: "kit account list",
+    description: "List configured Kit accounts and aliases",
+  },
+  {
+    command: "kit account use <account-or-alias>",
+    description: "Set the default Kit account for future commands",
+    params: {
+      "account-or-alias": {
+        description: "Account id or short alias, e.g. cwa or aih",
+        required: true,
+      },
+    },
+  },
+  {
+    command: "kit account add <id> --api-key <key> [--alias <aliases>]",
+    description: "Store a Kit account API key with optional comma-separated aliases",
+  },
+];
+
+const accountListCommand = Command.make("list", {}, () =>
+  Effect.gen(function* () {
+    const config = yield* Effect.promise(() => loadConfig());
+    const accounts = Object.entries(config.accounts ?? {}).map(([id, account]) => ({
+      id,
+      aliases: account.aliases ?? [],
+      name: account.name ?? null,
+      email: account.email ?? null,
+      account_id: account.accountId ?? null,
+      current: id === config.currentKitAccount,
+    }));
+    printEnvelope(
+      success(
+        "kit account list",
+        {
+          config_path: getConfigPath(),
+          current_account: config.currentKitAccount ?? null,
+          accounts,
+        },
+        accountNextActions()
+      )
+    );
+  })
+).pipe(Command.withDescription("List configured Kit accounts and short aliases"));
+
+const accountCurrentCommand = Command.make("current", {}, () =>
+  Effect.gen(function* () {
+    const config = yield* Effect.promise(() => loadConfig());
+    const current = config.currentKitAccount
+      ? config.accounts?.[config.currentKitAccount]
+      : undefined;
+    printEnvelope(
+      success(
+        "kit account current",
+        {
+          config_path: getConfigPath(),
+          current_account: config.currentKitAccount ?? null,
+          account: current ?? null,
+        },
+        accountNextActions()
+      )
+    );
+  })
+).pipe(Command.withDescription("Show the default Kit account"));
+
+const accountUseCommand = Command.make(
+  "use",
+  { account: Args.text({ name: "account-or-alias" }) },
+  ({ account }) =>
+    Effect.gen(function* () {
+      const { config, resolved } = yield* Effect.promise(() =>
+        setCurrentKitAccount(account)
+      );
+      printEnvelope(
+        success(
+          `kit account use ${account}`,
+          {
+            config_path: getConfigPath(),
+            requested: account,
+            current_account: resolved,
+            account: config.accounts?.[resolved] ?? null,
+          },
+          [
+            {
+              command: "kit whoami --auth api-key",
+              description: "Verify the selected account against Kit",
+            },
+            ...accountNextActions(),
+          ]
+        )
+      );
+    })
+).pipe(Command.withDescription("Set the default Kit account by id or short alias"));
+
+const accountAddCommand = Command.make(
+  "add",
+  {
+    id: Args.text({ name: "id" }),
+    apiKey: Options.text("api-key"),
+    alias: optionalText("alias", "Comma-separated short aliases, e.g. cwa,antonio"),
+    name: optionalText("name", "Human-friendly account name"),
+    email: optionalText("email", "Primary sending/account email"),
+    accountId: optionalText("account-id", "Numeric Kit account ID"),
+    current: Options.boolean("current").pipe(Options.withDefault(false)),
+  },
+  ({ id, apiKey, alias, name, email, accountId, current }) =>
+    Effect.gen(function* () {
+      const config = yield* Effect.promise(() =>
+        addKitAccount({
+          id,
+          apiKey,
+          aliases: splitAliases(alias),
+          name: name._tag === "Some" ? name.value : undefined,
+          email: email._tag === "Some" ? email.value : undefined,
+          accountId:
+            accountId._tag === "Some" ? Number(accountId.value) : undefined,
+          makeCurrent: current,
+        })
+      );
+      printEnvelope(
+        success(
+          `kit account add ${id}`,
+          {
+            config_path: getConfigPath(),
+            stored: true,
+            account: config.accounts?.[id] ?? null,
+            current_account: config.currentKitAccount ?? null,
+          },
+          [
+            {
+              command: `kit account use ${id}`,
+              description: "Use this account by default",
+            },
+            {
+              command: "kit whoami --auth api-key",
+              description: "Verify the active Kit account",
+            },
+          ]
+        )
+      );
+    })
+).pipe(Command.withDescription("Store a Kit API key account with short aliases"));
+
+const accountCommand = Command.make("account", {}, () =>
+  Effect.sync(() => {
+    printEnvelope(
+      groupEnvelope("kit account", "Manage Kit accounts and short aliases", [
+        {
+          name: "list",
+          description: "List configured Kit accounts",
+          usage: "kit account list",
+        },
+        {
+          name: "current",
+          description: "Show the active Kit account",
+          usage: "kit account current",
+        },
+        {
+          name: "use",
+          description: "Set active account by id or alias",
+          usage: "kit account use <account-or-alias>",
+        },
+        {
+          name: "add",
+          description: "Store an API key account with aliases",
+          usage: "kit account add <id> --api-key <key> [--alias <aliases>]",
+        },
+      ])
+    );
+  })
+).pipe(
+  Command.withDescription("Manage Kit accounts and short aliases"),
+  Command.withSubcommands([
+    accountListCommand,
+    accountCurrentCommand,
+    accountUseCommand,
+    accountAddCommand,
   ])
 );
 
@@ -1638,6 +1829,11 @@ const rootCommand = Command.make(CLI_NAME, {}, () =>
         usage: "kit auth status",
       },
       {
+        name: "account",
+        description: "Manage Kit accounts and short aliases",
+        usage: "kit account list",
+      },
+      {
         name: "campaign",
         description: "Campaign tracking for the active launch",
         usage: "kit campaign status",
@@ -1700,6 +1896,10 @@ const rootCommand = Command.make(CLI_NAME, {}, () =>
         },
         [
           {
+            command: "kit account current",
+            description: "Check which Kit account is active",
+          },
+          {
             command: "kit auth status",
             description: "Inspect local auth state before calling the API",
           },
@@ -1721,6 +1921,7 @@ const rootCommand = Command.make(CLI_NAME, {}, () =>
     "OpenAPI-generated Effect CLI wrapper around Kit API v4"
   ),
   Command.withSubcommands([
+    accountCommand,
     authCommand,
     campaignCommand,
     defaultsCommand,

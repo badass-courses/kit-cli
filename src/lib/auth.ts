@@ -16,7 +16,7 @@ import { join } from "node:path";
 import { Effect } from "effect";
 import type { AuthMode } from "../generated/operations";
 import { createDefaultCredentialStore } from "./auth/index";
-import { loadConfig, saveConfig } from "./config";
+import { loadConfig, resolveKitAccountId, saveConfig, upsertKitAccount } from "./config";
 import type { AuthHeaders, KitConfig, StoredOAuth } from "./types";
 
 const oauthTokenUrl = "https://api.kit.com/v4/oauth/token";
@@ -43,7 +43,8 @@ const resolveApiKey = async (): Promise<string | undefined> => {
   }
 
   // 2. Credential store
-  const accountId = process.env.KIT_ACCOUNT_ID ?? "default";
+  const config = await loadConfig();
+  const accountId = resolveKitAccountId(config) ?? "default";
   const stored = await Effect.runPromise(
     credentialStore.get({ provider: "kit", account: accountId }).pipe(
       Effect.catchAll(() => Effect.succeed(null)),
@@ -169,9 +170,9 @@ export const getMergedConfig = async () => {
   return config;
 };
 
-export const setApiKey = async (apiKey: string) => {
-  // Store in credential store
-  const accountId = process.env.KIT_ACCOUNT_ID ?? "default";
+export const setApiKey = async (apiKey: string, account?: string) => {
+  const config = await loadConfig();
+  const accountId = account ?? resolveKitAccountId(config) ?? "default";
   await Effect.runPromise(
     credentialStore
       .set(
@@ -181,11 +182,36 @@ export const setApiKey = async (apiKey: string) => {
       .pipe(Effect.catchAll(() => Effect.void)),
   );
 
-  // Also store in legacy config for backward compat
-  const config = await loadConfig();
-  config.apiKey = apiKey;
+  if (accountId === "default") {
+    config.apiKey = apiKey;
+  }
   await saveConfig(config);
   return config;
+};
+
+export const addKitAccount = async (input: {
+  id: string;
+  apiKey: string;
+  aliases?: string[];
+  name?: string;
+  email?: string;
+  accountId?: number;
+  makeCurrent?: boolean;
+}) => {
+  await upsertKitAccount({
+    id: input.id,
+    aliases: input.aliases,
+    name: input.name,
+    email: input.email,
+    accountId: input.accountId,
+  });
+  await setApiKey(input.apiKey, input.id);
+  const config = await loadConfig();
+  if (input.makeCurrent ?? !config.currentKitAccount) {
+    config.currentKitAccount = input.id;
+    await saveConfig(config);
+  }
+  return loadConfig();
 };
 
 export const clearStoredAuth = async (target: "all" | "api-key" | "oauth") => {
@@ -193,7 +219,7 @@ export const clearStoredAuth = async (target: "all" | "api-key" | "oauth") => {
 
   if (target === "all" || target === "api-key") {
     delete config.apiKey;
-    const accountId = process.env.KIT_ACCOUNT_ID ?? "default";
+    const accountId = resolveKitAccountId(config) ?? "default";
     await Effect.runPromise(
       credentialStore
         .delete({ provider: "kit", account: accountId })

@@ -17,9 +17,19 @@ export type StoredOAuth = {
   };
 };
 
+export type KitAccount = {
+  id: string;
+  aliases?: string[];
+  name?: string;
+  email?: string;
+  accountId?: number;
+};
+
 export type KitConfig = {
   apiKey?: string;
   oauth?: StoredOAuth;
+  currentKitAccount?: string;
+  accounts?: Record<string, KitAccount>;
 };
 
 export type BroadcastDefaults = {

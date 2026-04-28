@@ -114,3 +114,46 @@ export const saveConfig = async (config: KitConfig) => {
   await mkdir(dirname(configPath), { recursive: true });
   await writeFile(configPath, JSON.stringify(config, null, 2));
 };
+
+export const resolveKitAccountId = (
+  config: KitConfig,
+  accountOrAlias?: string
+): string | undefined => {
+  const requested = accountOrAlias ?? process.env.KIT_ACCOUNT_ID ?? config.currentKitAccount;
+  if (!requested) return undefined;
+
+  if (config.accounts?.[requested]) return requested;
+
+  const match = Object.entries(config.accounts ?? {}).find(([, account]) =>
+    account.aliases?.includes(requested)
+  );
+
+  return match?.[0] ?? requested;
+};
+
+export const setCurrentKitAccount = async (accountOrAlias: string) => {
+  const config = await loadConfig();
+  const resolved = resolveKitAccountId(config, accountOrAlias) ?? accountOrAlias;
+  config.currentKitAccount = resolved;
+  await saveConfig(config);
+  return { config, resolved };
+};
+
+export const upsertKitAccount = async (account: {
+  id: string;
+  aliases?: string[];
+  name?: string;
+  email?: string;
+  accountId?: number;
+}) => {
+  const config = await loadConfig();
+  config.accounts = config.accounts ?? {};
+  config.accounts[account.id] = {
+    ...config.accounts[account.id],
+    ...account,
+    aliases: Array.from(new Set(account.aliases ?? config.accounts[account.id]?.aliases ?? [])),
+  };
+  if (!config.currentKitAccount) config.currentKitAccount = account.id;
+  await saveConfig(config);
+  return config;
+};
