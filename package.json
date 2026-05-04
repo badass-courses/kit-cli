@@ -1,6 +1,6 @@
 {
   "name": "kit-cli",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Effect-powered CLI wrapper around the Kit API v4",
   "bin": {
     "kit": "src/index.ts",

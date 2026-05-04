@@ -69,7 +69,7 @@ import {
 } from "./lib/site-commands";
 
 const CLI_NAME = "kit";
-const CLI_VERSION = "0.2.2";
+const CLI_VERSION = "0.2.3";
 
 type CommandTarget = {
   operation: GeneratedOperation;
