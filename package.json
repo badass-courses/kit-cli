@@ -26,7 +26,8 @@
     "format": "oxfmt . --write",
     "check": "ultracite check",
     "fix": "ultracite fix",
-    "release:binaries": "bash scripts/build-release-binaries.sh"
+    "release:binaries": "bash scripts/build-release-binaries.sh",
+    "version": "bun run scripts/sync-version.ts && git add package.json src/index.ts"
   },
   "dependencies": {
     "@effect/cli": "^0.73.0",
