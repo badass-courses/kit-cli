@@ -4,45 +4,34 @@ Effect-powered CLI wrapper around the Kit API v4, with agent-friendly JSON outpu
 
 ## Install
 
-### npm package
+### GitHub Release installer
 
 ```bash
-bun install -g kit-cli
+curl -fsSL https://raw.githubusercontent.com/badass-courses/kit-cli/main/install.sh | bash
 ```
 
-This installs both binaries:
+This downloads the latest standalone binary from GitHub Releases and installs:
 
 ```bash
-kit --help
-kit-cli --help
+~/.local/bin/kit
+~/.local/bin/kit-cli
 ```
 
-The npm/GitHub package executes `src/index.ts` directly via Bun, so Bun must be installed and on your `PATH`. Use the standalone GitHub release binaries if you want the Bun runtime embedded.
+Options:
 
-### Standalone binaries with Bun runtime embedded
+```bash
+curl -fsSL https://raw.githubusercontent.com/badass-courses/kit-cli/main/install.sh | \
+  INSTALL_DIR=/usr/local/bin KIT_CLI_VERSION=v0.2.2 bash
+```
 
-GitHub releases include standalone binaries compiled with `bun build --compile`, so the Bun runtime is embedded.
+GitHub releases include standalone binaries compiled with `bun build --compile`, so Bun is not required to run `kit`.
 
-Download the right asset from the latest release:
+Release assets:
 
 - `kit-darwin-arm64` / `kit-cli-darwin-arm64`
 - `kit-darwin-x64` / `kit-cli-darwin-x64`
 - `kit-linux-arm64` / `kit-cli-linux-arm64`
 - `kit-linux-x64` / `kit-cli-linux-x64`
-
-Example:
-
-```bash
-curl -L https://github.com/badass-courses/kit-cli/releases/latest/download/kit-darwin-arm64 -o /usr/local/bin/kit
-chmod +x /usr/local/bin/kit
-kit --help
-```
-
-### From GitHub with Bun
-
-```bash
-bun install -g github:badass-courses/kit-cli#main
-```
 
 ### Local development install
 
@@ -103,14 +92,9 @@ git push origin main --tags
 The GitHub Action:
 
 1. installs dependencies with Bun
-2. runs typecheck and tests
-3. publishes the Bun-source npm package with `bun publish --access public`
-4. compiles standalone Linux/macOS binaries with the Bun runtime embedded
-5. uploads binaries and checksums to the GitHub release
-
-Required repo secret:
-
-- `NPM_TOKEN` with publish rights for the `kit-cli` package
+2. runs typecheck, tests, and build
+3. compiles standalone Linux/macOS binaries with the Bun runtime embedded
+4. uploads binaries and checksums to the GitHub release
 
 ## Development
 
