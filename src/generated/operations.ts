@@ -28,7 +28,7 @@ export type GeneratedOperation = {
   };
 };
 
-export const generatedAt = "2026-04-28T00:05:55.411Z";
+export const generatedAt = "2026-05-04T16:34:01.116Z";
 
 export const operations = [
   {
@@ -280,7 +280,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -288,6 +288,20 @@ export const operations = [
         "name": "per_page",
         "cliName": "perPage",
         "description": "Number of results per page. Default 500, maximum 1000.",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "sent_after",
+        "cliName": "sentAfter",
+        "description": "Get broadcasts sent after this date (format yyyy-mm-dd).",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "sent_before",
+        "cliName": "sentBefore",
+        "description": "Get broadcasts sent before this date (format yyyy-mm-dd).",
         "required": false,
         "type": "string"
       }
@@ -609,7 +623,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -684,7 +698,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -729,7 +743,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -898,7 +912,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -923,6 +937,81 @@ export const operations = [
           "cancelled",
           "all"
         ]
+      }
+    ]
+  },
+  {
+    "id": "get__v4_posts_id_",
+    "method": "GET",
+    "path": "/v4/posts/{id}",
+    "summary": "Get a post",
+    "tag": "Posts",
+    "commandSegments": [
+      "posts",
+      "get"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/posts/get-a-post.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [
+      {
+        "name": "id",
+        "cliName": "id",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "queryParams": []
+  },
+  {
+    "id": "get__v4_posts",
+    "method": "GET",
+    "path": "/v4/posts",
+    "summary": "List posts",
+    "tag": "Posts",
+    "commandSegments": [
+      "posts",
+      "list"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/posts/list-posts.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [],
+    "queryParams": [
+      {
+        "name": "after",
+        "cliName": "after",
+        "description": "To fetch next page of results, use `?after=<end_cursor>`",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "before",
+        "cliName": "before",
+        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "include_content",
+        "cliName": "includeContent",
+        "description": "To include the `content` field on each post in the response, use `true`. Omitted by default because it significantly increases response size and latency for large collections.",
+        "required": false,
+        "type": "boolean"
+      },
+      {
+        "name": "include_total_count",
+        "cliName": "includeTotalCount",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        "required": false,
+        "type": "boolean"
+      },
+      {
+        "name": "per_page",
+        "cliName": "perPage",
+        "description": "Number of results per page. Default 500, maximum 1000.",
+        "required": false,
+        "type": "string"
       }
     ]
   },
@@ -1003,7 +1092,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1048,7 +1137,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1060,6 +1149,74 @@ export const operations = [
         "type": "string"
       }
     ]
+  },
+  {
+    "id": "post__v4_sequences",
+    "method": "POST",
+    "path": "/v4/sequences",
+    "summary": "Create a sequence",
+    "tag": "Sequences",
+    "commandSegments": [
+      "sequences",
+      "create"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/sequences/create-a-sequence.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [],
+    "queryParams": [],
+    "requestBody": {
+      "required": false,
+      "contentTypes": [
+        "application/json"
+      ]
+    }
+  },
+  {
+    "id": "delete__v4_sequences_id_",
+    "method": "DELETE",
+    "path": "/v4/sequences/{id}",
+    "summary": "Delete a sequence",
+    "tag": "Sequences",
+    "commandSegments": [
+      "sequences",
+      "delete"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/sequences/delete-a-sequence.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [
+      {
+        "name": "id",
+        "cliName": "id",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "queryParams": []
+  },
+  {
+    "id": "get__v4_sequences_id_",
+    "method": "GET",
+    "path": "/v4/sequences/{id}",
+    "summary": "Get a sequence",
+    "tag": "Sequences",
+    "commandSegments": [
+      "sequences",
+      "get"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/sequences/get-a-sequence.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [
+      {
+        "name": "id",
+        "cliName": "id",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "queryParams": []
   },
   {
     "id": "get__v4_sequences",
@@ -1093,7 +1250,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1242,7 +1399,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1269,6 +1426,175 @@ export const operations = [
         ]
       }
     ]
+  },
+  {
+    "id": "put__v4_sequences_id_",
+    "method": "PUT",
+    "path": "/v4/sequences/{id}",
+    "summary": "Update a sequence",
+    "tag": "Sequences",
+    "commandSegments": [
+      "sequences",
+      "update"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/sequences/update-a-sequence.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [
+      {
+        "name": "id",
+        "cliName": "id",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "queryParams": [],
+    "requestBody": {
+      "required": false,
+      "contentTypes": [
+        "application/json"
+      ]
+    }
+  },
+  {
+    "id": "post__v4_snippets",
+    "method": "POST",
+    "path": "/v4/snippets",
+    "summary": "Create a snippet",
+    "tag": "Snippets",
+    "commandSegments": [
+      "snippets",
+      "create"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/snippets/create-a-snippet.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [],
+    "queryParams": [],
+    "requestBody": {
+      "required": false,
+      "contentTypes": [
+        "application/json"
+      ]
+    }
+  },
+  {
+    "id": "get__v4_snippets_id_",
+    "method": "GET",
+    "path": "/v4/snippets/{id}",
+    "summary": "Get a snippet",
+    "tag": "Snippets",
+    "commandSegments": [
+      "snippets",
+      "get"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/snippets/get-a-snippet.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [
+      {
+        "name": "id",
+        "cliName": "id",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "queryParams": []
+  },
+  {
+    "id": "get__v4_snippets",
+    "method": "GET",
+    "path": "/v4/snippets",
+    "summary": "List snippets",
+    "tag": "Snippets",
+    "commandSegments": [
+      "snippets",
+      "list"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/snippets/list-snippets.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [],
+    "queryParams": [
+      {
+        "name": "after",
+        "cliName": "after",
+        "description": "To fetch next page of results, use `?after=<end_cursor>`",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "archived",
+        "cliName": "archived",
+        "description": "When `true`, returns only archived snippets. Defaults to `false`.",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "before",
+        "cliName": "before",
+        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "include_content",
+        "cliName": "includeContent",
+        "description": "When `true`, includes both the `content` and `document` fields for each snippet in the response. Defaults to `false`.",
+        "required": false,
+        "type": "boolean"
+      },
+      {
+        "name": "include_total_count",
+        "cliName": "includeTotalCount",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        "required": false,
+        "type": "boolean"
+      },
+      {
+        "name": "per_page",
+        "cliName": "perPage",
+        "description": "Number of results per page. Default 500, maximum 1000.",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "snippet_type",
+        "cliName": "snippetType",
+        "description": "Filter snippets by type. Use `inline` for text snippets or `block` for rich-text block snippets.",
+        "required": false,
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "id": "put__v4_snippets_id_",
+    "method": "PUT",
+    "path": "/v4/snippets/{id}",
+    "summary": "Update a snippet",
+    "tag": "Snippets",
+    "commandSegments": [
+      "snippets",
+      "update"
+    ],
+    "docsUrl": "https://developers.kit.com/api-reference/snippets/update-a-snippet.md",
+    "supportsApiKey": true,
+    "supportsOAuth": true,
+    "pathParams": [
+      {
+        "name": "id",
+        "cliName": "id",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "queryParams": [],
+    "requestBody": {
+      "required": false,
+      "contentTypes": [
+        "application/json"
+      ]
+    }
   },
   {
     "id": "post__v4_subscribers",
@@ -1389,9 +1715,16 @@ export const operations = [
         "type": "string"
       },
       {
+        "name": "include",
+        "cliName": "include",
+        "description": "Comma-separated list of additional fields to include on each subscriber. Valid options: `attribution`, `tags`, `location`, `canceled_at`. `canceled_at` may only be used together with `status=cancelled`.",
+        "required": false,
+        "type": "string"
+      },
+      {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1529,7 +1862,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1656,7 +1989,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1723,7 +2056,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },
@@ -1995,7 +2328,7 @@ export const operations = [
       {
         "name": "include_total_count",
         "cliName": "includeTotalCount",
-        "description": "To include the total count of records in the response, use `true`. For large collections, expect a slightly slower response.",
+        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
         "required": false,
         "type": "boolean"
       },

@@ -35,6 +35,8 @@
 - [OAuth refresh token flow](https://developers.kit.com/api-reference/oauth-refresh-token-flow.md)
 - [API Overview](https://developers.kit.com/api-reference/overview.md)
 - [Pagination](https://developers.kit.com/api-reference/pagination.md): Working with paginated responses
+- [Get a post](https://developers.kit.com/api-reference/posts/get-a-post.md)
+- [List posts](https://developers.kit.com/api-reference/posts/list-posts.md)
 - [Create a purchase](https://developers.kit.com/api-reference/purchases/create-a-purchase.md)
 - [Get a purchase](https://developers.kit.com/api-reference/purchases/get-a-purchase.md)
 - [List purchases](https://developers.kit.com/api-reference/purchases/list-purchases.md)
@@ -42,8 +44,16 @@
 - [List segments](https://developers.kit.com/api-reference/segments/list-segments.md)
 - [Add subscriber to sequence](https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence.md): The subscriber being added to the sequence must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
 - [Add subscriber to sequence by email address](https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence-by-email-address.md): The subscriber being added to the sequence must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.
+- [Create a sequence](https://developers.kit.com/api-reference/sequences/create-a-sequence.md)
+- [Delete a sequence](https://developers.kit.com/api-reference/sequences/delete-a-sequence.md)
+- [Get a sequence](https://developers.kit.com/api-reference/sequences/get-a-sequence.md)
 - [List sequences](https://developers.kit.com/api-reference/sequences/list-sequences.md)
 - [List subscribers for a sequence](https://developers.kit.com/api-reference/sequences/list-subscribers-for-a-sequence.md)
+- [Update a sequence](https://developers.kit.com/api-reference/sequences/update-a-sequence.md)
+- [Create a snippet](https://developers.kit.com/api-reference/snippets/create-a-snippet.md)
+- [Get a snippet](https://developers.kit.com/api-reference/snippets/get-a-snippet.md)
+- [List snippets](https://developers.kit.com/api-reference/snippets/list-snippets.md)
+- [Update a snippet](https://developers.kit.com/api-reference/snippets/update-a-snippet.md)
 - [Bulk create subscribers](https://developers.kit.com/api-reference/subscribers/bulk-create-subscribers.md): See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.
 - [Create a subscriber](https://developers.kit.com/api-reference/subscribers/create-a-subscriber.md): Behaves as an upsert. If a subscriber with the provided email address does not exist, it creates one with the specified first name and state. If a subscriber with the provided email address already exists, it updates the first name.<br/><br/>We will ignore custom fields that don't already exist in y…
 - [Filter subscribers based on engagement](https://developers.kit.com/api-reference/subscribers/filter-subscribers-based-on-engagement.md)
@@ -123,6 +133,3 @@
 - [Developer Community](https://kit.typeform.com/to/f8urvmPe)
 - [Blog](https://kit.com/resources)
 - [Support](https://kit.com/support)
-
-
-Built with [Mintlify](https://mintlify.com).

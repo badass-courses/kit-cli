@@ -97,4 +97,24 @@ export const curatedAliases: CuratedAlias[] = [
     targetOperationId: "get__v4_sequences",
     description: "Shortcut for listing sequences",
   },
+  {
+    commandSegments: ["posts", "ls"],
+    targetOperationId: "get__v4_posts",
+    description: "Shortcut for listing posts",
+  },
+  {
+    commandSegments: ["snippets", "ls"],
+    targetOperationId: "get__v4_snippets",
+    description: "Shortcut for listing snippets",
+  },
+  {
+    commandSegments: ["templates", "list"],
+    targetOperationId: "get__v4_email_templates",
+    description: "Shortcut for listing email templates",
+  },
+  {
+    commandSegments: ["templates", "ls"],
+    targetOperationId: "get__v4_email_templates",
+    description: "Shortcut for listing email templates",
+  },
 ];
