@@ -3,8 +3,7 @@ import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import type { BroadcastDefaults, KitConfig, KitHomeConfig } from "./types";
 
-const defaultConfigPath = () =>
-  join(homedir(), ".config", "kit-cli", "config.json");
+const defaultConfigPath = () => join(homedir(), ".config", "kit-cli", "config.json");
 const defaultProjectConfigPath = () => join(process.cwd(), ".kit", "config.json");
 const defaultKitHomeConfigPath = () => join(homedir(), ".kit", "config.json");
 
@@ -12,8 +11,7 @@ export const defaultConfig = (): KitConfig => ({
   oauth: {},
 });
 
-export const getConfigPath = () =>
-  process.env.KIT_CONFIG_PATH ?? defaultConfigPath();
+export const getConfigPath = () => process.env.KIT_CONFIG_PATH ?? defaultConfigPath();
 export const getProjectConfigPath = () =>
   process.env.KIT_PROJECT_CONFIG_PATH ?? defaultProjectConfigPath();
 export const getKitHomeConfigPath = () =>
@@ -36,7 +34,7 @@ const mergeConfig = (...configs: Array<Partial<KitConfig>>): KitConfig => {
     if (config.oauth) merged.oauth = { ...merged.oauth, ...config.oauth };
     if (config.accounts) {
       merged.accounts = {
-        ...(merged.accounts ?? {}),
+        ...merged.accounts,
         ...config.accounts,
       };
     }
@@ -63,10 +61,7 @@ export const loadKitHomeConfig = async (): Promise<KitHomeConfig> => {
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
-export const mergeBroadcastDefaults = (
-  body: unknown,
-  defaults?: BroadcastDefaults
-) => {
+export const mergeBroadcastDefaults = (body: unknown, defaults?: BroadcastDefaults) => {
   if (!(defaults && isRecord(body))) {
     return body;
   }
@@ -82,17 +77,11 @@ export const mergeBroadcastDefaults = (
     ...body,
   };
 
-  if (
-    merged.email_template_id === undefined &&
-    defaults.templateId !== undefined
-  ) {
+  if (merged.email_template_id === undefined && defaults.templateId !== undefined) {
     merged.email_template_id = defaults.templateId;
   }
 
-  if (
-    merged.email_address === undefined &&
-    defaults.fromAddress !== undefined
-  ) {
+  if (merged.email_address === undefined && defaults.fromAddress !== undefined) {
     merged.email_address = defaults.fromAddress;
   }
 
@@ -103,9 +92,7 @@ export const mergeBroadcastDefaults = (
   return merged;
 };
 
-export const resolveBroadcastDefaults = async (
-  accountId = process.env.KIT_ACCOUNT_ID
-) => {
+export const resolveBroadcastDefaults = async (accountId = process.env.KIT_ACCOUNT_ID) => {
   const config = await loadKitHomeConfig();
   const selectedAccountId = accountId ?? config.defaultAccount;
   if (!selectedAccountId) {
@@ -117,9 +104,7 @@ export const resolveBroadcastDefaults = async (
     | undefined;
 };
 
-export const getEffectiveBroadcastDefaults = async (
-  accountId = process.env.KIT_ACCOUNT_ID
-) => {
+export const getEffectiveBroadcastDefaults = async (accountId = process.env.KIT_ACCOUNT_ID) => {
   const config = await loadKitHomeConfig();
   const selectedAccountId = accountId ?? config.defaultAccount;
 
@@ -146,7 +131,7 @@ export const saveProjectConfig = async (config: Pick<KitConfig, "currentKitAccou
 
 export const resolveKitAccountId = (
   config: KitConfig,
-  accountOrAlias?: string
+  accountOrAlias?: string,
 ): string | undefined => {
   const requested = accountOrAlias ?? process.env.KIT_ACCOUNT_ID ?? config.currentKitAccount;
   if (!requested) return undefined;
@@ -154,7 +139,7 @@ export const resolveKitAccountId = (
   if (config.accounts?.[requested]) return requested;
 
   const match = Object.entries(config.accounts ?? {}).find(([, account]) =>
-    account.aliases?.includes(requested)
+    account.aliases?.includes(requested),
   );
 
   return match?.[0] ?? requested;

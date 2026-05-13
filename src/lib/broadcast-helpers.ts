@@ -63,11 +63,9 @@ export const htmlToText = (html: string): string => {
   }
 
   // Decode numeric entities
-  text = text.replace(/&#(\d+);/g, (_, code) =>
-    String.fromCharCode(Number(code))
-  );
+  text = text.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
   text = text.replace(/&#x([0-9a-fA-F]+);/g, (_, code) =>
-    String.fromCharCode(Number.parseInt(code, 16))
+    String.fromCharCode(Number.parseInt(code, 16)),
   );
 
   // Replace smart quotes and special chars with plain equivalents
@@ -109,7 +107,7 @@ export type ReplaceResult = {
  */
 export const replaceBroadcastContent = (
   content: string,
-  pairs: ReplacePair[]
+  pairs: ReplacePair[],
 ): { content: string; results: ReplaceResult[] } => {
   let updated = content;
   const results: ReplaceResult[] = [];
@@ -210,10 +208,7 @@ export const lintBroadcastContent = (html: string): LintIssue[] => {
         rule: "plain-language",
         severity: "warning",
         message: `"${match[0]}" sounds stiff. Try: ${suggestion}`,
-        match: text.slice(
-          Math.max(0, match.index - 20),
-          match.index + match[0].length + 20
-        ),
+        match: text.slice(Math.max(0, match.index - 20), match.index + match[0].length + 20),
         position: match.index,
       });
     }
@@ -226,8 +221,7 @@ export const lintBroadcastContent = (html: string): LintIssue[] => {
       issues.push({
         rule: "no-signature",
         severity: "warning",
-        message:
-          "Looks like a signature. Kit/Front templates add signatures automatically.",
+        message: "Looks like a signature. Kit/Front templates add signatures automatically.",
         match: match[0].trim(),
       });
     }

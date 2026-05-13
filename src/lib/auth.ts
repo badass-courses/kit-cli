@@ -17,7 +17,7 @@ import { Effect } from "effect";
 import type { AuthMode } from "../generated/operations";
 import { createDefaultCredentialStore } from "./auth/index";
 import { loadConfig, resolveKitAccountId, saveConfig, upsertKitAccount } from "./config";
-import type { AuthHeaders, KitConfig, StoredOAuth } from "./types";
+import type { AuthHeaders, StoredOAuth } from "./types";
 
 const oauthTokenUrl = "https://api.kit.com/v4/oauth/token";
 const oauthAuthorizeUrl = "https://api.kit.com/v4/oauth/authorize";
@@ -46,9 +46,9 @@ const resolveApiKey = async (): Promise<string | undefined> => {
   const config = await loadConfig();
   const accountId = resolveKitAccountId(config) ?? "default";
   const stored = await Effect.runPromise(
-    credentialStore.get({ provider: "kit", account: accountId }).pipe(
-      Effect.catchAll(() => Effect.succeed(null)),
-    ),
+    credentialStore
+      .get({ provider: "kit", account: accountId })
+      .pipe(Effect.catchAll(() => Effect.succeed(null))),
   );
   if (stored?.token.accessToken) {
     return stored.token.accessToken;
@@ -87,14 +87,9 @@ const envOAuth = (): StoredOAuth => ({
   redirectUri: process.env.KIT_REDIRECT_URI,
 });
 
-const mergeOAuth = (
-  base: StoredOAuth | undefined,
-  override: StoredOAuth,
-): StoredOAuth => ({
+const mergeOAuth = (base: StoredOAuth | undefined, override: StoredOAuth): StoredOAuth => ({
   ...base,
-  ...Object.fromEntries(
-    Object.entries(override).filter(([, v]) => v !== undefined),
-  ),
+  ...Object.fromEntries(Object.entries(override).filter(([, v]) => v !== undefined)),
 });
 
 const codeChallengeFor = (codeVerifier: string) =>
@@ -113,24 +108,14 @@ const normalizeTokenResponse = (
 ): StoredOAuth => ({
   ...oauth,
   accessToken:
-    typeof response.access_token === "string"
-      ? response.access_token
-      : oauth?.accessToken,
+    typeof response.access_token === "string" ? response.access_token : oauth?.accessToken,
   refreshToken:
-    typeof response.refresh_token === "string"
-      ? response.refresh_token
-      : oauth?.refreshToken,
-  tokenType:
-    typeof response.token_type === "string" ? response.token_type : "Bearer",
+    typeof response.refresh_token === "string" ? response.refresh_token : oauth?.refreshToken,
+  tokenType: typeof response.token_type === "string" ? response.token_type : "Bearer",
   scope: typeof response.scope === "string" ? response.scope : oauth?.scope,
-  createdAt:
-    typeof response.created_at === "number"
-      ? response.created_at
-      : oauth?.createdAt,
+  createdAt: typeof response.created_at === "number" ? response.created_at : oauth?.createdAt,
   expiresAt:
-    typeof response.expires_in === "number"
-      ? now() + response.expires_in * 1000
-      : oauth?.expiresAt,
+    typeof response.expires_in === "number" ? now() + response.expires_in * 1000 : oauth?.expiresAt,
 });
 
 const tokenRequest = async (payload: Record<string, unknown>) => {
@@ -295,17 +280,11 @@ export const exchangeOAuthCode = async (input: {
   const config = await loadConfig();
   const pending = config.oauth?.pending;
   const clientId = input.clientId ?? config.oauth?.clientId;
-  const redirectUri =
-    input.redirectUri ?? pending?.redirectUri ?? config.oauth?.redirectUri;
+  const redirectUri = input.redirectUri ?? pending?.redirectUri ?? config.oauth?.redirectUri;
 
-  if (!clientId)
-    throw new Error(
-      "Missing client_id. Pass --client-id or configure OAuth first.",
-    );
+  if (!clientId) throw new Error("Missing client_id. Pass --client-id or configure OAuth first.");
   if (!redirectUri)
-    throw new Error(
-      "Missing redirect_uri. Pass --redirect-uri or create an authorize URL first.",
-    );
+    throw new Error("Missing redirect_uri. Pass --redirect-uri or create an authorize URL first.");
   if (input.state && pending?.state && input.state !== pending.state)
     throw new Error("Returned state does not match the pending OAuth flow.");
 
@@ -338,9 +317,7 @@ export const refreshOAuthToken = async () => {
   const oauth = config.oauth;
 
   if (!(oauth?.refreshToken && oauth.clientId))
-    throw new Error(
-      "Missing refresh_token or client_id. Run the OAuth exchange flow first.",
-    );
+    throw new Error("Missing refresh_token or client_id. Run the OAuth exchange flow first.");
 
   const tokenData = await tokenRequest({
     client_id: oauth.clientId,
@@ -364,9 +341,7 @@ export const resolveAuthHeaders = async (input: {
 
   if (input.mode === "api-key") {
     if (!input.supportsApiKey)
-      throw new Error(
-        "This endpoint does not support API key authentication.",
-      );
+      throw new Error("This endpoint does not support API key authentication.");
     if (!apiKey)
       throw new Error(
         "No Kit API key configured. Set KIT_API_KEY or run `kit auth api set --api-key <key>`.",
@@ -376,15 +351,12 @@ export const resolveAuthHeaders = async (input: {
 
   if (input.mode === "oauth") {
     if (!input.supportsOAuth)
-      throw new Error(
-        "This endpoint does not support OAuth authentication.",
-      );
+      throw new Error("This endpoint does not support OAuth authentication.");
     if (!oauth?.accessToken)
       throw new Error(
         "No OAuth access token configured. Run the OAuth authorize/exchange flow or set KIT_ACCESS_TOKEN.",
       );
-    if (isOAuthExpired(oauth) && oauth.refreshToken && oauth.clientId)
-      await refreshOAuthToken();
+    if (isOAuthExpired(oauth) && oauth.refreshToken && oauth.clientId) await refreshOAuthToken();
     const refreshed = await getMergedConfig();
     if (!refreshed.oauth?.accessToken)
       throw new Error("OAuth token refresh did not produce an access token.");
@@ -400,8 +372,7 @@ export const resolveAuthHeaders = async (input: {
   }
 
   if (input.supportsOAuth && oauth?.accessToken) {
-    if (isOAuthExpired(oauth) && oauth.refreshToken && oauth.clientId)
-      await refreshOAuthToken();
+    if (isOAuthExpired(oauth) && oauth.refreshToken && oauth.clientId) await refreshOAuthToken();
     const refreshed = await getMergedConfig();
     if (!refreshed.oauth?.accessToken)
       throw new Error("OAuth token refresh did not produce an access token.");

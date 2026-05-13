@@ -72,13 +72,39 @@ kit bcasts list --auth api-key
 kit bcasts text <broadcast-id> --auth api-key
 kit bcasts lint <broadcast-id> --auth api-key
 kit bcasts replace <broadcast-id> --auth api-key --find "old" --replace "new"
+kit bcasts filter --exclude-tag 19562218 --exclude-tag 8244351
+kit bcasts filter --segment 548647 --exclude-tag 19562218 --exclude-tag 8244351
 ```
 
 All commands return JSON envelopes with `ok`, `command`, `result`, `next_actions`, and structured error details when something fails.
 
-## Broadcast replacement safety
+## Broadcast filter and update safety
+
+Build subscriber filters without hand-writing JSON:
+
+```bash
+kit bcasts filter --exclude-tag 19562218 --exclude-tag 8244351
+# result.subscriber_filter: [{"none":[{"type":"tag","ids":[19562218,8244351]}]}]
+
+kit bcasts filter --segment 548647 --exclude-tag 19562218 --exclude-tag 8244351
+# result.subscriber_filter: [{"all":[{"type":"segment","ids":[548647]}]},{"none":[{"type":"tag","ids":[19562218,8244351]}]}]
+```
+
+Broadcast create/update commands also accept structured filter flags:
+
+```bash
+kit bcasts create --body-file broadcast.json --exclude-tag 19562218 --exclude-tag 8244351
+kit bcasts update <broadcast-id> --body '{"subject":"Updated"}' --segment 548647 --exclude-tag 19562218
+kit bcasts update <broadcast-id> --body-file broadcast.json --subscriber-filter-file filter.json
+```
+
+`kit bcasts update` uses read-then-merge safety: it fetches the current broadcast, merges your supplied fields on top, and preserves supported `subscriber_filter` values unless you explicitly replace them with `--exclude-tag`, `--segment`, `--subscriber-filter-file`, `--body`, or `--body-file` containing `subscriber_filter`.
 
 `kit bcasts replace` fetches a broadcast, performs exact HTML content replacements, and PUTs back a safe update payload. It intentionally avoids round-tripping Kit's default `all_subscribers` subscriber filter because Kit's update endpoint only accepts segment or tag filters.
+
+## Email template IDs
+
+Broadcast payloads require Kit API `email_template_id` values. Use `kit emailtemplates list --auth api-key` or `kit templates list --auth api-key` and copy the returned `id`. Kit editor URL IDs can differ from API email template IDs; this CLI does not claim to map those IDs unless Kit exposes that relationship.
 
 ## Release
 

@@ -17,7 +17,7 @@ afterEach(async () => {
   await Promise.all(
     tempPaths.map(async (path) => {
       await rm(path, { recursive: true, force: true });
-    })
+    }),
   );
   tempPaths = [];
 });
@@ -71,8 +71,8 @@ const writeKitHomeConfig = async () => {
         },
       },
       null,
-      2
-    )
+      2,
+    ),
   );
   process.env.KIT_HOME_CONFIG_PATH = path;
 };
@@ -92,12 +92,10 @@ describe("executeOperation broadcast defaults", () => {
         content: "<p>Hello</p>",
         preview_text: "Preview",
         description: "Desc",
-      })
+      }),
     );
 
-    const operation = operations.find(
-      (entry) => entry.id === "post__v4_broadcasts"
-    );
+    const operation = operations.find((entry) => entry.id === "post__v4_broadcasts");
     if (!operation) {
       throw new Error("Broadcast create operation not found");
     }
@@ -141,9 +139,7 @@ describe("executeOperation broadcast defaults", () => {
     await writeKitHomeConfig();
     process.env.KIT_API_KEY = "test-api-key";
 
-    const operation = operations.find(
-      (entry) => entry.id === "put__v4_broadcasts_id_"
-    );
+    const operation = operations.find((entry) => entry.id === "put__v4_broadcasts_id_");
     if (!operation) {
       throw new Error("Broadcast update operation not found");
     }
@@ -165,7 +161,7 @@ describe("executeOperation broadcast defaults", () => {
           email_address: "override@example.com",
           subscriber_filter: [{ all: [{ type: "segment", ids: [18] }] }],
         }),
-      }
+      },
     );
 
     expect(envelope.ok).toBe(true);
@@ -185,13 +181,60 @@ describe("executeOperation broadcast defaults", () => {
     });
   });
 
+  test("preserves existing subscriber_filter on partial broadcast updates", async () => {
+    process.env.KIT_API_KEY = "test-api-key";
+
+    const operation = operations.find((entry) => entry.id === "put__v4_broadcasts_id_");
+    if (!operation) {
+      throw new Error("Broadcast update operation not found");
+    }
+
+    let putBody: unknown;
+    globalThis.fetch = mock(async (input: unknown, init?: RequestInit) => {
+      if (init?.method === "GET") {
+        return new Response(
+          JSON.stringify({
+            broadcast: {
+              id: 23257237,
+              subject: "Old subject",
+              content: "<p>Old</p>",
+              public: false,
+              send_at: null,
+              subscriber_filter: [{ none: [{ type: "tag", ids: [19562218, 8244351] }] }],
+              email_template: { id: 5208601, name: "AI Hero - Cohort-004" },
+            },
+          }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        );
+      }
+
+      putBody = JSON.parse(String(init?.body));
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    }) as unknown as typeof fetch;
+
+    const envelope = await executeOperation(
+      operation,
+      { id: "23257237" },
+      { body: JSON.stringify({ subject: "New subject" }) },
+    );
+
+    expect(envelope.ok).toBe(true);
+    expect(putBody).toMatchObject({
+      subject: "New subject",
+      content: "<p>Old</p>",
+      email_template_id: 5208601,
+      subscriber_filter: [{ none: [{ type: "tag", ids: [19562218, 8244351] }] }],
+    });
+  });
+
   test("does not apply broadcast defaults to non-broadcast requests", async () => {
     await writeKitHomeConfig();
     process.env.KIT_API_KEY = "test-api-key";
 
-    const operation = operations.find(
-      (entry) => entry.id === "post__v4_subscribers"
-    );
+    const operation = operations.find((entry) => entry.id === "post__v4_subscribers");
     if (!operation) {
       throw new Error("Subscriber create operation not found");
     }
@@ -205,7 +248,7 @@ describe("executeOperation broadcast defaults", () => {
           email_address: "person@example.com",
           first_name: "Test",
         }),
-      }
+      },
     );
 
     expect(envelope.ok).toBe(true);

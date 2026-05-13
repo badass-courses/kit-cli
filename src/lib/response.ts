@@ -47,7 +47,7 @@ export const printEnvelope = (envelope: Envelope) => {
 export const success = (
   command: string,
   result: Record<string, unknown>,
-  nextActions: NextAction[]
+  nextActions: NextAction[],
 ): SuccessEnvelope => ({
   ok: true,
   command,
@@ -60,7 +60,7 @@ export const failure = (
   message: string,
   code: string,
   fix: string,
-  nextActions: NextAction[]
+  nextActions: NextAction[],
 ): ErrorEnvelope => ({
   ok: false,
   command,

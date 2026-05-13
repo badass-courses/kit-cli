@@ -10,11 +10,7 @@ import * as Options from "@effect/cli/Options";
 import { NodeContext, NodeRuntime } from "@effect/platform-node";
 import { Effect, Layer, Option, pipe } from "effect";
 import { execSync } from "node:child_process";
-import {
-  type AuthMode,
-  type GeneratedOperation,
-  operations,
-} from "./generated/operations";
+import { type AuthMode, type GeneratedOperation, operations } from "./generated/operations";
 import { curatedAliases } from "./lib/aliases";
 import {
   buildAuthorizeUrl,
@@ -38,6 +34,7 @@ import {
   type ReplacePair,
   replaceBroadcastContent,
 } from "./lib/broadcast-helpers";
+import { buildSubscriberFilter } from "./lib/broadcast-filters";
 import {
   buildBroadcastPayload,
   extractSection,
@@ -53,20 +50,10 @@ import {
   resolveKitAccountId,
   saveProjectConfig,
   setCurrentKitAccount,
-  upsertKitAccount,
 } from "./lib/config";
 import { executeOperation, fetchBroadcast } from "./lib/execute";
-import {
-  failure,
-  type NextAction,
-  printEnvelope,
-  success,
-} from "./lib/response";
-import {
-  shortlinkCommand,
-  resourceCommand,
-  siteCommand,
-} from "./lib/site-commands";
+import { failure, type NextAction, printEnvelope, success } from "./lib/response";
+import { shortlinkCommand, resourceCommand, siteCommand } from "./lib/site-commands";
 
 const CLI_NAME = "kit";
 const CLI_VERSION = "0.2.3";
@@ -96,7 +83,7 @@ const canonicalTargets: CommandTarget[] = operations.map((operation) => ({
 }));
 
 const operationById = new Map<string, GeneratedOperation>(
-  operations.map((operation) => [operation.id, operation])
+  operations.map((operation) => [operation.id, operation]),
 );
 
 const aliasTargets: CommandTarget[] = curatedAliases.flatMap((alias) => {
@@ -126,33 +113,23 @@ for (const target of [...canonicalTargets, ...aliasTargets]) {
   node.target = target;
 }
 
-const authModeOption = Options.choice("auth", [
-  "auto",
-  "api-key",
-  "oauth",
-] as const).pipe(Options.withDefault("auto" as AuthMode));
+const authModeOption = Options.choice("auth", ["auto", "api-key", "oauth"] as const).pipe(
+  Options.withDefault("auto" as AuthMode),
+);
 
 const optionalText = (name: string, description?: string) => {
   const option = pipe(Options.text(name), Options.optional);
-  return description
-    ? pipe(option, Options.withDescription(description))
-    : option;
+  return description ? pipe(option, Options.withDescription(description)) : option;
 };
 
 type AnyCommand = Command.Command<any, any, any, any>;
 
-const withSubcommandsIfAny = <T extends AnyCommand>(
-  command: T,
-  subcommands: AnyCommand[]
-): T => {
+const withSubcommandsIfAny = <T extends AnyCommand>(command: T, subcommands: AnyCommand[]): T => {
   if (subcommands.length === 0) {
     return command;
   }
 
-  return pipe(
-    command,
-    Command.withSubcommands(subcommands as [AnyCommand, ...AnyCommand[]])
-  ) as T;
+  return pipe(command, Command.withSubcommands(subcommands as [AnyCommand, ...AnyCommand[]])) as T;
 };
 
 const commandStringForOperation = (operation: GeneratedOperation) =>
@@ -164,7 +141,7 @@ const commandStringForSegments = (commandSegments: string[]) =>
 const groupEnvelope = (
   command: string,
   description: string,
-  commands: Array<{ name: string; description: string; usage: string }>
+  commands: Array<{ name: string; description: string; usage: string }>,
 ) =>
   success(
     command,
@@ -175,7 +152,7 @@ const groupEnvelope = (
     commands.slice(0, 5).map((entry) => ({
       command: entry.usage,
       description: entry.description,
-    }))
+    })),
   );
 
 const makeOperationCommand = (target: CommandTarget): any => {
@@ -185,18 +162,27 @@ const makeOperationCommand = (target: CommandTarget): any => {
   };
 
   for (const parameter of operation.queryParams) {
-    optionShape[parameter.cliName] = optionalText(
-      parameter.name,
-      parameter.description
-    );
+    optionShape[parameter.cliName] = optionalText(parameter.name, parameter.description);
   }
 
   if (operation.requestBody) {
     optionShape.body = optionalText("body", "Inline JSON request body");
-    optionShape.bodyFile = optionalText(
-      "body-file",
-      "Read JSON request body from a file"
-    );
+    optionShape.bodyFile = optionalText("body-file", "Read JSON request body from a file");
+
+    if (operation.id === "post__v4_broadcasts" || operation.id === "put__v4_broadcasts_id_") {
+      optionShape.excludeTag = Options.text("exclude-tag").pipe(
+        Options.repeated,
+        Options.withDescription("Exclude subscribers with this tag ID; repeatable"),
+      );
+      optionShape.segment = Options.text("segment").pipe(
+        Options.repeated,
+        Options.withDescription("Target subscribers in this segment ID; repeatable"),
+      );
+      optionShape.subscriberFilterFile = optionalText(
+        "subscriber-filter-file",
+        "Read subscriber_filter JSON from a file",
+      );
+    }
   }
 
   const argsShape = operation.pathParams.length
@@ -205,46 +191,36 @@ const makeOperationCommand = (target: CommandTarget): any => {
           operation.pathParams.map((parameter) => [
             parameter.cliName,
             Args.text({ name: parameter.name }),
-          ])
-        )
+          ]),
+        ),
       )
     : Args.none;
 
   const optionsShape =
-    Object.keys(optionShape).length > 0
-      ? Options.all(optionShape as any)
-      : Options.none;
+    Object.keys(optionShape).length > 0 ? Options.all(optionShape as any) : Options.none;
   const descriptor = pipe(
     CommandDescriptor.make(
       target.commandSegments.at(-1) ?? operation.id,
       optionsShape as any,
-      argsShape as any
+      argsShape as any,
     ),
-    CommandDescriptor.withDescription(target.summary)
+    CommandDescriptor.withDescription(target.summary),
   );
 
   return Command.fromDescriptor(
     descriptor as any,
-    (({
-      options,
-      args,
-    }: {
-      options: Record<string, unknown>;
-      args: Record<string, string>;
-    }) =>
+    (({ options, args }: { options: Record<string, unknown>; args: Record<string, string> }) =>
       Effect.gen(function* () {
         const envelope = yield* Effect.promise(() =>
-          executeOperation(operation, args, options, target.commandSegments)
+          executeOperation(operation, args, options, target.commandSegments),
         );
         yield* Effect.sync(() => printEnvelope(envelope));
-      })) as any
+      })) as any,
   );
 };
 
 const buildGroupCommand = (node: CommandNode, segments: string[]): any => {
-  const pathSegments = [...segments, node.name].filter(
-    (value) => value !== CLI_NAME
-  );
+  const pathSegments = [...segments, node.name].filter((value) => value !== CLI_NAME);
   const subcommands = [...node.children.values()]
     .sort((left, right) => left.name.localeCompare(right.name))
     .map((child) => buildCommand(child, pathSegments));
@@ -269,7 +245,7 @@ const buildGroupCommand = (node: CommandNode, segments: string[]): any => {
     Effect.sync(() => {
       const command = [CLI_NAME, ...pathSegments].join(" ").trim();
       printEnvelope(groupEnvelope(command, description, commands));
-    })
+    }),
   ).pipe(Command.withDescription(description));
 
   return withSubcommandsIfAny(groupCommand, subcommands);
@@ -298,8 +274,7 @@ const authStatusCommand = Command.make("status", {}, () =>
         },
       },
       {
-        command:
-          "kit auth oauth authorizeurl --client-id <id> --redirect-uri <uri> [--pkce]",
+        command: "kit auth oauth authorizeurl --client-id <id> --redirect-uri <uri> [--pkce]",
         description: "Start an OAuth authorization flow",
       },
     ];
@@ -320,10 +295,10 @@ const authStatusCommand = Command.make("status", {}, () =>
             expires_at: config.oauth?.expiresAt ?? null,
           },
         },
-        nextActions
-      )
+        nextActions,
+      ),
     );
-  })
+  }),
 ).pipe(Command.withDescription("Show stored Kit auth status"));
 
 const authApiSetCommand = Command.make(
@@ -344,18 +319,17 @@ const authApiSetCommand = Command.make(
           [
             {
               command: "kit account get",
-              description:
-                "Verify the stored API key against the account endpoint",
+              description: "Verify the stored API key against the account endpoint",
             },
-          ]
-        )
+          ],
+        ),
       );
-    })
+    }),
 ).pipe(Command.withDescription("Store a Kit API key locally"));
 
 const authApiCommand = Command.make("api", {}, () => Effect.void).pipe(
   Command.withDescription("API key authentication commands"),
-  Command.withSubcommands([authApiSetCommand])
+  Command.withSubcommands([authApiSetCommand]),
 );
 
 const authOauthAuthorizeUrlCommand = Command.make(
@@ -365,10 +339,7 @@ const authOauthAuthorizeUrlCommand = Command.make(
     redirectUri: Options.text("redirect-uri"),
     scope: optionalText("scope", "Optional Kit OAuth scope"),
     state: optionalText("state", "Optional caller-provided state token"),
-    tenantName: optionalText(
-      "tenant-name",
-      "Optional tenant name for multi-tenant apps"
-    ),
+    tenantName: optionalText("tenant-name", "Optional tenant name for multi-tenant apps"),
     pkce: Options.boolean("pkce").pipe(Options.withDefault(false)),
   },
   ({ clientId, redirectUri, scope, state, tenantName, pkce }) =>
@@ -381,7 +352,7 @@ const authOauthAuthorizeUrlCommand = Command.make(
           state: state._tag === "Some" ? state.value : undefined,
           tenantName: tenantName._tag === "Some" ? tenantName.value : undefined,
           pkce,
-        })
+        }),
       );
 
       printEnvelope(
@@ -400,13 +371,11 @@ const authOauthAuthorizeUrlCommand = Command.make(
               },
             },
           },
-        ])
+        ]),
       );
-    })
+    }),
 ).pipe(
-  Command.withDescription(
-    "Generate a Kit OAuth authorization URL and store pending PKCE state"
-  )
+  Command.withDescription("Generate a Kit OAuth authorization URL and store pending PKCE state"),
 );
 
 const authOauthExchangeCommand = Command.make(
@@ -425,11 +394,9 @@ const authOauthExchangeCommand = Command.make(
           code,
           state: state._tag === "Some" ? state.value : undefined,
           clientId: clientId._tag === "Some" ? clientId.value : undefined,
-          clientSecret:
-            clientSecret._tag === "Some" ? clientSecret.value : undefined,
-          redirectUri:
-            redirectUri._tag === "Some" ? redirectUri.value : undefined,
-        })
+          clientSecret: clientSecret._tag === "Some" ? clientSecret.value : undefined,
+          redirectUri: redirectUri._tag === "Some" ? redirectUri.value : undefined,
+        }),
       );
 
       printEnvelope(
@@ -450,14 +417,12 @@ const authOauthExchangeCommand = Command.make(
               command: "kit account get --auth oauth",
               description: "Verify the exchanged access token against Kit",
             },
-          ]
-        )
+          ],
+        ),
       );
-    })
+    }),
 ).pipe(
-  Command.withDescription(
-    "Exchange a Kit OAuth authorization code for access and refresh tokens"
-  )
+  Command.withDescription("Exchange a Kit OAuth authorization code for access and refresh tokens"),
 );
 
 const authOauthRefreshCommand = Command.make("refresh", {}, () =>
@@ -475,10 +440,10 @@ const authOauthRefreshCommand = Command.make("refresh", {}, () =>
             command: "kit account get --auth oauth",
             description: "Verify the refreshed access token",
           },
-        ]
-      )
+        ],
+      ),
     );
-  })
+  }),
 ).pipe(Command.withDescription("Refresh a stored OAuth access token"));
 
 const authOauthCommand = Command.make("oauth", {}, () => Effect.void).pipe(
@@ -487,14 +452,14 @@ const authOauthCommand = Command.make("oauth", {}, () => Effect.void).pipe(
     authOauthAuthorizeUrlCommand,
     authOauthExchangeCommand,
     authOauthRefreshCommand,
-  ])
+  ]),
 );
 
 const authClearCommand = Command.make(
   "clear",
   {
     target: Options.choice("target", ["all", "api-key", "oauth"] as const).pipe(
-      Options.withDefault("all" as const)
+      Options.withDefault("all" as const),
     ),
   },
   ({ target }) =>
@@ -512,10 +477,10 @@ const authClearCommand = Command.make(
               command: "kit auth status",
               description: "Verify the cleared auth state",
             },
-          ]
-        )
+          ],
+        ),
       );
-    })
+    }),
 ).pipe(Command.withDescription("Clear stored auth state"));
 
 const authCommand = Command.make("auth", {}, () =>
@@ -535,30 +500,27 @@ const authCommand = Command.make("auth", {}, () =>
         {
           name: "oauth",
           description: "OAuth auth commands",
-          usage:
-            "kit auth oauth authorizeurl --client-id <id> --redirect-uri <uri>",
+          usage: "kit auth oauth authorizeurl --client-id <id> --redirect-uri <uri>",
         },
         {
           name: "clear",
           description: "Clear stored auth state",
           usage: "kit auth clear [--target <all|api-key|oauth>]",
         },
-      ])
+      ]),
     );
-  })
+  }),
 ).pipe(
   Command.withDescription("Manage Kit authentication"),
-  Command.withSubcommands([
-    authStatusCommand,
-    authApiCommand,
-    authOauthCommand,
-    authClearCommand,
-  ])
+  Command.withSubcommands([authStatusCommand, authApiCommand, authOauthCommand, authClearCommand]),
 );
 
 const splitAliases = (value: Option.Option<string>) =>
   value._tag === "Some"
-    ? value.value.split(",").map((entry) => entry.trim()).filter(Boolean)
+    ? value.value
+        .split(",")
+        .map((entry) => entry.trim())
+        .filter(Boolean)
     : [];
 
 const accountNextActions = (): NextAction[] => [
@@ -602,10 +564,10 @@ const accountListCommand = Command.make("list", {}, () =>
           current_account: config.currentKitAccount ?? null,
           accounts,
         },
-        accountNextActions()
-      )
+        accountNextActions(),
+      ),
     );
-  })
+  }),
 ).pipe(Command.withDescription("List configured Kit accounts and short aliases"));
 
 const accountCurrentCommand = Command.make("current", {}, () =>
@@ -623,10 +585,10 @@ const accountCurrentCommand = Command.make("current", {}, () =>
           current_account: config.currentKitAccount ?? null,
           account: current ?? null,
         },
-        accountNextActions()
-      )
+        accountNextActions(),
+      ),
     );
-  })
+  }),
 ).pipe(Command.withDescription("Show the default Kit account"));
 
 const accountUseCommand = Command.make(
@@ -634,9 +596,7 @@ const accountUseCommand = Command.make(
   { account: Args.text({ name: "account-or-alias" }) },
   ({ account }) =>
     Effect.gen(function* () {
-      const { config, resolved } = yield* Effect.promise(() =>
-        setCurrentKitAccount(account)
-      );
+      const { config, resolved } = yield* Effect.promise(() => setCurrentKitAccount(account));
       printEnvelope(
         success(
           `kit account use ${account}`,
@@ -652,10 +612,10 @@ const accountUseCommand = Command.make(
               description: "Verify the selected account against Kit",
             },
             ...accountNextActions(),
-          ]
-        )
+          ],
+        ),
       );
-    })
+    }),
 ).pipe(Command.withDescription("Set the default Kit account by id or short alias"));
 
 const accountPinCommand = Command.make(
@@ -684,10 +644,10 @@ const accountPinCommand = Command.make(
               command: "kit whoami --auth api-key",
               description: "Verify the pinned account against Kit",
             },
-          ]
-        )
+          ],
+        ),
       );
-    })
+    }),
 ).pipe(Command.withDescription("Pin the current project directory to a Kit account"));
 
 const accountAddCommand = Command.make(
@@ -710,10 +670,9 @@ const accountAddCommand = Command.make(
           aliases: splitAliases(alias),
           name: name._tag === "Some" ? name.value : undefined,
           email: email._tag === "Some" ? email.value : undefined,
-          accountId:
-            accountId._tag === "Some" ? Number(accountId.value) : undefined,
+          accountId: accountId._tag === "Some" ? Number(accountId.value) : undefined,
           makeCurrent: current,
-        })
+        }),
       );
       printEnvelope(
         success(
@@ -733,10 +692,10 @@ const accountAddCommand = Command.make(
               command: "kit whoami --auth api-key",
               description: "Verify the active Kit account",
             },
-          ]
-        )
+          ],
+        ),
       );
-    })
+    }),
 ).pipe(Command.withDescription("Store a Kit API key account with short aliases"));
 
 const accountCommand = Command.make("account", {}, () =>
@@ -768,9 +727,9 @@ const accountCommand = Command.make("account", {}, () =>
           description: "Store an API key account with aliases",
           usage: "kit account add <id> --api-key <key> [--alias <aliases>]",
         },
-      ])
+      ]),
     );
-  })
+  }),
 ).pipe(
   Command.withDescription("Manage Kit accounts and short aliases"),
   Command.withSubcommands([
@@ -779,7 +738,7 @@ const accountCommand = Command.make("account", {}, () =>
     accountUseCommand,
     accountPinCommand,
     accountAddCommand,
-  ])
+  ]),
 );
 
 const defaultsBroadcastCommand = Command.make(
@@ -790,9 +749,7 @@ const defaultsBroadcastCommand = Command.make(
   ({ account }) =>
     Effect.gen(function* () {
       const accountId = account._tag === "Some" ? account.value : undefined;
-      const defaults = yield* Effect.promise(() =>
-        getEffectiveBroadcastDefaults(accountId)
-      );
+      const defaults = yield* Effect.promise(() => getEffectiveBroadcastDefaults(accountId));
       printEnvelope(
         success(
           "kit defaults broadcast",
@@ -804,8 +761,7 @@ const defaultsBroadcastCommand = Command.make(
           [
             {
               command: "kit defaults broadcast [--account <id>]",
-              description:
-                "Inspect effective broadcast defaults for a specific account",
+              description: "Inspect effective broadcast defaults for a specific account",
               params: {
                 id: {
                   value: defaults.selected_account_id ?? undefined,
@@ -815,13 +771,11 @@ const defaultsBroadcastCommand = Command.make(
             },
             {
               command: "kit whoami",
-              description:
-                "Verify the active Kit account for the current API key",
+              description: "Verify the active Kit account for the current API key",
             },
             {
               command: "kit bcasts create --body-file <path>",
-              description:
-                "Create a draft broadcast that can inherit these defaults",
+              description: "Create a draft broadcast that can inherit these defaults",
               params: {
                 path: {
                   description: "Path to the JSON body file",
@@ -829,36 +783,27 @@ const defaultsBroadcastCommand = Command.make(
                 },
               },
             },
-          ]
-        )
+          ],
+        ),
       );
-    })
-).pipe(
-  Command.withDescription(
-    "Show the effective broadcast defaults from ~/.kit/config.json"
-  )
-);
+    }),
+).pipe(Command.withDescription("Show the effective broadcast defaults from ~/.kit/config.json"));
 
 const defaultsCommand = Command.make("defaults", {}, () =>
   Effect.sync(() => {
     printEnvelope(
-      groupEnvelope(
-        "kit defaults",
-        "Inspect local Kit defaults and conventions",
-        [
-          {
-            name: "broadcast",
-            description:
-              "Show the effective broadcast defaults from ~/.kit/config.json",
-            usage: "kit defaults broadcast",
-          },
-        ]
-      )
+      groupEnvelope("kit defaults", "Inspect local Kit defaults and conventions", [
+        {
+          name: "broadcast",
+          description: "Show the effective broadcast defaults from ~/.kit/config.json",
+          usage: "kit defaults broadcast",
+        },
+      ]),
     );
-  })
+  }),
 ).pipe(
   Command.withDescription("Inspect local Kit defaults"),
-  Command.withSubcommands([defaultsBroadcastCommand])
+  Command.withSubcommands([defaultsBroadcastCommand]),
 );
 
 // ---------------------------------------------------------------------------
@@ -896,9 +841,7 @@ const campaignStateFile = () => {
 const campaignStatusCommand = Command.make("status", {}, () =>
   Effect.gen(function* () {
     try {
-      const raw = yield* Effect.promise(() =>
-        readFile(campaignStateFile(), "utf-8")
-      );
+      const raw = yield* Effect.promise(() => readFile(campaignStateFile(), "utf-8"));
       const state: CampaignState = JSON.parse(raw);
 
       const emails = Object.entries(state.emails);
@@ -959,8 +902,8 @@ const campaignStatusCommand = Command.make("status", {}, () =>
             },
             emails: state.emails,
           },
-          nextActions
-        )
+          nextActions,
+        ),
       );
     } catch (error) {
       printEnvelope(
@@ -974,11 +917,11 @@ const campaignStatusCommand = Command.make("status", {}, () =>
               command: "kit campaign status",
               description: "Retry after fixing the state file",
             },
-          ]
-        )
+          ],
+        ),
       );
     }
-  })
+  }),
 ).pipe(Command.withDescription("Show the current Cohort 003 campaign state"));
 
 const campaignCommand = Command.make("campaign", {}, () =>
@@ -990,12 +933,12 @@ const campaignCommand = Command.make("campaign", {}, () =>
           description: "Show the current Cohort 003 campaign state",
           usage: "kit campaign status",
         },
-      ])
+      ]),
     );
-  })
+  }),
 ).pipe(
   Command.withDescription("Campaign tracking for the active launch"),
-  Command.withSubcommands([campaignStatusCommand])
+  Command.withSubcommands([campaignStatusCommand]),
 );
 
 // ---------------------------------------------------------------------------
@@ -1023,10 +966,7 @@ const isSupportedBroadcastFilter = (filter: unknown): boolean => {
   return walk(filter);
 };
 
-const bcastsNextActions = (
-  id: string,
-  publicationId?: string
-): NextAction[] => {
+const bcastsNextActions = (id: string, publicationId?: string): NextAction[] => {
   const actions: NextAction[] = [
     {
       command: `kit bcasts get ${id}`,
@@ -1056,12 +996,7 @@ const bcastsNextActions = (
  * Catch any Effect failure (expected errors + defects) and print as JSON error envelope.
  * This replaces try/catch inside Effect.gen, which cannot catch defects from Effect.promise.
  */
-const withErrorEnvelope = (
-  command: string,
-  code: string,
-  fix: string,
-  nextActions: NextAction[],
-) =>
+const withErrorEnvelope = (command: string, code: string, fix: string, nextActions: NextAction[]) =>
   Effect.catchAllCause((cause) =>
     Effect.sync(() => {
       // Extract a clean message without stack traces
@@ -1081,46 +1016,77 @@ const resolveAuth = () =>
     supportsOAuth: true,
   });
 
-const bcastsTextCommand = Command.make(
-  "text",
-  { id: Args.text({ name: "id" }) },
-  ({ id }) =>
-    Effect.gen(function* () {
-      const auth = yield* Effect.promise(resolveAuth);
-      const broadcast = yield* Effect.promise(() =>
-        fetchBroadcast(id, auth.headers),
-      );
-      const content = (broadcast.content as string) ?? "";
-      const text = htmlToText(content);
-      const publicationId = broadcast.publication_id as string | undefined;
+const bcastsFilterCommand = Command.make(
+  "filter",
+  {
+    excludeTag: Options.text("exclude-tag").pipe(Options.repeated),
+    segment: Options.text("segment").pipe(Options.repeated),
+  },
+  ({ excludeTag, segment }) =>
+    Effect.sync(() => {
+      const subscriberFilter = buildSubscriberFilter({
+        segments: Array.from(segment),
+        excludeTags: Array.from(excludeTag),
+      });
 
       printEnvelope(
         success(
-          `kit bcasts text ${id}`,
+          "kit bcasts filter",
           {
-            broadcast_id: broadcast.id ?? id,
-            publication_id: publicationId,
-            subject: broadcast.subject,
-            preview_text: broadcast.preview_text,
-            send_at: broadcast.send_at,
-            text,
-            content_length: content.length,
-            text_length: text.length,
+            subscriber_filter: subscriberFilter,
+            json: JSON.stringify(subscriberFilter),
           },
-          bcastsNextActions(id, publicationId?.toString()),
+          [
+            {
+              command:
+                "kit bcasts create --body-file <path> --subscriber-filter-file <filter.json>",
+              description: "Create a broadcast with this filter from a file",
+            },
+            {
+              command: "kit bcasts update <id> --exclude-tag <tag-id> [--segment <segment-id>]",
+              description: "Safely update a broadcast with structured filter flags",
+            },
+          ],
         ),
       );
-    }).pipe(
-      withErrorEnvelope(
-        "kit bcasts text",
-        "FETCH_FAILED",
-        "Check that the broadcast ID exists and your auth is configured.",
-        [{ command: "kit auth status", description: "Check auth" }],
-      ),
-    ),
+    }),
 ).pipe(
-  Command.withDescription("Display broadcast content as readable plain text"),
+  Command.withDescription("Build Kit subscriber_filter JSON from segment and exclusion flags"),
 );
+
+const bcastsTextCommand = Command.make("text", { id: Args.text({ name: "id" }) }, ({ id }) =>
+  Effect.gen(function* () {
+    const auth = yield* Effect.promise(resolveAuth);
+    const broadcast = yield* Effect.promise(() => fetchBroadcast(id, auth.headers));
+    const content = (broadcast.content as string) ?? "";
+    const text = htmlToText(content);
+    const publicationId = broadcast.publication_id as string | undefined;
+
+    printEnvelope(
+      success(
+        `kit bcasts text ${id}`,
+        {
+          broadcast_id: broadcast.id ?? id,
+          publication_id: publicationId,
+          subject: broadcast.subject,
+          preview_text: broadcast.preview_text,
+          send_at: broadcast.send_at,
+          text,
+          content_length: content.length,
+          text_length: text.length,
+        },
+        bcastsNextActions(id, publicationId?.toString()),
+      ),
+    );
+  }).pipe(
+    withErrorEnvelope(
+      "kit bcasts text",
+      "FETCH_FAILED",
+      "Check that the broadcast ID exists and your auth is configured.",
+      [{ command: "kit auth status", description: "Check auth" }],
+    ),
+  ),
+).pipe(Command.withDescription("Display broadcast content as readable plain text"));
 
 const bcastsReplaceCommand = Command.make(
   "replace",
@@ -1133,173 +1099,152 @@ const bcastsReplaceCommand = Command.make(
   },
   ({ id, find, replace, dryRun, auth: authMode }) =>
     Effect.gen(function* () {
-        const findArr = Array.from(find);
-        const replaceArr = Array.from(replace);
+      const findArr = Array.from(find);
+      const replaceArr = Array.from(replace);
 
-        if (findArr.length === 0) {
-          printEnvelope(
-            failure(
-              `kit bcasts replace ${id}`,
-              "At least one --find/--replace pair is required.",
-              "MISSING_ARGS",
-              'Use --find "old text" --replace "new text". Repeat for multiple replacements.',
-              bcastsNextActions(id)
-            )
-          );
-          return;
-        }
-
-        if (findArr.length !== replaceArr.length) {
-          printEnvelope(
-            failure(
-              `kit bcasts replace ${id}`,
-              `Mismatched --find (${findArr.length}) and --replace (${replaceArr.length}) counts.`,
-              "ARGS_MISMATCH",
-              "Every --find must have a matching --replace.",
-              bcastsNextActions(id)
-            )
-          );
-          return;
-        }
-
-        const pairs: ReplacePair[] = findArr.map((f, i) => ({
-          find: f,
-          replace: replaceArr[i] ?? "",
-        }));
-
-        const auth = yield* Effect.promise(() =>
-          resolveAuthHeaders({
-            mode: authMode,
-            supportsApiKey: true,
-            supportsOAuth: true,
-          })
+      if (findArr.length === 0) {
+        printEnvelope(
+          failure(
+            `kit bcasts replace ${id}`,
+            "At least one --find/--replace pair is required.",
+            "MISSING_ARGS",
+            'Use --find "old text" --replace "new text". Repeat for multiple replacements.',
+            bcastsNextActions(id),
+          ),
         );
-        const broadcast = yield* Effect.promise(() =>
-          fetchBroadcast(id, auth.headers)
+        return;
+      }
+
+      if (findArr.length !== replaceArr.length) {
+        printEnvelope(
+          failure(
+            `kit bcasts replace ${id}`,
+            `Mismatched --find (${findArr.length}) and --replace (${replaceArr.length}) counts.`,
+            "ARGS_MISMATCH",
+            "Every --find must have a matching --replace.",
+            bcastsNextActions(id),
+          ),
         );
-        const content = (broadcast.content as string) ?? "";
-        const { content: updatedContent, results } = replaceBroadcastContent(
-          content,
-          pairs
-        );
+        return;
+      }
 
-        const anyFound = results.some((r) => r.found);
-        if (!anyFound) {
-          printEnvelope(
-            success(
-              `kit bcasts replace ${id}`,
-              {
-                broadcast_id: broadcast.id ?? id,
-                changed: false,
-                results,
-              },
-              bcastsNextActions(
-                id,
-                (broadcast.publication_id as number)?.toString()
-              )
-            )
-          );
-          return;
-        }
+      const pairs: ReplacePair[] = findArr.map((f, i) => ({
+        find: f,
+        replace: replaceArr[i] ?? "",
+      }));
 
-        if (dryRun) {
-          printEnvelope(
-            success(
-              `kit bcasts replace ${id} --dry-run`,
-              {
-                broadcast_id: broadcast.id ?? id,
-                dry_run: true,
-                changed: false,
-                would_change: true,
-                results,
-              },
-              bcastsNextActions(
-                id,
-                (broadcast.publication_id as number)?.toString()
-              )
-            )
-          );
-          return;
-        }
+      const auth = yield* Effect.promise(() =>
+        resolveAuthHeaders({
+          mode: authMode,
+          supportsApiKey: true,
+          supportsOAuth: true,
+        }),
+      );
+      const broadcast = yield* Effect.promise(() => fetchBroadcast(id, auth.headers));
+      const content = (broadcast.content as string) ?? "";
+      const { content: updatedContent, results } = replaceBroadcastContent(content, pairs);
 
-        // Push the update. Read-then-merge in execute.ts handles preserving other fields,
-        // but since we already have the broadcast, we'll do a direct PUT with full state.
-        const baseUrl = "https://api.kit.com";
-        const updateBody: Record<string, unknown> = {
-          content: updatedContent,
-          subject: broadcast.subject,
-          preview_text: broadcast.preview_text,
-          description: broadcast.description,
-          public: broadcast.public,
-          send_at: broadcast.send_at,
-          published_at: broadcast.published_at,
-          email_address: broadcast.email_address,
-        };
-        if (
-          broadcast.subscriber_filter !== undefined &&
-          broadcast.subscriber_filter !== null &&
-          isSupportedBroadcastFilter(broadcast.subscriber_filter)
-        ) {
-          updateBody.subscriber_filter = broadcast.subscriber_filter;
-        }
-        const template = broadcast.email_template as
-          | Record<string, unknown>
-          | undefined;
-        if (template?.id) {
-          updateBody.email_template_id = template.id;
-        }
-
-        const putResponse = yield* Effect.promise(() =>
-          fetch(`${baseUrl}/v4/broadcasts/${encodeURIComponent(id)}`, {
-            method: "PUT",
-            headers: {
-              accept: "application/json",
-              "content-type": "application/json",
-              ...auth.headers,
-            },
-            body: JSON.stringify(updateBody),
-          })
-        );
-
-        if (!putResponse.ok) {
-          const errText = yield* Effect.promise(() => putResponse.text());
-          printEnvelope(
-            failure(
-              `kit bcasts replace ${id}`,
-              `Kit API returned ${putResponse.status}: ${errText}`,
-              `HTTP_${putResponse.status}`,
-              "Check the broadcast ID and your auth credentials.",
-              bcastsNextActions(id)
-            )
-          );
-          return;
-        }
-
-        const updated = (yield* Effect.promise(() =>
-          putResponse.json()
-        )) as Record<string, unknown>;
-        const updatedBroadcast = (updated.broadcast ?? updated) as Record<
-          string,
-          unknown
-        >;
-
+      const anyFound = results.some((r) => r.found);
+      if (!anyFound) {
         printEnvelope(
           success(
             `kit bcasts replace ${id}`,
             {
-              broadcast_id: updatedBroadcast.id ?? id,
-              publication_id: updatedBroadcast.publication_id,
-              changed: true,
+              broadcast_id: broadcast.id ?? id,
+              changed: false,
               results,
-              send_at: updatedBroadcast.send_at,
-              subscriber_filter: updatedBroadcast.subscriber_filter,
             },
-            bcastsNextActions(
-              id,
-              (updatedBroadcast.publication_id as number)?.toString()
-            )
-          )
+            bcastsNextActions(id, (broadcast.publication_id as number)?.toString()),
+          ),
         );
+        return;
+      }
+
+      if (dryRun) {
+        printEnvelope(
+          success(
+            `kit bcasts replace ${id} --dry-run`,
+            {
+              broadcast_id: broadcast.id ?? id,
+              dry_run: true,
+              changed: false,
+              would_change: true,
+              results,
+            },
+            bcastsNextActions(id, (broadcast.publication_id as number)?.toString()),
+          ),
+        );
+        return;
+      }
+
+      // Push the update. Read-then-merge in execute.ts handles preserving other fields,
+      // but since we already have the broadcast, we'll do a direct PUT with full state.
+      const baseUrl = "https://api.kit.com";
+      const updateBody: Record<string, unknown> = {
+        content: updatedContent,
+        subject: broadcast.subject,
+        preview_text: broadcast.preview_text,
+        description: broadcast.description,
+        public: broadcast.public,
+        send_at: broadcast.send_at,
+        published_at: broadcast.published_at,
+        email_address: broadcast.email_address,
+      };
+      if (
+        broadcast.subscriber_filter !== undefined &&
+        broadcast.subscriber_filter !== null &&
+        isSupportedBroadcastFilter(broadcast.subscriber_filter)
+      ) {
+        updateBody.subscriber_filter = broadcast.subscriber_filter;
+      }
+      const template = broadcast.email_template as Record<string, unknown> | undefined;
+      if (template?.id) {
+        updateBody.email_template_id = template.id;
+      }
+
+      const putResponse = yield* Effect.promise(() =>
+        fetch(`${baseUrl}/v4/broadcasts/${encodeURIComponent(id)}`, {
+          method: "PUT",
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            ...auth.headers,
+          },
+          body: JSON.stringify(updateBody),
+        }),
+      );
+
+      if (!putResponse.ok) {
+        const errText = yield* Effect.promise(() => putResponse.text());
+        printEnvelope(
+          failure(
+            `kit bcasts replace ${id}`,
+            `Kit API returned ${putResponse.status}: ${errText}`,
+            `HTTP_${putResponse.status}`,
+            "Check the broadcast ID and your auth credentials.",
+            bcastsNextActions(id),
+          ),
+        );
+        return;
+      }
+
+      const updated = (yield* Effect.promise(() => putResponse.json())) as Record<string, unknown>;
+      const updatedBroadcast = (updated.broadcast ?? updated) as Record<string, unknown>;
+
+      printEnvelope(
+        success(
+          `kit bcasts replace ${id}`,
+          {
+            broadcast_id: updatedBroadcast.id ?? id,
+            publication_id: updatedBroadcast.publication_id,
+            changed: true,
+            results,
+            send_at: updatedBroadcast.send_at,
+            subscriber_filter: updatedBroadcast.subscriber_filter,
+          },
+          bcastsNextActions(id, (updatedBroadcast.publication_id as number)?.toString()),
+        ),
+      );
     }).pipe(
       withErrorEnvelope(
         "kit bcasts replace",
@@ -1314,62 +1259,57 @@ const bcastsReplaceCommand = Command.make(
   ),
 );
 
-const bcastsLintCommand = Command.make(
-  "lint",
-  { id: Args.text({ name: "id" }) },
-  ({ id }) =>
-    Effect.gen(function* () {
-      const auth = yield* Effect.promise(resolveAuth);
-      const broadcast = yield* Effect.promise(() =>
-        fetchBroadcast(id, auth.headers),
-      );
-      const content = (broadcast.content as string) ?? "";
-      const issues = lintBroadcastContent(content);
-      const publicationId = broadcast.publication_id as string | undefined;
+const bcastsLintCommand = Command.make("lint", { id: Args.text({ name: "id" }) }, ({ id }) =>
+  Effect.gen(function* () {
+    const auth = yield* Effect.promise(resolveAuth);
+    const broadcast = yield* Effect.promise(() => fetchBroadcast(id, auth.headers));
+    const content = (broadcast.content as string) ?? "";
+    const issues = lintBroadcastContent(content);
+    const publicationId = broadcast.publication_id as string | undefined;
 
-      const errors = issues.filter((i) => i.severity === "error");
-      const warnings = issues.filter((i) => i.severity === "warning");
+    const errors = issues.filter((i) => i.severity === "error");
+    const warnings = issues.filter((i) => i.severity === "warning");
 
-      printEnvelope(
-        success(
-          `kit bcasts lint ${id}`,
-          {
-            broadcast_id: broadcast.id ?? id,
-            subject: broadcast.subject,
-            issues_total: issues.length,
-            errors: errors.length,
-            warnings: warnings.length,
-            issues,
-            clean: issues.length === 0,
-          },
-          [
-            ...(issues.length > 0
-              ? [
-                  {
-                    command: `kit bcasts replace ${id} --find <old> --replace <new>`,
-                    description: "Fix an issue with find/replace",
-                    params: {
-                      old: { description: "Text to find", required: true },
-                      new: {
-                        description: "Replacement text",
-                        required: true,
-                      },
+    printEnvelope(
+      success(
+        `kit bcasts lint ${id}`,
+        {
+          broadcast_id: broadcast.id ?? id,
+          subject: broadcast.subject,
+          issues_total: issues.length,
+          errors: errors.length,
+          warnings: warnings.length,
+          issues,
+          clean: issues.length === 0,
+        },
+        [
+          ...(issues.length > 0
+            ? [
+                {
+                  command: `kit bcasts replace ${id} --find <old> --replace <new>`,
+                  description: "Fix an issue with find/replace",
+                  params: {
+                    old: { description: "Text to find", required: true },
+                    new: {
+                      description: "Replacement text",
+                      required: true,
                     },
                   },
-                ]
-              : []),
-            ...bcastsNextActions(id, publicationId?.toString()),
-          ],
-        ),
-      );
-    }).pipe(
-      withErrorEnvelope(
-        "kit bcasts lint",
-        "FETCH_FAILED",
-        "Check that the broadcast ID exists and your auth is configured.",
-        [{ command: "kit auth status", description: "Check auth" }],
+                },
+              ]
+            : []),
+          ...bcastsNextActions(id, publicationId?.toString()),
+        ],
       ),
+    );
+  }).pipe(
+    withErrorEnvelope(
+      "kit bcasts lint",
+      "FETCH_FAILED",
+      "Check that the broadcast ID exists and your auth is configured.",
+      [{ command: "kit auth status", description: "Check auth" }],
     ),
+  ),
 ).pipe(
   Command.withDescription(
     "Check broadcast content for copy issues (em dashes, stiff language, signatures)",
@@ -1402,199 +1342,182 @@ const bcastsFromDocCommand = Command.make(
   },
   ({ section, subject, preview, schedule, docId, dryRun }) =>
     Effect.gen(function* () {
-        const resolvedDocId =
-          docId._tag === "Some" ? docId.value : undefined;
+      const resolvedDocId = docId._tag === "Some" ? docId.value : undefined;
 
-        // Step 1: Fetch doc
-        const docText = yield* Effect.promise(() =>
-          fetchDocText(resolvedDocId),
-        );
+      // Step 1: Fetch doc
+      const docText = yield* Effect.promise(() => fetchDocText(resolvedDocId));
 
-        // Step 2: Extract section
-        const extracted = extractSection(docText, section);
-        if (!extracted) {
-          printEnvelope(
-            failure(
-              `kit bcasts from-doc --section "${section}"`,
-              `Section "${section}" not found in the Google Doc.`,
-              "SECTION_NOT_FOUND",
-              'Check the section name matches a marker in the doc. Look for lines with emoji status markers.',
-              [
-                {
-                  command: `kit bcasts from-doc --section <section>`,
-                  description: "Try a different section name",
-                  params: {
-                    section: {
-                      description: "Section name (e.g. 'Launch Email #4')",
-                      required: true,
-                    },
+      // Step 2: Extract section
+      const extracted = extractSection(docText, section);
+      if (!extracted) {
+        printEnvelope(
+          failure(
+            `kit bcasts from-doc --section "${section}"`,
+            `Section "${section}" not found in the Google Doc.`,
+            "SECTION_NOT_FOUND",
+            "Check the section name matches a marker in the doc. Look for lines with emoji status markers.",
+            [
+              {
+                command: `kit bcasts from-doc --section <section>`,
+                description: "Try a different section name",
+                params: {
+                  section: {
+                    description: "Section name (e.g. 'Launch Email #4')",
+                    required: true,
                   },
                 },
-              ],
-            ),
-          );
-          return;
-        }
-
-        // Step 3: Convert to HTML
-        const html = textToHtml(extracted.body);
-
-        // Step 4: Lint it
-        const issues = lintBroadcastContent(html);
-
-        // Step 5: Build payload
-        const resolvedSubject =
-          subject._tag === "Some"
-            ? subject.value
-            : extracted.subject ?? section;
-        const resolvedPreview =
-          preview._tag === "Some" ? preview.value : undefined;
-        const resolvedSchedule =
-          schedule._tag === "Some" ? schedule.value : undefined;
-
-        const payload = buildBroadcastPayload(html, {
-          subject: resolvedSubject,
-          previewText: resolvedPreview,
-          description: extracted.marker,
-          sendAt: resolvedSchedule,
-        });
-
-        if (dryRun) {
-          const textPreview = htmlToText(html);
-          printEnvelope(
-            success(
-              `kit bcasts from-doc --section "${section}" --dry-run`,
-              {
-                dry_run: true,
-                section_found: true,
-                marker: extracted.marker,
-                subject: resolvedSubject,
-                preview_text: resolvedPreview,
-                send_at: resolvedSchedule ?? null,
-                content_length: html.length,
-                text_preview: textPreview.slice(0, 500),
-                lint_issues: issues.length,
-                issues,
-              },
-              [
-                {
-                  command: `kit bcasts from-doc --section "${section}"`,
-                  description: "Create the broadcast (remove --dry-run)",
-                },
-              ],
-            ),
-          );
-          return;
-        }
-
-        // Step 6: Create broadcast via Kit API
-        const auth = yield* Effect.promise(resolveAuth);
-        const baseUrl = "https://api.kit.com";
-        const createResponse = yield* Effect.promise(() =>
-          fetch(`${baseUrl}/v4/broadcasts`, {
-            method: "POST",
-            headers: {
-              accept: "application/json",
-              "content-type": "application/json",
-              ...auth.headers,
-            },
-            body: JSON.stringify(payload),
-          }),
-        );
-
-        if (!createResponse.ok) {
-          const errText = yield* Effect.promise(() =>
-            createResponse.text(),
-          );
-          printEnvelope(
-            failure(
-              `kit bcasts from-doc --section "${section}"`,
-              `Kit API returned ${createResponse.status}: ${errText}`,
-              `HTTP_${createResponse.status}`,
-              "Check your Kit auth credentials.",
-              [
-                { command: "kit auth status", description: "Check auth" },
-              ],
-            ),
-          );
-          return;
-        }
-
-        const created = (yield* Effect.promise(() =>
-          createResponse.json(),
-        )) as Record<string, unknown>;
-        const broadcast = (created.broadcast ?? created) as Record<
-          string,
-          unknown
-        >;
-        const broadcastId = broadcast.id as number;
-        const publicationId = broadcast.publication_id as number | undefined;
-        const template = broadcast.email_template as
-          | Record<string, unknown>
-          | undefined;
-
-        printEnvelope(
-          success(
-            `kit bcasts from-doc --section "${section}"`,
-            {
-              broadcast_id: broadcastId,
-              publication_id: publicationId,
-              subject: broadcast.subject,
-              preview_text: broadcast.preview_text,
-              send_at: broadcast.send_at ?? null,
-              template: template
-                ? `${template.name} (${template.id})`
-                : null,
-              from: broadcast.email_address,
-              public: broadcast.public,
-              subscriber_filter: broadcast.subscriber_filter,
-              content_length: html.length,
-              lint_issues: issues.length,
-              issues: issues.length > 0 ? issues : undefined,
-              status: resolvedSchedule ? "scheduled" : "draft",
-            },
-            [
-              ...(broadcastId
-                ? [
-                    {
-                      command: `kit bcasts text ${broadcastId}`,
-                      description: "View the broadcast as plain text",
-                    },
-                    {
-                      command: `kit bcasts lint ${broadcastId}`,
-                      description: "Run lint checks on the broadcast",
-                    },
-                    {
-                      command: `kit bcasts replace ${broadcastId} --find <old> --replace <new>`,
-                      description: "Make surgical edits",
-                      params: {
-                        old: {
-                          description: "Text to find",
-                          required: true,
-                        },
-                        new: {
-                          description: "Replacement text",
-                          required: true,
-                        },
-                      },
-                    },
-                  ]
-                : []),
-              ...(publicationId
-                ? [
-                    {
-                      command: `open https://app.kit.com/publications/${publicationId}/reports/overview`,
-                      description: "Preview in Kit UI",
-                    },
-                  ]
-                : []),
-              {
-                command: "kit campaign status",
-                description: "Check campaign state",
               },
             ],
           ),
         );
+        return;
+      }
+
+      // Step 3: Convert to HTML
+      const html = textToHtml(extracted.body);
+
+      // Step 4: Lint it
+      const issues = lintBroadcastContent(html);
+
+      // Step 5: Build payload
+      const resolvedSubject =
+        subject._tag === "Some" ? subject.value : (extracted.subject ?? section);
+      const resolvedPreview = preview._tag === "Some" ? preview.value : undefined;
+      const resolvedSchedule = schedule._tag === "Some" ? schedule.value : undefined;
+
+      const payload = buildBroadcastPayload(html, {
+        subject: resolvedSubject,
+        previewText: resolvedPreview,
+        description: extracted.marker,
+        sendAt: resolvedSchedule,
+      });
+
+      if (dryRun) {
+        const textPreview = htmlToText(html);
+        printEnvelope(
+          success(
+            `kit bcasts from-doc --section "${section}" --dry-run`,
+            {
+              dry_run: true,
+              section_found: true,
+              marker: extracted.marker,
+              subject: resolvedSubject,
+              preview_text: resolvedPreview,
+              send_at: resolvedSchedule ?? null,
+              content_length: html.length,
+              text_preview: textPreview.slice(0, 500),
+              lint_issues: issues.length,
+              issues,
+            },
+            [
+              {
+                command: `kit bcasts from-doc --section "${section}"`,
+                description: "Create the broadcast (remove --dry-run)",
+              },
+            ],
+          ),
+        );
+        return;
+      }
+
+      // Step 6: Create broadcast via Kit API
+      const auth = yield* Effect.promise(resolveAuth);
+      const baseUrl = "https://api.kit.com";
+      const createResponse = yield* Effect.promise(() =>
+        fetch(`${baseUrl}/v4/broadcasts`, {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            ...auth.headers,
+          },
+          body: JSON.stringify(payload),
+        }),
+      );
+
+      if (!createResponse.ok) {
+        const errText = yield* Effect.promise(() => createResponse.text());
+        printEnvelope(
+          failure(
+            `kit bcasts from-doc --section "${section}"`,
+            `Kit API returned ${createResponse.status}: ${errText}`,
+            `HTTP_${createResponse.status}`,
+            "Check your Kit auth credentials.",
+            [{ command: "kit auth status", description: "Check auth" }],
+          ),
+        );
+        return;
+      }
+
+      const created = (yield* Effect.promise(() => createResponse.json())) as Record<
+        string,
+        unknown
+      >;
+      const broadcast = (created.broadcast ?? created) as Record<string, unknown>;
+      const broadcastId = broadcast.id as number;
+      const publicationId = broadcast.publication_id as number | undefined;
+      const template = broadcast.email_template as Record<string, unknown> | undefined;
+
+      printEnvelope(
+        success(
+          `kit bcasts from-doc --section "${section}"`,
+          {
+            broadcast_id: broadcastId,
+            publication_id: publicationId,
+            subject: broadcast.subject,
+            preview_text: broadcast.preview_text,
+            send_at: broadcast.send_at ?? null,
+            template: template ? `${template.name} (${template.id})` : null,
+            from: broadcast.email_address,
+            public: broadcast.public,
+            subscriber_filter: broadcast.subscriber_filter,
+            content_length: html.length,
+            lint_issues: issues.length,
+            issues: issues.length > 0 ? issues : undefined,
+            status: resolvedSchedule ? "scheduled" : "draft",
+          },
+          [
+            ...(broadcastId
+              ? [
+                  {
+                    command: `kit bcasts text ${broadcastId}`,
+                    description: "View the broadcast as plain text",
+                  },
+                  {
+                    command: `kit bcasts lint ${broadcastId}`,
+                    description: "Run lint checks on the broadcast",
+                  },
+                  {
+                    command: `kit bcasts replace ${broadcastId} --find <old> --replace <new>`,
+                    description: "Make surgical edits",
+                    params: {
+                      old: {
+                        description: "Text to find",
+                        required: true,
+                      },
+                      new: {
+                        description: "Replacement text",
+                        required: true,
+                      },
+                    },
+                  },
+                ]
+              : []),
+            ...(publicationId
+              ? [
+                  {
+                    command: `open https://app.kit.com/publications/${publicationId}/reports/overview`,
+                    description: "Preview in Kit UI",
+                  },
+                ]
+              : []),
+            {
+              command: "kit campaign status",
+              description: "Check campaign state",
+            },
+          ],
+        ),
+      );
     }).pipe(
       withErrorEnvelope(
         "kit bcasts from-doc",
@@ -1619,6 +1542,7 @@ const buildBcastsGroup = (node: CommandNode): any => {
   // Merge generated + custom subcommands
   const allSubcommands = [
     ...generatedSubcommands,
+    bcastsFilterCommand,
     bcastsTextCommand,
     bcastsReplaceCommand,
     bcastsLintCommand,
@@ -1634,14 +1558,18 @@ const buildBcastsGroup = (node: CommandNode): any => {
         usage: `kit bcasts ${child.name}`,
       })),
     {
+      name: "filter",
+      description: "Build subscriber_filter JSON from segment and exclusion flags",
+      usage: "kit bcasts filter --exclude-tag <tag-id> [--segment <segment-id>]",
+    },
+    {
       name: "text",
       description: "Display broadcast content as readable plain text",
       usage: "kit bcasts text <id>",
     },
     {
       name: "replace",
-      description:
-        "Find/replace text in broadcast content (preserves all fields)",
+      description: "Find/replace text in broadcast content (preserves all fields)",
       usage: "kit bcasts replace <id> --find <old> --replace <new>",
     },
     {
@@ -1651,7 +1579,8 @@ const buildBcastsGroup = (node: CommandNode): any => {
     },
     {
       name: "from-doc",
-      description: "Pull a section from the launch Google Doc, convert to HTML, and create a broadcast",
+      description:
+        "Pull a section from the launch Google Doc, convert to HTML, and create a broadcast",
       usage: 'kit bcasts from-doc --section "Launch Email #4"',
     },
   ];
@@ -1659,16 +1588,10 @@ const buildBcastsGroup = (node: CommandNode): any => {
   const groupCommand = Command.make("bcasts", {}, () =>
     Effect.sync(() => {
       printEnvelope(
-        groupEnvelope(
-          "kit bcasts",
-          "Broadcast operations (Kit API + editing tools)",
-          commands
-        )
+        groupEnvelope("kit bcasts", "Broadcast operations (Kit API + editing tools)", commands),
       );
-    })
-  ).pipe(
-    Command.withDescription("Broadcast operations (Kit API + editing tools)")
-  );
+    }),
+  ).pipe(Command.withDescription("Broadcast operations (Kit API + editing tools)"));
 
   return withSubcommandsIfAny(groupCommand, allSubcommands);
 };
@@ -1706,7 +1629,7 @@ const typesenseFetch = (path: string, key: string, init?: RequestInit) =>
     fetch(`https://${TYPESENSE_HOST}${path}`, {
       ...init,
       headers: { "X-TYPESENSE-API-KEY": key, ...init?.headers },
-    }).then((r) => r.json() as Promise<Record<string, unknown>>)
+    }).then((r) => r.json() as Promise<Record<string, unknown>>),
   );
 
 const memoryRecallCommand = Command.make(
@@ -1721,7 +1644,15 @@ const memoryRecallCommand = Command.make(
     Effect.gen(function* () {
       const key = getTypesenseKey();
       if (!key) {
-        printEnvelope(failure("memory recall", "secrets daemon unavailable", "NO_KEY", "Start the secrets daemon: nohup secrets serve &", []));
+        printEnvelope(
+          failure(
+            "memory recall",
+            "secrets daemon unavailable",
+            "NO_KEY",
+            "Start the secrets daemon: nohup secrets serve &",
+            [],
+          ),
+        );
         return;
       }
 
@@ -1740,10 +1671,25 @@ const memoryRecallCommand = Command.make(
       if (semantic) params.set("vector_query", "embedding:([], alpha: 0.6)");
 
       const data = yield* typesenseFetch(
-        `/collections/${MEMORY_COLLECTION}/documents/search?${params}`, key
-      ) as Effect.Effect<{ found: number; search_time_ms: number; hits: Array<{ document: Record<string, unknown>; vector_distance?: number }> }, never, never>;
+        `/collections/${MEMORY_COLLECTION}/documents/search?${params}`,
+        key,
+      ) as Effect.Effect<
+        {
+          found: number;
+          search_time_ms: number;
+          hits: Array<{ document: Record<string, unknown>; vector_distance?: number }>;
+        },
+        never,
+        never
+      >;
 
-      const observations = ((data as unknown as { hits: Array<{ document: Record<string, unknown>; vector_distance?: number }> }).hits || []).map((h) => ({
+      const observations = (
+        (
+          data as unknown as {
+            hits: Array<{ document: Record<string, unknown>; vector_distance?: number }>;
+          }
+        ).hits || []
+      ).map((h) => ({
         id: h.document.id,
         observation: h.document.observation,
         category: h.document.category,
@@ -1752,17 +1698,29 @@ const memoryRecallCommand = Command.make(
         ...(h.vector_distance != null && { vector_distance: h.vector_distance }),
       }));
 
-      printEnvelope(success(`memory recall "${query}"`, {
-        query,
-        mode: semantic ? "hybrid" : "keyword",
-        found: (data as unknown as { found: number }).found,
-        search_time_ms: (data as unknown as { search_time_ms: number }).search_time_ms,
-        observations,
-      }, [
-        { command: `kit memory recall "${query}" --semantic`, description: "Try hybrid semantic search" },
-        { command: "kit memory store <observation> --category <cat>", description: "Store a new observation" },
-      ]));
-    })
+      printEnvelope(
+        success(
+          `memory recall "${query}"`,
+          {
+            query,
+            mode: semantic ? "hybrid" : "keyword",
+            found: (data as unknown as { found: number }).found,
+            search_time_ms: (data as unknown as { search_time_ms: number }).search_time_ms,
+            observations,
+          },
+          [
+            {
+              command: `kit memory recall "${query}" --semantic`,
+              description: "Try hybrid semantic search",
+            },
+            {
+              command: "kit memory store <observation> --category <cat>",
+              description: "Store a new observation",
+            },
+          ],
+        ),
+      );
+    }),
 ).pipe(Command.withDescription("Recall support memory observations"));
 
 const memoryStoreCommand = Command.make(
@@ -1777,86 +1735,129 @@ const memoryStoreCommand = Command.make(
     Effect.gen(function* () {
       const key = getTypesenseKey();
       if (!key) {
-        printEnvelope(failure("memory store", "secrets daemon unavailable", "NO_KEY", "Start the secrets daemon: nohup secrets serve &", []));
+        printEnvelope(
+          failure(
+            "memory store",
+            "secrets daemon unavailable",
+            "NO_KEY",
+            "Start the secrets daemon: nohup secrets serve &",
+            [],
+          ),
+        );
         return;
       }
 
-      const result = yield* typesenseFetch(
-        `/collections/${MEMORY_COLLECTION}/documents`, key,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            observation,
-            observation_type: "fact",
-            category,
-            source,
-            timestamp: Math.floor(Date.now() / 1000),
-            write_verdict: verdict,
-            confidence: 0.9,
-            merged_count: 1,
-            recall_count: 0,
-            stale: false,
-          }),
-        }
-      );
+      const result = yield* typesenseFetch(`/collections/${MEMORY_COLLECTION}/documents`, key, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          observation,
+          observation_type: "fact",
+          category,
+          source,
+          timestamp: Math.floor(Date.now() / 1000),
+          write_verdict: verdict,
+          confidence: 0.9,
+          merged_count: 1,
+          recall_count: 0,
+          stale: false,
+        }),
+      });
 
-      printEnvelope(success("memory store", {
-        action: "created",
-        id: result.id,
-        observation: observation.slice(0, 80),
-        category,
-      }, [
-        { command: `kit memory recall "${observation.slice(0, 40)}"`, description: "Verify the stored observation" },
-      ]));
-    })
+      printEnvelope(
+        success(
+          "memory store",
+          {
+            action: "created",
+            id: result.id,
+            observation: observation.slice(0, 80),
+            category,
+          },
+          [
+            {
+              command: `kit memory recall "${observation.slice(0, 40)}"`,
+              description: "Verify the stored observation",
+            },
+          ],
+        ),
+      );
+    }),
 ).pipe(Command.withDescription("Store a new support memory observation"));
 
 const memoryStatusCommand = Command.make("status", {}, () =>
   Effect.gen(function* () {
     const key = getTypesenseKey();
     if (!key) {
-      printEnvelope(failure("memory status", "secrets daemon unavailable", "NO_KEY", "Start the secrets daemon: nohup secrets serve &", []));
+      printEnvelope(
+        failure(
+          "memory status",
+          "secrets daemon unavailable",
+          "NO_KEY",
+          "Start the secrets daemon: nohup secrets serve &",
+          [],
+        ),
+      );
       return;
     }
 
     const data = yield* typesenseFetch(`/collections/${MEMORY_COLLECTION}`, key);
     const facetData = yield* typesenseFetch(
-      `/collections/${MEMORY_COLLECTION}/documents/search?q=*&query_by=observation&facet_by=category,write_verdict&per_page=0&exclude_fields=embedding`, key
+      `/collections/${MEMORY_COLLECTION}/documents/search?q=*&query_by=observation&facet_by=category,write_verdict&per_page=0&exclude_fields=embedding`,
+      key,
     );
 
     const categories: Record<string, number> = {};
     const verdicts: Record<string, number> = {};
-    for (const facet of (facetData as unknown as { facet_counts: Array<{ field_name: string; counts: Array<{ value: string; count: number }> }> }).facet_counts || []) {
+    for (const facet of (
+      facetData as unknown as {
+        facet_counts: Array<{
+          field_name: string;
+          counts: Array<{ value: string; count: number }>;
+        }>;
+      }
+    ).facet_counts || []) {
       const target = facet.field_name === "category" ? categories : verdicts;
       for (const c of facet.counts) target[c.value] = c.count;
     }
 
-    printEnvelope(success("memory status", {
-      collection: data.name,
-      total_observations: data.num_documents,
-      categories,
-      verdicts,
-    }, [
-      { command: "kit memory recall <query> [--semantic]", description: "Search memory" },
-      { command: "kit memory store <observation> --category <cat>", description: "Store observation" },
-    ]));
-  })
+    printEnvelope(
+      success(
+        "memory status",
+        {
+          collection: data.name,
+          total_observations: data.num_documents,
+          categories,
+          verdicts,
+        },
+        [
+          { command: "kit memory recall <query> [--semantic]", description: "Search memory" },
+          {
+            command: "kit memory store <observation> --category <cat>",
+            description: "Store observation",
+          },
+        ],
+      ),
+    );
+  }),
 ).pipe(Command.withDescription("Memory collection stats"));
 
 const memoryCommand = Command.make("memory", {}, () =>
   Effect.sync(() => {
-    printEnvelope(success("memory", {
-      description: "Support memory system (Typesense-backed, 128+ observations)",
-      commands: [
-        { name: "status", usage: "kit memory status" },
-        { name: "recall", usage: 'kit memory recall "query" [--semantic] [--category cat]' },
-        { name: "store", usage: 'kit memory store "fact" --category product-fact' },
-      ],
-    }, [
-      { command: "kit memory status", description: "Collection health" },
-    ]));
-  })
+    printEnvelope(
+      success(
+        "memory",
+        {
+          description: "Support memory system (Typesense-backed, 128+ observations)",
+          commands: [
+            { name: "status", usage: "kit memory status" },
+            { name: "recall", usage: 'kit memory recall "query" [--semantic] [--category cat]' },
+            { name: "store", usage: 'kit memory store "fact" --category product-fact' },
+          ],
+        },
+        [{ command: "kit memory status", description: "Collection health" }],
+      ),
+    );
+  }),
 ).pipe(
   Command.withSubcommands([memoryStatusCommand, memoryRecallCommand, memoryStoreCommand]),
   Command.withDescription("Support memory system"),
@@ -1947,21 +1948,18 @@ const rootCommand = Command.make(CLI_NAME, {}, () =>
           },
           {
             command: "kit defaults broadcast",
-            description:
-              "Inspect the effective local defaults for broadcast drafting",
+            description: "Inspect the effective local defaults for broadcast drafting",
           },
           {
             command: "kit whoami",
             description: "Fetch the current Kit account via the shortcut alias",
           },
-        ]
-      )
+        ],
+      ),
     );
-  })
+  }),
 ).pipe(
-  Command.withDescription(
-    "OpenAPI-generated Effect CLI wrapper around Kit API v4"
-  ),
+  Command.withDescription("OpenAPI-generated Effect CLI wrapper around Kit API v4"),
   Command.withSubcommands([
     accountCommand,
     authCommand,
@@ -1972,7 +1970,7 @@ const rootCommand = Command.make(CLI_NAME, {}, () =>
     shortlinkCommand,
     siteCommand,
     ...generatedCommands,
-  ])
+  ]),
 );
 
 const cli = Command.run(rootCommand, {
@@ -1982,5 +1980,5 @@ const cli = Command.run(rootCommand, {
 
 cli(process.argv).pipe(
   Effect.provide(Layer.mergeAll(NodeContext.layer)),
-  NodeRuntime.runMain as never
+  NodeRuntime.runMain as never,
 );

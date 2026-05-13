@@ -54,5 +54,4 @@ export const createEnvCredentialStore = (
 
 export const EnvCredentialStoreLive = (
   env?: Record<string, string | undefined>,
-): Layer.Layer<CredentialStore> =>
-  Layer.succeed(CredentialStore, createEnvCredentialStore(env));
+): Layer.Layer<CredentialStore> => Layer.succeed(CredentialStore, createEnvCredentialStore(env));

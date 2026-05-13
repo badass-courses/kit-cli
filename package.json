@@ -2,6 +2,15 @@
   "name": "kit-cli",
   "version": "0.2.3",
   "description": "Effect-powered CLI wrapper around the Kit API v4",
+  "homepage": "https://github.com/badass-courses/kit-cli#readme",
+  "bugs": {
+    "url": "https://github.com/badass-courses/kit-cli/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badass-courses/kit-cli.git"
+  },
   "bin": {
     "kit": "src/index.ts",
     "kit-cli": "src/index.ts"
@@ -43,14 +52,5 @@
     "typescript": "^5.9.3",
     "ultracite": "7.2.5"
   },
-  "packageManager": "bun@1.2.23",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/badass-courses/kit-cli.git"
-  },
-  "homepage": "https://github.com/badass-courses/kit-cli#readme",
-  "bugs": {
-    "url": "https://github.com/badass-courses/kit-cli/issues"
-  },
-  "license": "MIT"
+  "packageManager": "bun@1.2.23"
 }

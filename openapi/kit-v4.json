@@ -18,9 +18,7 @@
     "/v4/account": {
       "get": {
         "summary": "Get current account",
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "security": [
           {
             "API Key": []
@@ -48,9 +46,7 @@
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "email"
-                      ]
+                      "required": ["email"]
                     },
                     "account": {
                       "type": "object",
@@ -84,11 +80,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "name",
-                            "friendly_name",
-                            "utc_offset"
-                          ]
+                          "required": ["name", "friendly_name", "utc_offset"]
                         },
                         "sending_addresses": {
                           "type": "array",
@@ -135,10 +127,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "user",
-                    "account"
-                  ]
+                  "required": ["user", "account"]
                 },
                 "example": {
                   "user": {
@@ -185,14 +174,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -206,9 +191,7 @@
     "/v4/account/colors": {
       "get": {
         "summary": "List colors",
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "security": [
           {
             "API Key": []
@@ -233,15 +216,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "colors"
-                  ]
+                  "required": ["colors"]
                 },
                 "example": {
-                  "colors": [
-                    "#008000",
-                    "#FF0000"
-                  ]
+                  "colors": ["#008000", "#FF0000"]
                 }
               }
             }
@@ -260,14 +238,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -279,9 +253,7 @@
       },
       "put": {
         "summary": "Update colors",
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "security": [
           {
             "API Key": []
@@ -306,15 +278,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "colors"
-                  ]
+                  "required": ["colors"]
                 },
                 "example": {
-                  "colors": [
-                    "#000000",
-                    "#ffffff"
-                  ]
+                  "colors": ["#000000", "#ffffff"]
                 }
               }
             }
@@ -333,14 +300,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -359,14 +322,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Colors #123_not_a_code is not a valid hex color code."
-                  ]
+                  "errors": ["Colors #123_not_a_code is not a valid hex color code."]
                 }
               }
             }
@@ -386,15 +345,10 @@
                     }
                   }
                 },
-                "required": [
-                  "colors"
-                ]
+                "required": ["colors"]
               },
               "example": {
-                "colors": [
-                  "#000000",
-                  "#ffffff"
-                ]
+                "colors": ["#000000", "#ffffff"]
               }
             }
           }
@@ -407,9 +361,7 @@
     "/v4/account/creator_profile": {
       "get": {
         "summary": "Get Creator Profile",
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "security": [
           {
             "API Key": []
@@ -446,18 +398,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "name",
-                        "byline",
-                        "bio",
-                        "image_url",
-                        "profile_url"
-                      ]
+                      "required": ["name", "byline", "bio", "image_url", "profile_url"]
                     }
                   },
-                  "required": [
-                    "profile"
-                  ]
+                  "required": ["profile"]
                 },
                 "example": {
                   "profile": {
@@ -485,14 +429,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -511,14 +451,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -532,9 +468,7 @@
     "/v4/account/email_stats": {
       "get": {
         "summary": "Get email stats",
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "security": [
           {
             "API Key": []
@@ -592,9 +526,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "stats"
-                  ]
+                  "required": ["stats"]
                 },
                 "example": {
                   "stats": {
@@ -625,14 +557,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -647,9 +575,7 @@
       "get": {
         "summary": "Get growth stats",
         "description": "Get growth stats for a specific time period. Defaults to last 90 days.<br/><br/>NOTE: We return your stats in your sending time zone. This endpoint does not return timestamps in UTC.",
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "security": [
           {
             "API Key": []
@@ -720,9 +646,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "stats"
-                  ]
+                  "required": ["stats"]
                 },
                 "example": {
                   "stats": {
@@ -751,14 +675,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -777,9 +697,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -800,9 +718,7 @@
     "/v4/broadcasts": {
       "get": {
         "summary": "List broadcasts",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -943,10 +859,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "id",
-                              "name"
-                            ]
+                            "required": ["id", "name"]
                           },
                           "subscriber_filter": {
                             "type": "array",
@@ -962,15 +875,11 @@
                                         "type": "string"
                                       }
                                     },
-                                    "required": [
-                                      "type"
-                                    ]
+                                    "required": ["type"]
                                   }
                                 }
                               },
-                              "required": [
-                                "all"
-                              ]
+                              "required": ["all"]
                             }
                           }
                         },
@@ -1022,10 +931,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "broadcasts",
-                    "pagination"
-                  ]
+                  "required": ["broadcasts", "pagination"]
                 },
                 "example": {
                   "broadcasts": [
@@ -1142,14 +1048,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -1162,9 +1064,7 @@
       "post": {
         "summary": "Create a broadcast",
         "description": "Draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `send_at` to `null`.<br/><br/>To publish to the web, set `public` to `true`.<br/><br/>To schedule the broadcast for sending, provide a `send_at` timestamp. Scheduled broadcasts should contain a subject and your content, at a minimum.<br/><br/>We currently support targeting your subscribers based on segment or tag ids.<aside class='notice'>Starting point templates are not currently supported.</aside>",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -1240,10 +1140,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "id",
-                            "name"
-                          ]
+                          "required": ["id", "name"]
                         },
                         "subscriber_filter": {
                           "type": "array",
@@ -1257,10 +1154,7 @@
                                   "properties": {
                                     "type": {
                                       "type": "string",
-                                      "enum": [
-                                        "segment",
-                                        "tag"
-                                      ]
+                                      "enum": ["segment", "tag"]
                                     },
                                     "ids": {
                                       "type": "array",
@@ -1269,16 +1163,11 @@
                                       }
                                     }
                                   },
-                                  "required": [
-                                    "type",
-                                    "ids"
-                                  ]
+                                  "required": ["type", "ids"]
                                 }
                               }
                             },
-                            "required": [
-                              "all"
-                            ]
+                            "required": ["all"]
                           }
                         }
                       },
@@ -1302,9 +1191,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "broadcast"
-                  ]
+                  "required": ["broadcast"]
                 },
                 "example": {
                   "broadcast": {
@@ -1331,9 +1218,7 @@
                         "all": [
                           {
                             "type": "segment",
-                            "ids": [
-                              18
-                            ]
+                            "ids": [18]
                           }
                         ]
                       }
@@ -1357,14 +1242,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -1383,9 +1264,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -1409,9 +1288,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -1486,10 +1363,7 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "enum": [
-                                  "segment",
-                                  "tag"
-                                ],
+                                "enum": ["segment", "tag"],
                                 "description": "`segment` or `tag`"
                               },
                               "ids": {
@@ -1499,10 +1373,7 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           }
                         },
                         "any": {
@@ -1513,10 +1384,7 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "enum": [
-                                  "segment",
-                                  "tag"
-                                ],
+                                "enum": ["segment", "tag"],
                                 "description": "`segment` or `tag`"
                               },
                               "ids": {
@@ -1526,10 +1394,7 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           },
                           "nullable": true
                         },
@@ -1541,10 +1406,7 @@
                             "properties": {
                               "type": {
                                 "type": "string",
-                                "enum": [
-                                  "segment",
-                                  "tag"
-                                ],
+                                "enum": ["segment", "tag"],
                                 "description": "`segment` or `tag`"
                               },
                               "ids": {
@@ -1554,20 +1416,13 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           },
                           "nullable": true
                         }
                       },
                       "minProperties": 1,
-                      "required": [
-                        "all",
-                        "any",
-                        "none"
-                      ]
+                      "required": ["all", "any", "none"]
                     }
                   }
                 },
@@ -1598,9 +1453,7 @@
                     "all": [
                       {
                         "type": "segment",
-                        "ids": [
-                          18
-                        ]
+                        "ids": [18]
                       }
                     ],
                     "any": null,
@@ -1619,9 +1472,7 @@
     "/v4/broadcasts/stats": {
       "get": {
         "summary": "Get stats for a list of broadcasts",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -1707,10 +1558,7 @@
                             ]
                           }
                         },
-                        "required": [
-                          "id",
-                          "stats"
-                        ]
+                        "required": ["id", "stats"]
                       }
                     },
                     "pagination": {
@@ -1741,10 +1589,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "broadcasts",
-                    "pagination"
-                  ]
+                  "required": ["broadcasts", "pagination"]
                 },
                 "example": {
                   "broadcasts": [
@@ -1808,14 +1653,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -1827,9 +1668,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {},
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {}
               }
@@ -1845,9 +1684,7 @@
       "get": {
         "summary": "Get link clicks for a broadcast",
         "description": "NOTE: Pagination parameters control the list of clicks for the top level broadcast.",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -1910,10 +1747,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "id",
-                        "clicks"
-                      ]
+                      "required": ["id", "clicks"]
                     },
                     "pagination": {
                       "type": "object",
@@ -1943,10 +1777,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "broadcast",
-                    "pagination"
-                  ]
+                  "required": ["broadcast", "pagination"]
                 },
                 "example": {
                   "broadcast": {
@@ -1997,14 +1828,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -2023,14 +1850,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -2044,9 +1867,7 @@
     "/v4/broadcasts/{broadcast_id}/stats": {
       "get": {
         "summary": "Get stats for a broadcast",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -2140,15 +1961,10 @@
                           ]
                         }
                       },
-                      "required": [
-                        "id",
-                        "stats"
-                      ]
+                      "required": ["id", "stats"]
                     }
                   },
-                  "required": [
-                    "broadcast"
-                  ]
+                  "required": ["broadcast"]
                 },
                 "example": {
                   "broadcast": {
@@ -2186,14 +2002,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -2212,14 +2024,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -2233,9 +2041,7 @@
     "/v4/broadcasts/{id}": {
       "delete": {
         "summary": "Delete a broadcast",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -2273,14 +2079,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -2299,9 +2101,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -2325,14 +2125,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -2351,14 +2147,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Broadcast is already sending."
-                  ]
+                  "errors": ["Broadcast is already sending."]
                 }
               }
             }
@@ -2370,9 +2162,7 @@
       },
       "get": {
         "summary": "Get a broadcast",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -2474,10 +2264,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "id",
-                            "name"
-                          ]
+                          "required": ["id", "name"]
                         },
                         "subscriber_filter": {
                           "type": "array",
@@ -2493,15 +2280,11 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": [
-                                    "type"
-                                  ]
+                                  "required": ["type"]
                                 }
                               }
                             },
-                            "required": [
-                              "all"
-                            ]
+                            "required": ["all"]
                           }
                         }
                       },
@@ -2525,9 +2308,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "broadcast"
-                  ]
+                  "required": ["broadcast"]
                 },
                 "example": {
                   "broadcast": {
@@ -2577,14 +2358,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -2603,14 +2380,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -2623,9 +2396,7 @@
       "put": {
         "summary": "Update a broadcast",
         "description": "Update an existing broadcast. Continue to draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `public` to false.<br/><br/>To schedule the broadcast for sending, set `public` to true and provide `send_at`. Scheduled broadcasts should contain a subject and your content, at a minimum.<br/><br/>We currently support targeting your subscribers based on segment or tag ids.",
-        "tags": [
-          "Broadcasts"
-        ],
+        "tags": ["Broadcasts"],
         "security": [
           {
             "API Key": []
@@ -2708,10 +2479,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "id",
-                            "name"
-                          ]
+                          "required": ["id", "name"]
                         },
                         "subscriber_filter": {
                           "type": "array",
@@ -2733,16 +2501,11 @@
                                       }
                                     }
                                   },
-                                  "required": [
-                                    "type",
-                                    "ids"
-                                  ]
+                                  "required": ["type", "ids"]
                                 }
                               }
                             },
-                            "required": [
-                              "all"
-                            ]
+                            "required": ["all"]
                           }
                         }
                       },
@@ -2766,9 +2529,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "broadcast"
-                  ]
+                  "required": ["broadcast"]
                 },
                 "example": {
                   "broadcast": {
@@ -2795,9 +2556,7 @@
                         "all": [
                           {
                             "type": "segment",
-                            "ids": [
-                              48
-                            ]
+                            "ids": [48]
                           }
                         ]
                       }
@@ -2821,14 +2580,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -2847,9 +2602,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -2873,14 +2626,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -2899,9 +2648,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -2982,10 +2729,7 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           }
                         },
                         "any": {
@@ -3005,10 +2749,7 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           },
                           "nullable": true
                         },
@@ -3029,20 +2770,13 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           },
                           "nullable": true
                         }
                       },
                       "minProperties": 1,
-                      "required": [
-                        "all",
-                        "any",
-                        "none"
-                      ]
+                      "required": ["all", "any", "none"]
                     }
                   }
                 },
@@ -3078,9 +2812,7 @@
                     "all": [
                       {
                         "type": "segment",
-                        "ids": [
-                          48
-                        ]
+                        "ids": [48]
                       }
                     ],
                     "any": null,
@@ -3100,9 +2832,7 @@
       "post": {
         "summary": "Bulk create custom fields",
         "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "security": [
           {
             "OAuth2": []
@@ -3138,13 +2868,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "key",
-                          "label",
-                          "name",
-                          "created_at"
-                        ]
+                        "required": ["id", "key", "label", "name", "created_at"]
                       }
                     },
                     "failures": {
@@ -3152,10 +2876,7 @@
                       "items": {}
                     }
                   },
-                  "required": [
-                    "custom_fields",
-                    "failures"
-                  ]
+                  "required": ["custom_fields", "failures"]
                 },
                 "example": {
                   "custom_fields": [
@@ -3212,14 +2933,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -3238,9 +2955,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -3264,14 +2979,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "No custom fields included for processing"
-                  ]
+                  "errors": ["No custom fields included for processing"]
                 }
               }
             }
@@ -3292,9 +3003,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "label"
-                      ]
+                      "required": ["label"]
                     }
                   },
                   "callback_url": {
@@ -3302,9 +3011,7 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "custom_fields"
-                ]
+                "required": ["custom_fields"]
               },
               "example": {
                 "custom_fields": [
@@ -3331,9 +3038,7 @@
     "/v4/bulk/custom_fields/subscribers": {
       "post": {
         "summary": "Bulk update subscriber custom field values",
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "security": [
           {
             "OAuth2": []
@@ -3363,11 +3068,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "subscriber_id",
-                          "subscriber_custom_field_id",
-                          "value"
-                        ]
+                        "required": ["subscriber_id", "subscriber_custom_field_id", "value"]
                       }
                     },
                     "failures": {
@@ -3395,24 +3096,14 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "subscriber_id",
-                              "subscriber_custom_field_id",
-                              "value"
-                            ]
+                            "required": ["subscriber_id", "subscriber_custom_field_id", "value"]
                           }
                         },
-                        "required": [
-                          "errors",
-                          "custom_field_value"
-                        ]
+                        "required": ["errors", "custom_field_value"]
                       }
                     }
                   },
-                  "required": [
-                    "custom_field_values",
-                    "failures"
-                  ]
+                  "required": ["custom_field_values", "failures"]
                 },
                 "example": {
                   "custom_field_values": [
@@ -3429,9 +3120,7 @@
                   ],
                   "failures": [
                     {
-                      "errors": [
-                        "Subscriber does not exist"
-                      ],
+                      "errors": ["Subscriber does not exist"],
                       "custom_field_value": {
                         "subscriber_id": null,
                         "subscriber_custom_field_id": 118,
@@ -3439,9 +3128,7 @@
                       }
                     },
                     {
-                      "errors": [
-                        "Custom field does not exist"
-                      ],
+                      "errors": ["Custom field does not exist"],
                       "custom_field_value": {
                         "subscriber_id": 597,
                         "subscriber_custom_field_id": 999999,
@@ -3479,14 +3166,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -3505,9 +3188,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -3531,14 +3212,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "No custom field values included for processing"
-                  ]
+                  "errors": ["No custom field values included for processing"]
                 }
               }
             }
@@ -3566,21 +3243,14 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "subscriber_id",
-                        "subscriber_custom_field_id",
-                        "value"
-                      ]
+                      "required": ["subscriber_id", "subscriber_custom_field_id", "value"]
                     }
                   },
                   "callback_url": {
                     "nullable": true
                   }
                 },
-                "required": [
-                  "custom_field_values",
-                  "callback_url"
-                ]
+                "required": ["custom_field_values", "callback_url"]
               },
               "example": {
                 "custom_field_values": [
@@ -3616,9 +3286,7 @@
       "post": {
         "summary": "Bulk add subscribers to forms",
         "description": "Adding subscribers to double opt-in forms will trigger sending an Incentive Email. Subscribers already added to the specified form will not receive the Incentive Email again. For more information about double opt-in see \"[Double opt-in](#double-opt-in)\". <br/><br/>The subscribers being added to the form must already exist. Subscribers can be created in bulk using the \"[Bulk create subscriber](#bulk-create-subscribers)\" endpoint.<br/><br/>See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-        "tags": [
-          "Forms"
-        ],
+        "tags": ["Forms"],
         "security": [
           {
             "OAuth2": []
@@ -3675,13 +3343,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "source",
-                              "medium",
-                              "campaign",
-                              "term",
-                              "content"
-                            ]
+                            "required": ["source", "medium", "campaign", "term", "content"]
                           }
                         },
                         "required": [
@@ -3721,24 +3383,14 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "form_id",
-                              "subscriber_id",
-                              "referrer"
-                            ]
+                            "required": ["form_id", "subscriber_id", "referrer"]
                           }
                         },
-                        "required": [
-                          "errors",
-                          "subscription"
-                        ]
+                        "required": ["errors", "subscription"]
                       }
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "failures"
-                  ]
+                  "required": ["subscribers", "failures"]
                 },
                 "example": {
                   "subscribers": [
@@ -3775,9 +3427,7 @@
                   ],
                   "failures": [
                     {
-                      "errors": [
-                        "Subscriber does not exist"
-                      ],
+                      "errors": ["Subscriber does not exist"],
                       "subscription": {
                         "form_id": 124,
                         "subscriber_id": null,
@@ -3785,9 +3435,7 @@
                       }
                     },
                     {
-                      "errors": [
-                        "Form does not exist"
-                      ],
+                      "errors": ["Form does not exist"],
                       "subscription": {
                         "form_id": null,
                         "subscriber_id": 615,
@@ -3825,14 +3473,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -3851,9 +3495,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -3877,14 +3519,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "No additions included for processing"
-                  ]
+                  "errors": ["No additions included for processing"]
                 }
               }
             }
@@ -3913,10 +3551,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "form_id",
-                        "subscriber_id"
-                      ]
+                      "required": ["form_id", "subscriber_id"]
                     }
                   },
                   "callback_url": {
@@ -3924,9 +3559,7 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "additions"
-                ]
+                "required": ["additions"]
               },
               "example": {
                 "additions": [
@@ -3958,9 +3591,7 @@
       "post": {
         "summary": "Bulk create subscribers",
         "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "OAuth2": []
@@ -3992,25 +3623,13 @@
                           },
                           "state": {
                             "type": "string",
-                            "enum": [
-                              "active",
-                              "cancelled",
-                              "bounced",
-                              "complained",
-                              "inactive"
-                            ]
+                            "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                           },
                           "created_at": {
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "first_name",
-                          "email_address",
-                          "state",
-                          "created_at"
-                        ]
+                        "required": ["id", "first_name", "email_address", "state", "created_at"]
                       }
                     },
                     "failures": {
@@ -4030,25 +3649,14 @@
                               },
                               "state": {
                                 "type": "string",
-                                "enum": [
-                                  "active",
-                                  "cancelled",
-                                  "bounced",
-                                  "complained",
-                                  "inactive"
-                                ]
+                                "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                               },
                               "created_at": {
                                 "type": "string",
                                 "nullable": true
                               }
                             },
-                            "required": [
-                              "first_name",
-                              "email_address",
-                              "state",
-                              "created_at"
-                            ]
+                            "required": ["first_name", "email_address", "state", "created_at"]
                           },
                           "errors": {
                             "type": "array",
@@ -4057,17 +3665,11 @@
                             }
                           }
                         },
-                        "required": [
-                          "subscriber",
-                          "errors"
-                        ]
+                        "required": ["subscriber", "errors"]
                       }
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "failures"
-                  ]
+                  "required": ["subscribers", "failures"]
                 },
                 "example": {
                   "subscribers": [
@@ -4101,9 +3703,7 @@
                         "state": "active",
                         "created_at": null
                       },
-                      "errors": [
-                        "Email address is invalid"
-                      ]
+                      "errors": ["Email address is invalid"]
                     }
                   ]
                 }
@@ -4136,14 +3736,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -4162,14 +3758,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "This request would exceed your subscriber limit"
-                  ]
+                  "errors": ["This request would exceed your subscriber limit"]
                 }
               }
             }
@@ -4188,9 +3780,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -4214,14 +3804,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "No subscribers included for processing"
-                  ]
+                  "errors": ["No subscribers included for processing"]
                 }
               }
             }
@@ -4249,13 +3835,7 @@
                         "state": {
                           "type": "string",
                           "nullable": true,
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         }
                       }
                     }
@@ -4265,9 +3845,7 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "subscribers"
-                ]
+                "required": ["subscribers"]
               },
               "example": {
                 "subscribers": [
@@ -4299,9 +3877,7 @@
       "post": {
         "summary": "Bulk create tags",
         "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "OAuth2": []
@@ -4331,11 +3907,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "created_at"
-                        ]
+                        "required": ["id", "name", "created_at"]
                       }
                     },
                     "failures": {
@@ -4343,10 +3915,7 @@
                       "items": {}
                     }
                   },
-                  "required": [
-                    "tags",
-                    "failures"
-                  ]
+                  "required": ["tags", "failures"]
                 },
                 "example": {
                   "tags": [
@@ -4402,14 +3971,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -4428,9 +3993,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -4454,14 +4017,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "No tags included for processing"
-                  ]
+                  "errors": ["No tags included for processing"]
                 }
               }
             }
@@ -4482,9 +4041,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "name"
-                      ]
+                      "required": ["name"]
                     }
                   },
                   "callback_url": {
@@ -4492,9 +4049,7 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "tags"
-                ]
+                "required": ["tags"]
               },
               "example": {
                 "tags": [
@@ -4522,9 +4077,7 @@
       "delete": {
         "summary": "Bulk remove tags from subscribers",
         "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "OAuth2": []
@@ -4544,9 +4097,7 @@
                       "items": {}
                     }
                   },
-                  "required": [
-                    "failures"
-                  ]
+                  "required": ["failures"]
                 },
                 "example": {
                   "failures": []
@@ -4580,14 +4131,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -4606,9 +4153,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -4632,14 +4177,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "No taggings included for processing"
-                  ]
+                  "errors": ["No taggings included for processing"]
                 }
               }
             }
@@ -4649,9 +4190,7 @@
       "post": {
         "summary": "Bulk tag subscribers",
         "description": "The subscribers being tagged must already exist. Subscribers can be created in bulk using the \"[Bulk create subscriber](#bulk-create-subscribers)\" endpoint.<br/><br/>See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "OAuth2": []
@@ -4687,13 +4226,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "first_name",
-                          "email_address",
-                          "created_at",
-                          "tagged_at"
-                        ]
+                        "required": ["id", "first_name", "email_address", "created_at", "tagged_at"]
                       }
                     },
                     "failures": {
@@ -4719,23 +4252,14 @@
                                 "type": "integer"
                               }
                             },
-                            "required": [
-                              "tag_id",
-                              "subscriber_id"
-                            ]
+                            "required": ["tag_id", "subscriber_id"]
                           }
                         },
-                        "required": [
-                          "errors",
-                          "tagging"
-                        ]
+                        "required": ["errors", "tagging"]
                       }
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "failures"
-                  ]
+                  "required": ["subscribers", "failures"]
                 },
                 "example": {
                   "subscribers": [
@@ -4756,18 +4280,14 @@
                   ],
                   "failures": [
                     {
-                      "errors": [
-                        "Subscriber does not exist"
-                      ],
+                      "errors": ["Subscriber does not exist"],
                       "tagging": {
                         "tag_id": 80,
                         "subscriber_id": null
                       }
                     },
                     {
-                      "errors": [
-                        "Tag does not exist"
-                      ],
+                      "errors": ["Tag does not exist"],
                       "tagging": {
                         "tag_id": null,
                         "subscriber_id": 631
@@ -4804,14 +4324,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -4830,9 +4346,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -4856,14 +4370,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "No taggings included for processing"
-                  ]
+                  "errors": ["No taggings included for processing"]
                 }
               }
             }
@@ -4889,10 +4399,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "tag_id",
-                        "subscriber_id"
-                      ]
+                      "required": ["tag_id", "subscriber_id"]
                     }
                   },
                   "callback_url": {
@@ -4900,9 +4407,7 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "taggings"
-                ]
+                "required": ["taggings"]
               },
               "example": {
                 "taggings": [
@@ -4934,9 +4439,7 @@
       "get": {
         "summary": "List custom fields",
         "description": "A custom field allows you to collect subscriber information beyond the standard fields of first name and email address. An example would be a custom field called last name so you can get the full names of your subscribers.<br/><br/>You create a custom field, and then you're able to use that in your forms or emails.",
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "security": [
           {
             "API Key": []
@@ -5010,12 +4513,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "key",
-                          "label"
-                        ]
+                        "required": ["id", "name", "key", "label"]
                       }
                     },
                     "pagination": {
@@ -5046,10 +4544,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "custom_fields",
-                    "pagination"
-                  ]
+                  "required": ["custom_fields", "pagination"]
                 },
                 "example": {
                   "custom_fields": [
@@ -5085,14 +4580,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -5105,9 +4596,7 @@
       "post": {
         "summary": "Create a custom field",
         "description": "Create a custom field for your account. The label field must be unique to your account. Whitespace will be removed from the beginning and the end of your label.<br/><br/>Additionally, a key field and a name field will be generated for you. The key is an ASCII-only, lowercased, underscored representation of your label. This key must be unique to your account. Keys are used in personalization tags in sequences and broadcasts. Names are unique identifiers for use in the HTML of custom forms. They are made up of a combination of ID and the key of the custom field prefixed with \"ck_field\".",
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "security": [
           {
             "API Key": []
@@ -5141,17 +4630,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "name",
-                        "key",
-                        "label"
-                      ]
+                      "required": ["id", "name", "key", "label"]
                     }
                   },
-                  "required": [
-                    "custom_field"
-                  ]
+                  "required": ["custom_field"]
                 },
                 "example": {
                   "custom_field": {
@@ -5187,17 +4669,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "name",
-                        "key",
-                        "label"
-                      ]
+                      "required": ["id", "name", "key", "label"]
                     }
                   },
-                  "required": [
-                    "custom_field"
-                  ]
+                  "required": ["custom_field"]
                 },
                 "example": {
                   "custom_field": {
@@ -5224,14 +4699,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -5250,14 +4721,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Label can't be blank"
-                  ]
+                  "errors": ["Label can't be blank"]
                 }
               }
             }
@@ -5273,9 +4740,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "label"
-                ]
+                "required": ["label"]
               },
               "example": {
                 "label": "Interests"
@@ -5292,9 +4757,7 @@
       "delete": {
         "summary": "Delete custom field",
         "description": "This will remove all data in this field from your subscribers.",
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "security": [
           {
             "API Key": []
@@ -5332,14 +4795,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -5358,14 +4817,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -5384,14 +4839,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Unable to destroy the custom field."
-                  ]
+                  "errors": ["Unable to destroy the custom field."]
                 }
               }
             }
@@ -5404,9 +4855,7 @@
       "put": {
         "summary": "Update a custom field",
         "description": "Updates a custom field label (see [Create a custom field](#create-a-custom-field) above for more information on labels). Note that the key will change but the name remains the same when the label is updated.<br/><br/><strong>Warning: </strong>An update to a custom field will break all of the liquid personalization tags in emails that reference it - e.g. if you update a `Zip_Code` custom field to `Post_Code`, all liquid tags referencing `{{ subscriber.Zip_Code }}` would no longer work and need to be replaced with `{{ subscriber.Post_Code }}`.",
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "security": [
           {
             "API Key": []
@@ -5450,17 +4899,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "name",
-                        "key",
-                        "label"
-                      ]
+                      "required": ["id", "name", "key", "label"]
                     }
                   },
-                  "required": [
-                    "custom_field"
-                  ]
+                  "required": ["custom_field"]
                 },
                 "example": {
                   "custom_field": {
@@ -5487,14 +4929,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -5513,14 +4951,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -5539,14 +4973,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Label can't be blank"
-                  ]
+                  "errors": ["Label can't be blank"]
                 }
               }
             }
@@ -5562,9 +4992,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "label"
-                ]
+                "required": ["label"]
               },
               "example": {
                 "label": "Last name"
@@ -5580,9 +5008,7 @@
     "/v4/email_templates": {
       "get": {
         "summary": "List email templates",
-        "tags": [
-          "Email Templates"
-        ],
+        "tags": ["Email Templates"],
         "security": [
           {
             "API Key": []
@@ -5656,12 +5082,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "is_default",
-                          "category"
-                        ]
+                        "required": ["id", "name", "is_default", "category"]
                       }
                     },
                     "pagination": {
@@ -5692,10 +5113,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "email_templates",
-                    "pagination"
-                  ]
+                  "required": ["email_templates", "pagination"]
                 },
                 "example": {
                   "email_templates": [
@@ -5761,14 +5179,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -5782,9 +5196,7 @@
     "/v4/forms": {
       "get": {
         "summary": "List forms",
-        "tags": [
-          "Forms"
-        ],
+        "tags": ["Forms"],
         "security": [
           {
             "API Key": []
@@ -5838,12 +5250,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "active",
-                "archived",
-                "trashed",
-                "all"
-              ],
+              "enum": ["active", "archived", "trashed", "all"],
               "nullable": true
             }
           },
@@ -5939,10 +5346,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "forms",
-                    "pagination"
-                  ]
+                  "required": ["forms", "pagination"]
                 },
                 "example": {
                   "forms": [
@@ -5994,14 +5398,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -6015,9 +5415,7 @@
     "/v4/forms/{form_id}/subscribers": {
       "get": {
         "summary": "List subscribers for a form",
-        "tags": [
-          "Forms"
-        ],
+        "tags": ["Forms"],
         "security": [
           {
             "API Key": []
@@ -6124,14 +5522,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "active",
-                "inactive",
-                "bounced",
-                "complained",
-                "cancelled",
-                "all"
-              ]
+              "enum": ["active", "inactive", "bounced", "complained", "cancelled", "all"]
             },
             "example": "all"
           }
@@ -6161,13 +5552,7 @@
                           },
                           "state": {
                             "type": "string",
-                            "enum": [
-                              "active",
-                              "cancelled",
-                              "bounced",
-                              "complained",
-                              "inactive"
-                            ]
+                            "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                           },
                           "created_at": {
                             "type": "string"
@@ -6183,9 +5568,7 @@
                                 "nullable": true
                               }
                             },
-                            "required": [
-                              "category"
-                            ]
+                            "required": ["category"]
                           },
                           "referrer": {
                             "type": "string"
@@ -6209,13 +5592,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "source",
-                              "medium",
-                              "campaign",
-                              "term",
-                              "content"
-                            ]
+                            "required": ["source", "medium", "campaign", "term", "content"]
                           }
                         },
                         "required": [
@@ -6259,10 +5636,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "pagination"
-                  ]
+                  "required": ["subscribers", "pagination"]
                 },
                 "example": {
                   "subscribers": [
@@ -6349,14 +5723,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -6375,14 +5745,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -6395,9 +5761,7 @@
       "post": {
         "summary": "Add subscriber to form by email address",
         "description": "The subscriber being added to the form must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-        "tags": [
-          "Forms"
-        ],
+        "tags": ["Forms"],
         "security": [
           {
             "API Key": []
@@ -6440,13 +5804,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -6480,13 +5838,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "source",
-                            "medium",
-                            "campaign",
-                            "term",
-                            "content"
-                          ]
+                          "required": ["source", "medium", "campaign", "term", "content"]
                         }
                       },
                       "required": [
@@ -6502,9 +5854,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -6550,13 +5900,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -6590,13 +5934,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "source",
-                            "medium",
-                            "campaign",
-                            "term",
-                            "content"
-                          ]
+                          "required": ["source", "medium", "campaign", "term", "content"]
                         }
                       },
                       "required": [
@@ -6612,9 +5950,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -6652,14 +5988,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -6678,14 +6010,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -6704,9 +6032,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -6731,9 +6057,7 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "email_address"
-                ]
+                "required": ["email_address"]
               },
               "example": {
                 "email_address": "alice@convertkit.dev",
@@ -6751,9 +6075,7 @@
       "post": {
         "summary": "Add subscriber to form",
         "description": "The subscriber being added to the form must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-        "tags": [
-          "Forms"
-        ],
+        "tags": ["Forms"],
         "security": [
           {
             "API Key": []
@@ -6805,13 +6127,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -6845,13 +6161,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "source",
-                            "medium",
-                            "campaign",
-                            "term",
-                            "content"
-                          ]
+                          "required": ["source", "medium", "campaign", "term", "content"]
                         }
                       },
                       "required": [
@@ -6867,9 +6177,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -6916,13 +6224,7 @@
                         "state": {
                           "type": "string",
                           "nullable": true,
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -6956,13 +6258,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "source",
-                            "medium",
-                            "campaign",
-                            "term",
-                            "content"
-                          ]
+                          "required": ["source", "medium", "campaign", "term", "content"]
                         }
                       },
                       "required": [
@@ -6978,9 +6274,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -7018,14 +6312,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -7044,14 +6334,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -7067,9 +6353,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "referrer"
-                ]
+                "required": ["referrer"]
               },
               "example": {
                 "referrer": "https://mywebsite.com/bfpromo/?utm_source=facebook&utm_medium=cpc&utm_campaign=black_friday&utm_term=car_owners&utm_content=get_10_off"
@@ -7085,9 +6369,7 @@
     "/v4/posts": {
       "get": {
         "summary": "List posts",
-        "tags": [
-          "Posts"
-        ],
+        "tags": ["Posts"],
         "security": [
           {
             "API Key": []
@@ -7252,10 +6534,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "posts",
-                    "pagination"
-                  ]
+                  "required": ["posts", "pagination"]
                 },
                 "example": {
                   "posts": [
@@ -7328,9 +6607,7 @@
     "/v4/posts/{id}": {
       "get": {
         "summary": "Get a post",
-        "tags": [
-          "Posts"
-        ],
+        "tags": ["Posts"],
         "security": [
           {
             "API Key": []
@@ -7427,9 +6704,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "post"
-                  ]
+                  "required": ["post"]
                 },
                 "example": {
                   "post": {
@@ -7467,14 +6742,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -7488,9 +6759,7 @@
     "/v4/purchases": {
       "get": {
         "summary": "List purchases",
-        "tags": [
-          "Purchases"
-        ],
+        "tags": ["Purchases"],
         "security": [
           {
             "OAuth2": []
@@ -7619,14 +6888,7 @@
                                   "description": "This is your identifier for a product. Each product provided in the `products` array must have a unique pid. Variants of the same product should have the same pid."
                                 }
                               },
-                              "required": [
-                                "quantity",
-                                "lid",
-                                "unit_price",
-                                "sku",
-                                "name",
-                                "pid"
-                              ]
+                              "required": ["quantity", "lid", "unit_price", "sku", "name", "pid"]
                             }
                           }
                         },
@@ -7674,10 +6936,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "purchases",
-                    "pagination"
-                  ]
+                  "required": ["purchases", "pagination"]
                 },
                 "example": {
                   "purchases": [
@@ -7784,14 +7043,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -7800,9 +7055,7 @@
       },
       "post": {
         "summary": "Create a purchase",
-        "tags": [
-          "Purchases"
-        ],
+        "tags": ["Purchases"],
         "security": [
           {
             "OAuth2": []
@@ -7890,14 +7143,7 @@
                                 "description": "This is your identifier for a product. Each product provided in the `products` array must have a unique pid. Variants of the same product should have the same pid."
                               }
                             },
-                            "required": [
-                              "quantity",
-                              "lid",
-                              "unit_price",
-                              "sku",
-                              "name",
-                              "pid"
-                            ]
+                            "required": ["quantity", "lid", "unit_price", "sku", "name", "pid"]
                           }
                         }
                       },
@@ -7917,9 +7163,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "purchase"
-                  ]
+                  "required": ["purchase"]
                 },
                 "example": {
                   "purchase": {
@@ -7979,14 +7223,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -8005,14 +7245,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Transaction cannot be blank"
-                  ]
+                  "errors": ["Transaction cannot be blank"]
                 }
               }
             }
@@ -8095,14 +7331,7 @@
                               "description": "Product sku"
                             }
                           },
-                          "required": [
-                            "name",
-                            "pid",
-                            "lid",
-                            "quantity",
-                            "unit_price",
-                            "sku"
-                          ]
+                          "required": ["name", "pid", "lid", "quantity", "unit_price", "sku"]
                         }
                       }
                     },
@@ -8121,9 +7350,7 @@
                     ]
                   }
                 },
-                "required": [
-                  "purchase"
-                ]
+                "required": ["purchase"]
               },
               "example": {
                 "purchase": {
@@ -8173,9 +7400,7 @@
     "/v4/purchases/{id}": {
       "get": {
         "summary": "Get a purchase",
-        "tags": [
-          "Purchases"
-        ],
+        "tags": ["Purchases"],
         "security": [
           {
             "OAuth2": []
@@ -8270,14 +7495,7 @@
                                 "description": "This is your identifier for a product. Each product provided in the `products` array must have a unique pid. Variants of the same product should have the same pid."
                               }
                             },
-                            "required": [
-                              "quantity",
-                              "lid",
-                              "unit_price",
-                              "sku",
-                              "name",
-                              "pid"
-                            ]
+                            "required": ["quantity", "lid", "unit_price", "sku", "name", "pid"]
                           }
                         }
                       },
@@ -8297,9 +7515,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "purchase"
-                  ]
+                  "required": ["purchase"]
                 },
                 "example": {
                   "purchase": {
@@ -8351,14 +7567,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -8377,14 +7589,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -8395,9 +7603,7 @@
     "/v4/segments": {
       "get": {
         "summary": "List segments",
-        "tags": [
-          "Segments"
-        ],
+        "tags": ["Segments"],
         "security": [
           {
             "API Key": []
@@ -8468,11 +7674,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "created_at"
-                        ]
+                        "required": ["id", "name", "created_at"]
                       }
                     },
                     "pagination": {
@@ -8503,10 +7705,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "segments",
-                    "pagination"
-                  ]
+                  "required": ["segments", "pagination"]
                 },
                 "example": {
                   "segments": [
@@ -8546,14 +7745,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -8567,9 +7762,7 @@
     "/v4/sequences": {
       "get": {
         "summary": "List sequences",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -8674,13 +7867,7 @@
                             "items": {}
                           }
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "hold",
-                          "repeat",
-                          "created_at"
-                        ]
+                        "required": ["id", "name", "hold", "repeat", "created_at"]
                       }
                     },
                     "pagination": {
@@ -8711,10 +7898,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "sequences",
-                    "pagination"
-                  ]
+                  "required": ["sequences", "pagination"]
                 },
                 "example": {
                   "sequences": [
@@ -8767,14 +7951,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -8786,9 +7966,7 @@
       },
       "post": {
         "summary": "Create a sequence",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -8863,10 +8041,7 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           }
                         }
                       },
@@ -8887,9 +8062,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "sequence"
-                  ]
+                  "required": ["sequence"]
                 },
                 "example": {
                   "sequence": {
@@ -8901,26 +8074,18 @@
                     "updated_at": "2026-04-28T18:54:46Z",
                     "email_address": "joe927@ck.lol",
                     "email_template_id": 11,
-                    "send_days": [
-                      "monday",
-                      "wednesday",
-                      "friday"
-                    ],
+                    "send_days": ["monday", "wednesday", "friday"],
                     "send_hour": 9,
                     "time_zone": "America/Los_Angeles",
                     "active": true,
                     "exclude_subscriber_sources": [
                       {
                         "type": "sequence",
-                        "ids": [
-                          29
-                        ]
+                        "ids": [29]
                       },
                       {
                         "type": "tag",
-                        "ids": [
-                          2
-                        ]
+                        "ids": [2]
                       }
                     ]
                   }
@@ -8942,14 +8107,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -8968,9 +8129,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -8994,14 +8153,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "send_hour must be an integer between 0 and 23"
-                  ]
+                  "errors": ["send_hour must be an integer between 0 and 23"]
                 }
               }
             }
@@ -9070,10 +8225,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "type",
-                        "ids"
-                      ]
+                      "required": ["type", "ids"]
                     }
                   }
                 }
@@ -9082,11 +8234,7 @@
                 "name": "Full Series",
                 "email_address": "joe927@ck.lol",
                 "email_template_id": 11,
-                "send_days": [
-                  "monday",
-                  "wednesday",
-                  "friday"
-                ],
+                "send_days": ["monday", "wednesday", "friday"],
                 "send_hour": 9,
                 "time_zone": "America/Los_Angeles",
                 "active": true,
@@ -9095,15 +8243,11 @@
                 "exclude_subscriber_sources": [
                   {
                     "type": "tag",
-                    "ids": [
-                      2
-                    ]
+                    "ids": [2]
                   },
                   {
                     "type": "sequence",
-                    "ids": [
-                      29
-                    ]
+                    "ids": [29]
                   }
                 ]
               }
@@ -9118,9 +8262,7 @@
     "/v4/sequences/{id}": {
       "delete": {
         "summary": "Delete a sequence",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -9158,14 +8300,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -9184,14 +8322,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -9203,9 +8337,7 @@
       },
       "get": {
         "summary": "Get a sequence",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -9297,9 +8429,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "sequence"
-                  ]
+                  "required": ["sequence"]
                 },
                 "example": {
                   "sequence": {
@@ -9343,14 +8473,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -9369,14 +8495,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -9388,9 +8510,7 @@
       },
       "put": {
         "summary": "Update a sequence",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -9475,10 +8595,7 @@
                                 }
                               }
                             },
-                            "required": [
-                              "type",
-                              "ids"
-                            ]
+                            "required": ["type", "ids"]
                           }
                         }
                       },
@@ -9499,9 +8616,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "sequence"
-                  ]
+                  "required": ["sequence"]
                 },
                 "example": {
                   "sequence": {
@@ -9513,25 +8628,18 @@
                     "updated_at": "2026-04-28T18:54:49Z",
                     "email_address": "joe956@ck.lol",
                     "email_template_id": 12,
-                    "send_days": [
-                      "tuesday",
-                      "thursday"
-                    ],
+                    "send_days": ["tuesday", "thursday"],
                     "send_hour": 14,
                     "time_zone": "America/Chicago",
                     "active": false,
                     "exclude_subscriber_sources": [
                       {
                         "type": "sequence",
-                        "ids": [
-                          48
-                        ]
+                        "ids": [48]
                       },
                       {
                         "type": "tag",
-                        "ids": [
-                          3
-                        ]
+                        "ids": [3]
                       }
                     ]
                   }
@@ -9553,14 +8661,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -9579,14 +8683,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -9605,14 +8705,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "name can't be blank"
-                  ]
+                  "errors": ["name can't be blank"]
                 }
               }
             }
@@ -9681,10 +8777,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "type",
-                        "ids"
-                      ]
+                      "required": ["type", "ids"]
                     }
                   }
                 }
@@ -9693,10 +8786,7 @@
                 "name": "New Name",
                 "email_address": "joe956@ck.lol",
                 "email_template_id": 12,
-                "send_days": [
-                  "tuesday",
-                  "thursday"
-                ],
+                "send_days": ["tuesday", "thursday"],
                 "send_hour": 14,
                 "time_zone": "America/Chicago",
                 "active": false,
@@ -9705,15 +8795,11 @@
                 "exclude_subscriber_sources": [
                   {
                     "type": "tag",
-                    "ids": [
-                      3
-                    ]
+                    "ids": [3]
                   },
                   {
                     "type": "sequence",
-                    "ids": [
-                      48
-                    ]
+                    "ids": [48]
                   }
                 ]
               }
@@ -9728,9 +8814,7 @@
     "/v4/sequences/{sequence_id}/subscribers": {
       "get": {
         "summary": "List subscribers for a sequence",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -9837,14 +8921,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "active",
-                "inactive",
-                "bounced",
-                "complained",
-                "cancelled",
-                "all"
-              ]
+              "enum": ["active", "inactive", "bounced", "complained", "cancelled", "all"]
             },
             "example": "all"
           }
@@ -9874,13 +8951,7 @@
                           },
                           "state": {
                             "type": "string",
-                            "enum": [
-                              "active",
-                              "cancelled",
-                              "bounced",
-                              "complained",
-                              "inactive"
-                            ]
+                            "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                           },
                           "created_at": {
                             "type": "string"
@@ -9896,9 +8967,7 @@
                                 "nullable": true
                               }
                             },
-                            "required": [
-                              "category"
-                            ]
+                            "required": ["category"]
                           }
                         },
                         "required": [
@@ -9940,10 +9009,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "pagination"
-                  ]
+                  "required": ["subscribers", "pagination"]
                 },
                 "example": {
                   "subscribers": [
@@ -10006,14 +9072,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -10032,14 +9094,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -10052,9 +9110,7 @@
       "post": {
         "summary": "Add subscriber to sequence by email address",
         "description": "The subscriber being added to the sequence must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -10097,13 +9153,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -10127,9 +9177,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -10167,13 +9215,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -10197,9 +9239,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -10229,14 +9269,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -10255,14 +9291,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -10281,14 +9313,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Sequence is inactive"
-                  ]
+                  "errors": ["Sequence is inactive"]
                 }
               }
             }
@@ -10304,9 +9332,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "email_address"
-                ]
+                "required": ["email_address"]
               },
               "example": {
                 "email_address": "alice@convertkit.dev"
@@ -10323,9 +9349,7 @@
       "post": {
         "summary": "Add subscriber to sequence",
         "description": "The subscriber being added to the sequence must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-        "tags": [
-          "Sequences"
-        ],
+        "tags": ["Sequences"],
         "security": [
           {
             "API Key": []
@@ -10377,13 +9401,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -10407,9 +9425,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -10447,13 +9463,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -10477,9 +9487,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -10509,14 +9517,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -10535,14 +9539,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -10567,9 +9567,7 @@
     "/v4/snippets": {
       "get": {
         "summary": "List snippets",
-        "tags": [
-          "Snippets"
-        ],
+        "tags": ["Snippets"],
         "security": [
           {
             "API Key": []
@@ -10701,13 +9699,7 @@
                                 "type": "integer"
                               }
                             },
-                            "required": [
-                              "id",
-                              "value",
-                              "value_html",
-                              "value_plain",
-                              "version"
-                            ]
+                            "required": ["id", "value", "value_html", "value_plain", "version"]
                           }
                         },
                         "required": [
@@ -10751,10 +9743,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "snippets",
-                    "pagination"
-                  ]
+                  "required": ["snippets", "pagination"]
                 },
                 "example": {
                   "snippets": [
@@ -10801,14 +9790,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -10820,9 +9805,7 @@
       },
       "post": {
         "summary": "Create a snippet",
-        "tags": [
-          "Snippets"
-        ],
+        "tags": ["Snippets"],
         "security": [
           {
             "API Key": []
@@ -10886,13 +9869,7 @@
                               "type": "integer"
                             }
                           },
-                          "required": [
-                            "id",
-                            "value",
-                            "value_html",
-                            "value_plain",
-                            "version"
-                          ]
+                          "required": ["id", "value", "value_html", "value_plain", "version"]
                         }
                       },
                       "required": [
@@ -10908,9 +9885,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "snippet"
-                  ]
+                  "required": ["snippet"]
                 },
                 "example": {
                   "snippet": {
@@ -10948,14 +9923,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -10974,14 +9945,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "name can't be blank"
-                  ]
+                  "errors": ["name can't be blank"]
                 }
               }
             }
@@ -11002,9 +9969,7 @@
                       },
                       "snippet_type": {
                         "type": "string",
-                        "enum": [
-                          "inline"
-                        ],
+                        "enum": ["inline"],
                         "description": "Must be 'inline'"
                       },
                       "content": {
@@ -11012,11 +9977,7 @@
                         "description": "Liquid-enabled text content for the snippet"
                       }
                     },
-                    "required": [
-                      "name",
-                      "snippet_type",
-                      "content"
-                    ]
+                    "required": ["name", "snippet_type", "content"]
                   },
                   {
                     "title": "Block snippet",
@@ -11028,9 +9989,7 @@
                       },
                       "snippet_type": {
                         "type": "string",
-                        "enum": [
-                          "block"
-                        ],
+                        "enum": ["block"],
                         "description": "Must be 'block'"
                       },
                       "document_attributes": {
@@ -11042,16 +10001,10 @@
                             "description": "HTML content for the block snippet"
                           }
                         },
-                        "required": [
-                          "value_html"
-                        ]
+                        "required": ["value_html"]
                       }
                     },
-                    "required": [
-                      "name",
-                      "snippet_type",
-                      "document_attributes"
-                    ]
+                    "required": ["name", "snippet_type", "document_attributes"]
                   }
                 ]
               },
@@ -11071,9 +10024,7 @@
     "/v4/snippets/{id}": {
       "get": {
         "summary": "Get a snippet",
-        "tags": [
-          "Snippets"
-        ],
+        "tags": ["Snippets"],
         "security": [
           {
             "API Key": []
@@ -11147,13 +10098,7 @@
                               "type": "integer"
                             }
                           },
-                          "required": [
-                            "id",
-                            "value",
-                            "value_html",
-                            "value_plain",
-                            "version"
-                          ]
+                          "required": ["id", "value", "value_html", "value_plain", "version"]
                         }
                       },
                       "required": [
@@ -11169,9 +10114,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "snippet"
-                  ]
+                  "required": ["snippet"]
                 },
                 "example": {
                   "snippet": {
@@ -11209,14 +10152,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -11235,14 +10174,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -11254,9 +10189,7 @@
       },
       "put": {
         "summary": "Update a snippet",
-        "tags": [
-          "Snippets"
-        ],
+        "tags": ["Snippets"],
         "security": [
           {
             "API Key": []
@@ -11330,13 +10263,7 @@
                               "type": "integer"
                             }
                           },
-                          "required": [
-                            "id",
-                            "value",
-                            "value_html",
-                            "value_plain",
-                            "version"
-                          ]
+                          "required": ["id", "value", "value_html", "value_plain", "version"]
                         }
                       },
                       "required": [
@@ -11352,9 +10279,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "snippet"
-                  ]
+                  "required": ["snippet"]
                 },
                 "example": {
                   "snippet": {
@@ -11392,14 +10317,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -11418,14 +10339,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -11444,14 +10361,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "snippet_type cannot be changed"
-                  ]
+                  "errors": ["snippet_type cannot be changed"]
                 }
               }
             }
@@ -11509,9 +10422,7 @@
                             "description": "New HTML content for the block snippet"
                           }
                         },
-                        "required": [
-                          "value_html"
-                        ]
+                        "required": ["value_html"]
                       }
                     }
                   }
@@ -11531,9 +10442,7 @@
     "/v4/subscribers": {
       "get": {
         "summary": "List subscribers",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -11638,10 +10547,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "asc",
-                "desc"
-              ]
+              "enum": ["asc", "desc"]
             },
             "example": "asc"
           },
@@ -11652,14 +10558,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "active",
-                "inactive",
-                "bounced",
-                "complained",
-                "cancelled",
-                "all"
-              ]
+              "enum": ["active", "inactive", "bounced", "complained", "cancelled", "all"]
             },
             "example": "bounced"
           },
@@ -11709,13 +10608,7 @@
                           },
                           "state": {
                             "type": "string",
-                            "enum": [
-                              "active",
-                              "cancelled",
-                              "bounced",
-                              "complained",
-                              "inactive"
-                            ]
+                            "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                           },
                           "created_at": {
                             "type": "string"
@@ -11727,9 +10620,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "category"
-                            ]
+                            "required": ["category"]
                           },
                           "attribution": {
                             "type": "object",
@@ -11861,10 +10752,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "pagination"
-                  ]
+                  "required": ["subscribers", "pagination"]
                 },
                 "example": {
                   "subscribers": [
@@ -11928,14 +10816,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -11954,14 +10838,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The status param must be `cancelled` if sort_field is `cancelled_at`"
-                  ]
+                  "errors": ["The status param must be `cancelled` if sort_field is `cancelled_at`"]
                 }
               }
             }
@@ -11974,9 +10854,7 @@
       "post": {
         "summary": "Create a subscriber",
         "description": "Behaves as an upsert. If a subscriber with the provided email address does not exist, it creates one with the specified first name and state. If a subscriber with the provided email address already exists, it updates the first name.<br/><br/>We will ignore custom fields that don't already exist in your account. We will not return an error if you try to add data to a custom field that does not exist. Please use <a href=\"#create-a-custom-field\">Create a custom field</a> to create custom fields before setting for subscribers.<br/><br/><strong>NOTE:</strong> Updating the subscriber state with this endpoint is not supported at this time.<br/><strong>NOTE:</strong> We support creating/updating a maximum of 140 custom fields at a time.",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -12009,13 +10887,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -12035,9 +10907,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -12074,13 +10944,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -12100,9 +10964,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -12139,13 +11001,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -12165,9 +11021,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -12196,14 +11050,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -12222,14 +11072,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Email address is invalid"
-                  ]
+                  "errors": ["Email address is invalid"]
                 }
               }
             }
@@ -12251,13 +11097,7 @@
                   "state": {
                     "type": "string",
                     "nullable": true,
-                    "enum": [
-                      "active",
-                      "cancelled",
-                      "bounced",
-                      "complained",
-                      "inactive"
-                    ],
+                    "enum": ["active", "cancelled", "bounced", "complained", "inactive"],
                     "description": "Create subscriber in this state (`active`, `bounced`, `cancelled`, `complained` or `inactive`). Defaults to `active`."
                   },
                   "fields": {
@@ -12309,9 +11149,7 @@
                     }
                   }
                 },
-                "required": [
-                  "email_address"
-                ]
+                "required": ["email_address"]
               },
               "example": {
                 "first_name": "Alice",
@@ -12345,9 +11183,7 @@
     "/v4/subscribers/filter": {
       "post": {
         "summary": "Filter subscribers based on engagement",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -12396,12 +11232,7 @@
                             }
                           }
                         },
-                        "required": [
-                          "id",
-                          "first_name",
-                          "email_address",
-                          "created_at"
-                        ]
+                        "required": ["id", "first_name", "email_address", "created_at"]
                       }
                     },
                     "pagination": {
@@ -12435,10 +11266,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "pagination"
-                  ]
+                  "required": ["subscribers", "pagination"]
                 },
                 "example": {
                   "subscribers": [
@@ -12447,14 +11275,8 @@
                       "first_name": "Jane",
                       "email_address": "jane@example.com",
                       "created_at": "2024-12-01T15:45:00Z",
-                      "tag_names": [
-                        "newsletter",
-                        "engaged"
-                      ],
-                      "tag_ids": [
-                        "123",
-                        "456"
-                      ]
+                      "tag_names": ["newsletter", "engaged"],
+                      "tag_ids": ["123", "456"]
                     },
                     {
                       "id": "789",
@@ -12491,14 +11313,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -12526,19 +11344,12 @@
                     "any": [
                       {
                         "type": "urls",
-                        "urls": [
-                          "kit.com",
-                          "amazon.com"
-                        ],
+                        "urls": ["kit.com", "amazon.com"],
                         "matching": "contains"
                       },
                       {
                         "type": "broadcasts",
-                        "ids": [
-                          1,
-                          2,
-                          3
-                        ]
+                        "ids": [1, 2, 3]
                       }
                     ]
                   }
@@ -12555,9 +11366,7 @@
     "/v4/subscribers/{id}": {
       "get": {
         "summary": "Get a subscriber",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -12600,13 +11409,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -12618,9 +11421,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "category"
-                          ]
+                          "required": ["category"]
                         },
                         "canceled_at": {
                           "type": "string",
@@ -12637,9 +11438,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -12671,14 +11470,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -12697,14 +11492,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -12717,9 +11508,7 @@
       "put": {
         "summary": "Update a subscriber",
         "description": "We will ignore custom fields that don't already exist in your account. We will not return an error if you try to add data to a custom field that does not exist. Please use <a href=\"#create-a-custom-field\">Create a custom field</a> to create custom fields before setting for subscribers.<br/><br/><strong>NOTE: </strong>We support creating/updating a maximum of 140 custom fields at a time.",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -12762,13 +11551,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -12788,9 +11571,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -12827,13 +11608,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -12853,9 +11628,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -12884,14 +11657,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -12910,14 +11679,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -12936,14 +11701,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Email address has already been taken"
-                  ]
+                  "errors": ["Email address has already been taken"]
                 }
               }
             }
@@ -13000,16 +11761,10 @@
                         "type": "string"
                       }
                     },
-                    "required": [
-                      "Last name",
-                      "Birthday",
-                      "Source"
-                    ]
+                    "required": ["Last name", "Birthday", "Source"]
                   }
                 },
-                "required": [
-                  "email_address"
-                ]
+                "required": ["email_address"]
               },
               "example": {
                 "first_name": "Alice",
@@ -13039,9 +11794,7 @@
     "/v4/subscribers/{id}/unsubscribe": {
       "post": {
         "summary": "Unsubscribe subscriber",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -13079,14 +11832,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -13105,14 +11854,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -13138,9 +11883,7 @@
       "get": {
         "summary": "List stats for a subscriber",
         "description": "Retrieve email stats for a specific subscriber. You can filter the stats by providing `email_sent_after` and/or `email_sent_before` query parameters to limit the stats to emails sent within a specific date range.\nNote: this functionality was added in June 2025, so no data for events before that date will be included.",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -13248,15 +11991,10 @@
                           ]
                         }
                       },
-                      "required": [
-                        "id",
-                        "stats"
-                      ]
+                      "required": ["id", "stats"]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -13293,14 +12031,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -13314,9 +12048,7 @@
     "/v4/subscribers/{subscriber_id}/tags": {
       "get": {
         "summary": "List tags for a subscriber",
-        "tags": [
-          "Subscribers"
-        ],
+        "tags": ["Subscribers"],
         "security": [
           {
             "API Key": []
@@ -13396,11 +12128,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "tagged_at"
-                        ]
+                        "required": ["id", "name", "tagged_at"]
                       }
                     },
                     "pagination": {
@@ -13431,10 +12159,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "tags",
-                    "pagination"
-                  ]
+                  "required": ["tags", "pagination"]
                 },
                 "example": {
                   "tags": [
@@ -13474,14 +12199,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -13500,14 +12221,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -13521,9 +12238,7 @@
     "/v4/tags": {
       "get": {
         "summary": "List tags",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -13594,11 +12309,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "name",
-                          "created_at"
-                        ]
+                        "required": ["id", "name", "created_at"]
                       }
                     },
                     "pagination": {
@@ -13629,10 +12340,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "tags",
-                    "pagination"
-                  ]
+                  "required": ["tags", "pagination"]
                 },
                 "example": {
                   "tags": [
@@ -13672,14 +12380,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -13691,9 +12395,7 @@
       },
       "post": {
         "summary": "Create a tag",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -13724,16 +12426,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "name",
-                        "created_at"
-                      ]
+                      "required": ["id", "name", "created_at"]
                     }
                   },
-                  "required": [
-                    "tag"
-                  ]
+                  "required": ["tag"]
                 },
                 "example": {
                   "tag": {
@@ -13765,16 +12461,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "name",
-                        "created_at"
-                      ]
+                      "required": ["id", "name", "created_at"]
                     }
                   },
-                  "required": [
-                    "tag"
-                  ]
+                  "required": ["tag"]
                 },
                 "example": {
                   "tag": {
@@ -13800,14 +12490,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -13826,14 +12512,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Name can't be blank"
-                  ]
+                  "errors": ["Name can't be blank"]
                 }
               }
             }
@@ -13849,9 +12531,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name"
-                ]
+                "required": ["name"]
               },
               "example": {
                 "name": "Completed"
@@ -13867,9 +12547,7 @@
     "/v4/tags/{id}": {
       "put": {
         "summary": "Update tag name",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -13910,16 +12588,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "name",
-                        "created_at"
-                      ]
+                      "required": ["id", "name", "created_at"]
                     }
                   },
-                  "required": [
-                    "tag"
-                  ]
+                  "required": ["tag"]
                 },
                 "example": {
                   "tag": {
@@ -13945,14 +12617,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -13971,14 +12639,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -13997,14 +12661,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Name can't be blank"
-                  ]
+                  "errors": ["Name can't be blank"]
                 }
               }
             }
@@ -14020,9 +12680,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name"
-                ]
+                "required": ["name"]
               },
               "example": {
                 "name": "signed up"
@@ -14038,9 +12696,7 @@
     "/v4/tags/{tag_id}/subscribers": {
       "delete": {
         "summary": "Remove tag from subscriber by email address",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -14078,14 +12734,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -14104,14 +12756,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -14130,9 +12778,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
                   "errors": [
@@ -14149,9 +12795,7 @@
       },
       "get": {
         "summary": "List subscribers for a tag",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -14227,14 +12871,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "active",
-                "inactive",
-                "bounced",
-                "complained",
-                "cancelled",
-                "all"
-              ]
+              "enum": ["active", "inactive", "bounced", "complained", "cancelled", "all"]
             },
             "example": "all"
           },
@@ -14295,13 +12932,7 @@
                           },
                           "state": {
                             "type": "string",
-                            "enum": [
-                              "active",
-                              "cancelled",
-                              "bounced",
-                              "complained",
-                              "inactive"
-                            ]
+                            "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                           },
                           "created_at": {
                             "type": "string"
@@ -14317,9 +12948,7 @@
                                 "nullable": true
                               }
                             },
-                            "required": [
-                              "category"
-                            ]
+                            "required": ["category"]
                           }
                         },
                         "required": [
@@ -14361,10 +12990,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscribers",
-                    "pagination"
-                  ]
+                  "required": ["subscribers", "pagination"]
                 },
                 "example": {
                   "subscribers": [
@@ -14427,14 +13053,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -14453,14 +13075,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -14473,9 +13091,7 @@
       "post": {
         "summary": "Tag a subscriber by email address",
         "description": "The subscriber being tagged must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -14518,13 +13134,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -14548,9 +13158,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -14588,13 +13196,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -14618,9 +13220,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -14650,14 +13250,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -14676,14 +13272,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -14702,14 +13294,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Either subscriber id or email address is required to tag subscriber"
-                  ]
+                  "errors": ["Either subscriber id or email address is required to tag subscriber"]
                 }
               }
             }
@@ -14725,9 +13313,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "email_address"
-                ]
+                "required": ["email_address"]
               },
               "example": {
                 "email_address": "alice@convertkit.dev"
@@ -14743,9 +13329,7 @@
     "/v4/tags/{tag_id}/subscribers/{id}": {
       "delete": {
         "summary": "Remove tag from subscriber",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -14792,14 +13376,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -14818,14 +13398,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -14838,9 +13414,7 @@
       "post": {
         "summary": "Tag a subscriber",
         "description": "The subscriber being tagged must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-        "tags": [
-          "Tags"
-        ],
+        "tags": ["Tags"],
         "security": [
           {
             "API Key": []
@@ -14892,13 +13466,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -14922,9 +13490,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -14962,13 +13528,7 @@
                         },
                         "state": {
                           "type": "string",
-                          "enum": [
-                            "active",
-                            "cancelled",
-                            "bounced",
-                            "complained",
-                            "inactive"
-                          ]
+                          "enum": ["active", "cancelled", "bounced", "complained", "inactive"]
                         },
                         "created_at": {
                           "type": "string"
@@ -14992,9 +13552,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "subscriber"
-                  ]
+                  "required": ["subscriber"]
                 },
                 "example": {
                   "subscriber": {
@@ -15024,14 +13582,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -15050,14 +13604,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -15083,9 +13633,7 @@
       "get": {
         "summary": "List webhooks",
         "description": "Webhooks are automations that will receive subscriber data when a subscriber event is triggered, such as when a subscriber completes a sequence.<br/><br/>When a webhook is triggered, a `POST` request will be made to your URL with a JSON payload.",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "API Key": []
@@ -15168,20 +13716,13 @@
                                 "nullable": true
                               }
                             },
-                            "required": [
-                              "name"
-                            ]
+                            "required": ["name"]
                           },
                           "target_url": {
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "account_id",
-                          "event",
-                          "target_url"
-                        ]
+                        "required": ["id", "account_id", "event", "target_url"]
                       }
                     },
                     "pagination": {
@@ -15212,10 +13753,7 @@
                       ]
                     }
                   },
-                  "required": [
-                    "webhooks",
-                    "pagination"
-                  ]
+                  "required": ["webhooks", "pagination"]
                 },
                 "example": {
                   "webhooks": [
@@ -15263,14 +13801,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -15283,9 +13817,7 @@
       "post": {
         "summary": "Create a webhook",
         "description": "Available event types:<br/>- `subscriber.subscriber_activate`<br/>- `subscriber.subscriber_unsubscribe`<br/>- `subscriber.subscriber_bounce`<br/>- `subscriber.subscriber_complain`<br/>- `subscriber.form_subscribe`, required parameter `form_id` [Integer]<br/>- `subscriber.course_subscribe`, required parameter `sequence_id` [Integer]<br/>- `subscriber.course_complete`, required parameter `sequence_id` [Integer]<br/>- `subscriber.link_click`, required parameter `initiator_value` [String] as a link URL<br/>- `subscriber.product_purchase`, required parameter `product_id` [Integer]<br/>- `subscriber.tag_add`, required parameter `tag_id` [Integer]<br/>- `subscriber.tag_remove`, required parameter `tag_id` [Integer]<br/>- `purchase.purchase_create`<br/>- `custom_field.field_created`<br/>- `custom_field.field_deleted`<br/>- `custom_field.field_value_updated`, required parameter `custom_field_id` [Integer]",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "API Key": []
@@ -15323,26 +13855,16 @@
                               "nullable": true
                             }
                           },
-                          "required": [
-                            "name",
-                            "initiator_value"
-                          ]
+                          "required": ["name", "initiator_value"]
                         },
                         "target_url": {
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "account_id",
-                        "event",
-                        "target_url"
-                      ]
+                      "required": ["id", "account_id", "event", "target_url"]
                     }
                   },
-                  "required": [
-                    "webhook"
-                  ]
+                  "required": ["webhook"]
                 },
                 "example": {
                   "webhook": {
@@ -15372,14 +13894,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -15398,14 +13916,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "`event` and `target` parameters must be provided"
-                  ]
+                  "errors": ["`event` and `target` parameters must be provided"]
                 }
               }
             }
@@ -15455,10 +13969,7 @@
                     ]
                   }
                 },
-                "required": [
-                  "target_url",
-                  "event"
-                ]
+                "required": ["target_url", "event"]
               },
               "example": {
                 "target_url": "https://example.convertkit.dev/",
@@ -15483,9 +13994,7 @@
     "/v4/webhooks/{id}": {
       "delete": {
         "summary": "Delete a webhook",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "API Key": []
@@ -15523,14 +14032,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "The access token is invalid"
-                  ]
+                  "errors": ["The access token is invalid"]
                 }
               }
             }
@@ -15549,14 +14054,10 @@
                       }
                     }
                   },
-                  "required": [
-                    "errors"
-                  ]
+                  "required": ["errors"]
                 },
                 "example": {
-                  "errors": [
-                    "Not Found"
-                  ]
+                  "errors": ["Not Found"]
                 }
               }
             }
@@ -15605,9 +14106,7 @@
             }
           }
         },
-        "required": [
-          "all"
-        ]
+        "required": ["all"]
       },
       "FilterCondition": {
         "type": "object",
@@ -15615,13 +14114,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": [
-              "opens",
-              "clicks",
-              "sent",
-              "delivered",
-              "subscribed"
-            ],
+            "enum": ["opens", "clicks", "sent", "delivered", "subscribed"],
             "description": "Type of filter condition"
           },
           "count_greater_than": {
@@ -15659,9 +14152,7 @@
             }
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       },
       "BroadcastAnyCondition": {
         "type": "object",
@@ -15669,9 +14160,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": [
-              "broadcasts"
-            ],
+            "enum": ["broadcasts"],
             "description": "Must be 'broadcasts'"
           },
           "ids": {
@@ -15682,10 +14171,7 @@
             "description": "Array of broadcast IDs. Subscriber must match ANY of these."
           }
         },
-        "required": [
-          "type",
-          "ids"
-        ]
+        "required": ["type", "ids"]
       },
       "UrlAnyCondition": {
         "type": "object",
@@ -15693,9 +14179,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": [
-              "urls"
-            ],
+            "enum": ["urls"],
             "description": "Must be 'urls'"
           },
           "ids": {
@@ -15714,19 +14198,12 @@
           },
           "matching": {
             "type": "string",
-            "enum": [
-              "exact",
-              "contains",
-              "starts_with",
-              "ends_with"
-            ],
+            "enum": ["exact", "contains", "starts_with", "ends_with"],
             "description": "URL matching strategy",
             "default": "exact"
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       }
     }
   }

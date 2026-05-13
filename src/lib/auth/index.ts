@@ -22,10 +22,7 @@ export {
 
 export { createEnvCredentialStore } from "./env-store";
 export { createFileCredentialStore } from "./file-store";
-export {
-  createCompositeCredentialStore,
-  type CompositeConfig,
-} from "./composite-store";
+export { createCompositeCredentialStore, type CompositeConfig } from "./composite-store";
 
 import { createEnvCredentialStore } from "./env-store";
 import { createFileCredentialStore } from "./file-store";

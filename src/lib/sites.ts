@@ -12,11 +12,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { Effect } from "effect";
-import {
-  createDefaultCredentialStore,
-  type CredentialStore,
-  type StoredCredential,
-} from "./auth/index";
+import { createDefaultCredentialStore, type StoredCredential } from "./auth/index";
 
 export interface SiteDefinition {
   readonly id: string;
@@ -71,8 +67,7 @@ export const KNOWN_SITES: Record<string, SiteDefinition> = {
 // ---------------------------------------------------------------------------
 
 const prefsPath = () =>
-  process.env.KIT_PREFS_PATH ??
-  join(homedir(), ".config", "kit-cli", "preferences.json");
+  process.env.KIT_PREFS_PATH ?? join(homedir(), ".config", "kit-cli", "preferences.json");
 
 interface Preferences {
   currentSite: string;
@@ -124,9 +119,7 @@ export const resolveSite = async (
 
   // Read token from credential store
   const credential = await Effect.runPromise(
-    store.get(siteCredentialKey(siteId)).pipe(
-      Effect.catchAll(() => Effect.succeed(null)),
-    ),
+    store.get(siteCredentialKey(siteId)).pipe(Effect.catchAll(() => Effect.succeed(null))),
   );
 
   return { site, token: credential?.token.accessToken };
@@ -135,10 +128,7 @@ export const resolveSite = async (
 /**
  * Store a token for a site and set it as current.
  */
-export const storeSiteToken = async (
-  siteId: string,
-  token: string,
-): Promise<void> => {
+export const storeSiteToken = async (siteId: string, token: string): Promise<void> => {
   const credential: StoredCredential = {
     token: {
       accessToken: token,
@@ -147,9 +137,7 @@ export const storeSiteToken = async (
   };
 
   await Effect.runPromise(
-    store.set(siteCredentialKey(siteId), credential).pipe(
-      Effect.catchAll(() => Effect.void),
-    ),
+    store.set(siteCredentialKey(siteId), credential).pipe(Effect.catchAll(() => Effect.void)),
   );
 
   // Update current site preference
@@ -174,9 +162,7 @@ export const getSiteAuthStatus = async (): Promise<
   const results = await Promise.all(
     Object.entries(KNOWN_SITES).map(async ([id, def]) => {
       const credential = await Effect.runPromise(
-        store.get(siteCredentialKey(id)).pipe(
-          Effect.catchAll(() => Effect.succeed(null)),
-        ),
+        store.get(siteCredentialKey(id)).pipe(Effect.catchAll(() => Effect.succeed(null))),
       );
       return {
         id,

@@ -53,7 +53,7 @@ export const extractSection = (
       break;
     }
     // Next section marker (emoji + status prefix)
-    if (/^[​\s]*[🟢🟡🔴✅]/.test(line) && i > startIdx + 5) {
+    if (/^[​\s]*[🟢🟡🔴✅]/u.test(line) && i > startIdx + 5) {
       endIdx = i;
       break;
     }
@@ -103,10 +103,7 @@ export const extractSection = (
  * - [CTA Text] brackets -> styled blue buttons
  * - Shortlink patterns -> full URLs
  */
-export const textToHtml = (
-  text: string,
-  options?: { shortlinkBase?: string },
-): string => {
+export const textToHtml = (text: string, options?: { shortlinkBase?: string }): string => {
   const shortlinkBase = options?.shortlinkBase ?? "https://example.com";
 
   // Clean up doc artifacts
@@ -131,11 +128,9 @@ export const textToHtml = (
     // Check if this is a list block (multiple lines starting with * or N.)
     const listLines = trimmed.split("\n").map((l) => l.trim());
     const isBulletList = listLines.every(
-      (l) => /^\* /.test(l) || /^[-] /.test(l) || l === "",
+      (l) => l.startsWith("* ") || l.startsWith("- ") || l === "",
     );
-    const isNumberedList = listLines.every(
-      (l) => /^\d+\.\s/.test(l) || l === "",
-    );
+    const isNumberedList = listLines.every((l) => /^\d+\.\s/.test(l) || l === "");
 
     if (isBulletList && listLines.some((l) => /^\* |^[-] /.test(l))) {
       if (inList) htmlParts.push(`</${listType}>`);
@@ -183,11 +178,9 @@ export const textToHtml = (
       !trimmed.startsWith("Would love") &&
       !trimmed.startsWith("And then") &&
       !trimmed.startsWith("Check out") &&
-      (
-        /^[A-Z]/.test(trimmed) &&
-        !trimmed.includes(". ") &&
-        trimmed.split(" ").length <= 20
-      );
+      /^[A-Z]/.test(trimmed) &&
+      !trimmed.includes(". ") &&
+      trimmed.split(" ").length <= 20;
 
     // Check for [CTA] bracket pattern
     const ctaMatch = trimmed.match(/^\[(.+)\]$/);
@@ -222,10 +215,7 @@ const inlineFormat = (text: string, shortlinkBase: string): string => {
   let result = text;
 
   // Encode special chars for HTML
-  result = result
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  result = result.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
   // Smart quotes -> HTML entities
   result = result

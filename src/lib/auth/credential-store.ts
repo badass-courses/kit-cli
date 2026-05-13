@@ -56,16 +56,12 @@ export interface CredentialStore {
     key: CredentialKey,
     credential: StoredCredential,
   ) => Effect.Effect<void, CredentialStoreError>;
-  readonly delete: (
-    key: CredentialKey,
-  ) => Effect.Effect<void, CredentialStoreError>;
+  readonly delete: (key: CredentialKey) => Effect.Effect<void, CredentialStoreError>;
 }
 
-export const CredentialStore =
-  Context.GenericTag<CredentialStore>("@kit-cli/CredentialStore");
+export const CredentialStore = Context.GenericTag<CredentialStore>("@kit-cli/CredentialStore");
 
-export const formatCredentialId = (key: CredentialKey): string =>
-  `${key.provider}:${key.account}`;
+export const formatCredentialId = (key: CredentialKey): string => `${key.provider}:${key.account}`;
 
 export const envVarNameForProvider = (provider: string): string =>
   `KIT_${provider.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_AUTH_JSON`;

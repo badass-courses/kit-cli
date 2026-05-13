@@ -8,8 +8,8 @@
 import * as Args from "@effect/cli/Args";
 import * as Command from "@effect/cli/Command";
 import * as Options from "@effect/cli/Options";
-import { Effect, pipe } from "effect";
-import { failure, printEnvelope, success, type NextAction } from "./response";
+import { Effect } from "effect";
+import { failure, printEnvelope, success } from "./response";
 import {
   getSiteAuthStatus,
   KNOWN_SITES,
@@ -86,160 +86,158 @@ interface TokenResponse {
   error?: string;
 }
 
-const siteAuthLoginCommand = Command.make(
-  "login",
-  { site: siteOption },
-  ({ site }) =>
-    Effect.gen(function* () {
-      const siteId = optionValue<string>(site);
-      const { site: siteDef } = yield* Effect.promise(() =>
-        resolveSite(siteId),
-      );
+const siteAuthLoginCommand = Command.make("login", { site: siteOption }, ({ site }) =>
+  Effect.gen(function* () {
+    const siteId = optionValue<string>(site);
+    const { site: siteDef } = yield* Effect.promise(() => resolveSite(siteId));
 
-      // Step 1: Request device code
-      const dcUrl = `${siteDef.baseUrl}${siteDef.auth.deviceCodePath}`;
-      const dcResp = yield* Effect.promise(() =>
-        fetch(dcUrl, { method: "POST", headers: { accept: "application/json" } }),
-      );
-      const deviceCode = (yield* Effect.promise(() =>
-        dcResp.json(),
-      )) as DeviceCodeResponse;
+    // Step 1: Request device code
+    const dcUrl = `${siteDef.baseUrl}${siteDef.auth.deviceCodePath}`;
+    const dcResp = yield* Effect.promise(() =>
+      fetch(dcUrl, { method: "POST", headers: { accept: "application/json" } }),
+    );
+    const deviceCode = (yield* Effect.promise(() => dcResp.json())) as DeviceCodeResponse;
 
-      // Open the verification URL
-      yield* Effect.promise(() =>
-        import("node:child_process").then(({ exec }) =>
+    // Open the verification URL
+    yield* Effect.promise(() =>
+      import("node:child_process").then(
+        ({ exec }) =>
           new Promise<void>((resolve) => {
             exec(`open "${deviceCode.verification_uri}"`, () => resolve());
           }),
-        ),
-      );
+      ),
+    );
 
-      printEnvelope(
-        success(`kit site auth login --site ${siteDef.id}`, {
+    printEnvelope(
+      success(
+        `kit site auth login --site ${siteDef.id}`,
+        {
           status: "polling",
           site: siteDef.id,
           display_name: siteDef.displayName,
           user_code: deviceCode.user_code,
           verification_uri: deviceCode.verification_uri,
           message: `Go to ${deviceCode.verification_uri} and enter code: ${deviceCode.user_code}`,
-        }, []),
+        },
+        [],
+      ),
+    );
+
+    // Step 2: Poll for token
+    const interval = Math.max(1, deviceCode.interval ?? 5);
+    const deadline = Date.now() + (deviceCode.expires_in ?? 300) * 1000;
+
+    while (Date.now() < deadline) {
+      yield* Effect.promise(() => new Promise<void>((r) => setTimeout(r, interval * 1000)));
+
+      const tokenUrl = `${siteDef.baseUrl}${siteDef.auth.tokenPath}`;
+      const tokenResp = yield* Effect.promise(() =>
+        fetch(tokenUrl, {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "content-type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            device_code: deviceCode.device_code,
+          }),
+        }),
       );
 
-      // Step 2: Poll for token
-      const interval = Math.max(1, deviceCode.interval ?? 5);
-      const deadline = Date.now() + (deviceCode.expires_in ?? 300) * 1000;
+      const tokenData = (yield* Effect.promise(() => tokenResp.json())) as TokenResponse;
 
-      while (Date.now() < deadline) {
-        yield* Effect.promise(
-          () => new Promise<void>((r) => setTimeout(r, interval * 1000)),
-        );
+      if (tokenResp.ok && tokenData.access_token) {
+        yield* Effect.promise(() => storeSiteToken(siteDef.id, tokenData.access_token!));
 
-        const tokenUrl = `${siteDef.baseUrl}${siteDef.auth.tokenPath}`;
-        const tokenResp = yield* Effect.promise(() =>
-          fetch(tokenUrl, {
-            method: "POST",
-            headers: {
-              accept: "application/json",
-              "content-type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams({
-              device_code: deviceCode.device_code,
-            }),
-          }),
-        );
-
-        const tokenData = (yield* Effect.promise(() =>
-          tokenResp.json(),
-        )) as TokenResponse;
-
-        if (tokenResp.ok && tokenData.access_token) {
-          yield* Effect.promise(() =>
-            storeSiteToken(siteDef.id, tokenData.access_token!),
-          );
-
-          printEnvelope(
-            success(`kit site auth login --site ${siteDef.id}`, {
+        printEnvelope(
+          success(
+            `kit site auth login --site ${siteDef.id}`,
+            {
               status: "authenticated",
               site: siteDef.id,
               display_name: siteDef.displayName,
-            }, [
+            },
+            [
               { command: "kit site auth status", description: "Verify auth" },
               { command: "kit shortlink list", description: "List shortlinks" },
-            ]),
-          );
-          return;
-        }
-
-        // authorization_pending is expected during polling, keep going
-        if (tokenData.error === "authorization_pending") {
-          continue;
-        }
-
-        // expired_token means the device code timed out server-side
-        if (tokenData.error === "expired_token") {
-          printEnvelope(
-            failure(
-              `kit site auth login --site ${siteDef.id}`,
-              "Device code expired before verification completed",
-              "DEVICE_CODE_EXPIRED",
-              "Try again with: kit site auth login",
-              [],
-            ),
-          );
-          return;
-        }
-
-        // Any other error is fatal
-        if (tokenData.error) {
-          printEnvelope(
-            failure(
-              `kit site auth login --site ${siteDef.id}`,
-              `Auth failed: ${tokenData.error}`,
-              "AUTH_FAILED",
-              "Try again with: kit site auth login",
-              [],
-            ),
-          );
-          return;
-        }
+            ],
+          ),
+        );
+        return;
       }
 
-      printEnvelope(
-        failure(
-          `kit site auth login --site ${siteDef.id}`,
-          "Device auth timed out",
-          "AUTH_TIMEOUT",
-          "Try again with: kit site auth login",
-          [],
-        ),
-      );
-    }).pipe(withSiteError("kit site auth login")),
+      // authorization_pending is expected during polling, keep going
+      if (tokenData.error === "authorization_pending") {
+        continue;
+      }
+
+      // expired_token means the device code timed out server-side
+      if (tokenData.error === "expired_token") {
+        printEnvelope(
+          failure(
+            `kit site auth login --site ${siteDef.id}`,
+            "Device code expired before verification completed",
+            "DEVICE_CODE_EXPIRED",
+            "Try again with: kit site auth login",
+            [],
+          ),
+        );
+        return;
+      }
+
+      // Any other error is fatal
+      if (tokenData.error) {
+        printEnvelope(
+          failure(
+            `kit site auth login --site ${siteDef.id}`,
+            `Auth failed: ${tokenData.error}`,
+            "AUTH_FAILED",
+            "Try again with: kit site auth login",
+            [],
+          ),
+        );
+        return;
+      }
+    }
+
+    printEnvelope(
+      failure(
+        `kit site auth login --site ${siteDef.id}`,
+        "Device auth timed out",
+        "AUTH_TIMEOUT",
+        "Try again with: kit site auth login",
+        [],
+      ),
+    );
+  }).pipe(withSiteError("kit site auth login")),
 ).pipe(Command.withDescription("Authenticate to a course-builder site via device flow"));
 
-const siteAuthStatusCommand = Command.make(
-  "status",
-  { site: siteOption },
-  ({ site }) =>
-    Effect.gen(function* () {
-      const siteId = optionValue<string>(site);
-      const prefs = yield* Effect.promise(loadPreferences);
-      const currentSite = siteId ?? prefs.currentSite;
-      const siteDef = KNOWN_SITES[currentSite];
-      const sites = yield* Effect.promise(getSiteAuthStatus);
-      const currentStatus = sites.find((s) => s.id === currentSite);
+const siteAuthStatusCommand = Command.make("status", { site: siteOption }, ({ site }) =>
+  Effect.gen(function* () {
+    const siteId = optionValue<string>(site);
+    const prefs = yield* Effect.promise(loadPreferences);
+    const currentSite = siteId ?? prefs.currentSite;
+    const siteDef = KNOWN_SITES[currentSite];
+    const sites = yield* Effect.promise(getSiteAuthStatus);
+    const currentStatus = sites.find((s) => s.id === currentSite);
 
-      printEnvelope(
-        success("kit site auth status", {
+    printEnvelope(
+      success(
+        "kit site auth status",
+        {
           current_site: prefs.currentSite,
           site_name: siteDef?.displayName ?? currentSite,
           authenticated: currentStatus?.authenticated ?? false,
           sites,
-        }, [
-          ...(!(currentStatus?.authenticated)
-            ? [{
-                command: `kit site auth login --site ${currentSite}`,
-                description: `Authenticate to ${siteDef?.displayName ?? currentSite}`,
-              }]
+        },
+        [
+          ...(!currentStatus?.authenticated
+            ? [
+                {
+                  command: `kit site auth login --site ${currentSite}`,
+                  description: `Authenticate to ${siteDef?.displayName ?? currentSite}`,
+                },
+              ]
             : []),
           {
             command: "kit site use <site-id>",
@@ -251,24 +249,37 @@ const siteAuthStatusCommand = Command.make(
               },
             },
           },
-        ]),
-      );
-    }),
+        ],
+      ),
+    );
+  }),
 ).pipe(Command.withDescription("Show auth status for all configured sites"));
 
 const siteAuthCommand = Command.make("auth", {}, () =>
   Effect.sync(() => {
     printEnvelope(
-      success("kit site auth", {
-        description: "Site authentication commands",
-        commands: [
-          { name: "login", description: "Authenticate via device flow", usage: "kit site auth login [--site ai-hero]" },
-          { name: "status", description: "Show auth status for all sites", usage: "kit site auth status" },
+      success(
+        "kit site auth",
+        {
+          description: "Site authentication commands",
+          commands: [
+            {
+              name: "login",
+              description: "Authenticate via device flow",
+              usage: "kit site auth login [--site ai-hero]",
+            },
+            {
+              name: "status",
+              description: "Show auth status for all sites",
+              usage: "kit site auth status",
+            },
+          ],
+        },
+        [
+          { command: "kit site auth status", description: "Check auth" },
+          { command: "kit site auth login", description: "Authenticate" },
         ],
-      }, [
-        { command: "kit site auth status", description: "Check auth" },
-        { command: "kit site auth login", description: "Authenticate" },
-      ]),
+      ),
     );
   }),
 ).pipe(
@@ -295,22 +306,24 @@ const siteUseCommand = Command.make(
         return;
       }
 
-      yield* Effect.promise(() =>
-        savePreferences({ currentSite: siteId }),
-      );
+      yield* Effect.promise(() => savePreferences({ currentSite: siteId }));
 
       const sites = yield* Effect.promise(getSiteAuthStatus);
       const siteStatus = sites.find((s) => s.id === siteId);
 
       printEnvelope(
-        success(`kit site use ${siteId}`, {
-          current_site: siteId,
-          display_name: KNOWN_SITES[siteId]!.displayName,
-          authenticated: siteStatus?.authenticated ?? false,
-        }, [
-          { command: "kit site auth status", description: "Verify auth" },
-          { command: "kit shortlink list", description: "List shortlinks" },
-        ]),
+        success(
+          `kit site use ${siteId}`,
+          {
+            current_site: siteId,
+            display_name: KNOWN_SITES[siteId]!.displayName,
+            authenticated: siteStatus?.authenticated ?? false,
+          },
+          [
+            { command: "kit site auth status", description: "Verify auth" },
+            { command: "kit shortlink list", description: "List shortlinks" },
+          ],
+        ),
       );
     }),
 ).pipe(Command.withDescription("Switch the active site"));
@@ -319,36 +332,36 @@ const siteUseCommand = Command.make(
 // Shortlink commands
 // ---------------------------------------------------------------------------
 
-const shortlinkListCommand = Command.make(
-  "list",
-  { site: siteOption },
-  ({ site }) =>
-    Effect.gen(function* () {
-      const { site: siteDef, token } = yield* Effect.promise(() =>
-        resolveSite(optionValue<string>(site)),
-      );
-      const t = requireToken(token, siteDef.id);
-      const { ok, status, data } = yield* Effect.promise(() =>
-        siteApiFetch<unknown[]>(siteDef, t, "/api/shortlinks"),
-      );
+const shortlinkListCommand = Command.make("list", { site: siteOption }, ({ site }) =>
+  Effect.gen(function* () {
+    const { site: siteDef, token } = yield* Effect.promise(() =>
+      resolveSite(optionValue<string>(site)),
+    );
+    const t = requireToken(token, siteDef.id);
+    const { ok, status, data } = yield* Effect.promise(() =>
+      siteApiFetch<unknown[]>(siteDef, t, "/api/shortlinks"),
+    );
 
-      if (!ok) {
-        printEnvelope(
-          failure("kit shortlink list", `HTTP ${status}`, `HTTP_${status}`, "Check auth.", [
-            { command: "kit site auth login", description: "Re-authenticate" },
-          ]),
-        );
-        return;
-      }
-
-      const links = Array.isArray(data) ? data : [];
-
+    if (!ok) {
       printEnvelope(
-        success("kit shortlink list", {
+        failure("kit shortlink list", `HTTP ${status}`, `HTTP_${status}`, "Check auth.", [
+          { command: "kit site auth login", description: "Re-authenticate" },
+        ]),
+      );
+      return;
+    }
+
+    const links = Array.isArray(data) ? data : [];
+
+    printEnvelope(
+      success(
+        "kit shortlink list",
+        {
           site: siteDef.id,
           count: links.length,
           shortlinks: links,
-        }, [
+        },
+        [
           {
             command: "kit shortlink create --slug <slug> --url <url> [--description <text>]",
             description: "Create a new shortlink",
@@ -357,9 +370,10 @@ const shortlinkListCommand = Command.make(
               url: { description: "Destination URL", required: true },
             },
           },
-        ]),
-      );
-    }).pipe(withSiteError("kit shortlink list")),
+        ],
+      ),
+    );
+  }).pipe(withSiteError("kit shortlink list")),
 ).pipe(Command.withDescription("List shortlinks on the active site"));
 
 const shortlinkCreateCommand = Command.make(
@@ -388,8 +402,7 @@ const shortlinkCreateCommand = Command.make(
       );
 
       if (!ok) {
-        const msg =
-          (data as Record<string, unknown>)?.error ?? `HTTP ${status}`;
+        const msg = (data as Record<string, unknown>)?.error ?? `HTTP ${status}`;
         printEnvelope(
           failure(
             "kit shortlink create",
@@ -405,17 +418,21 @@ const shortlinkCreateCommand = Command.make(
       }
 
       printEnvelope(
-        success("kit shortlink create", {
-          site: siteDef.id,
-          shortlink: data,
-          live_url: `${siteDef.baseUrl}/s/${slug}`,
-        }, [
-          { command: "kit shortlink list", description: "List all shortlinks" },
+        success(
+          "kit shortlink create",
           {
-            command: `open ${siteDef.baseUrl}/s/${slug}`,
-            description: "Test the shortlink",
+            site: siteDef.id,
+            shortlink: data,
+            live_url: `${siteDef.baseUrl}/s/${slug}`,
           },
-        ]),
+          [
+            { command: "kit shortlink list", description: "List all shortlinks" },
+            {
+              command: `open ${siteDef.baseUrl}/s/${slug}`,
+              description: "Test the shortlink",
+            },
+          ],
+        ),
       );
     }).pipe(withSiteError("kit shortlink create")),
 ).pipe(Command.withDescription("Create a shortlink on the active site"));
@@ -449,9 +466,13 @@ const shortlinkUpdateCommand = Command.make(
 
       if (!ok) {
         printEnvelope(
-          failure("kit shortlink update", `HTTP ${status}`, `HTTP_${status}`, "Check the shortlink ID and auth.", [
-            { command: "kit shortlink list", description: "List shortlinks to find the ID" },
-          ]),
+          failure(
+            "kit shortlink update",
+            `HTTP ${status}`,
+            `HTTP_${status}`,
+            "Check the shortlink ID and auth.",
+            [{ command: "kit shortlink list", description: "List shortlinks to find the ID" }],
+          ),
         );
         return;
       }
@@ -472,7 +493,10 @@ const resourceGetCommand = Command.make(
   "get",
   {
     slugOrId: Args.text({ name: "slug-or-id" }),
-    type: Options.text("type").pipe(Options.optional, Options.withDescription("Resource type filter (e.g. cohort, post)")),
+    type: Options.text("type").pipe(
+      Options.optional,
+      Options.withDescription("Resource type filter (e.g. cohort, post)"),
+    ),
     site: siteOption,
   },
   ({ slugOrId, type, site }) =>
@@ -491,9 +515,13 @@ const resourceGetCommand = Command.make(
 
       if (!ok) {
         printEnvelope(
-          failure(`kit resource get ${slugOrId}`, `HTTP ${status}`, `HTTP_${status}`, "Check the slug/ID and auth.", [
-            { command: "kit site auth status", description: "Check auth" },
-          ]),
+          failure(
+            `kit resource get ${slugOrId}`,
+            `HTTP ${status}`,
+            `HTTP_${status}`,
+            "Check the slug/ID and auth.",
+            [{ command: "kit site auth status", description: "Check auth" }],
+          ),
         );
         return;
       }
@@ -526,17 +554,26 @@ const resourceUpdateCommand = Command.make(
       const parsed = JSON.parse(body) as Record<string, unknown>;
 
       const { ok, status, data } = yield* Effect.promise(() =>
-        siteApiFetch<Record<string, unknown>>(siteDef, t, `/api/resources?id=${encodeURIComponent(id)}`, {
-          method: "PUT",
-          body: parsed,
-        }),
+        siteApiFetch<Record<string, unknown>>(
+          siteDef,
+          t,
+          `/api/resources?id=${encodeURIComponent(id)}`,
+          {
+            method: "PUT",
+            body: parsed,
+          },
+        ),
       );
 
       if (!ok) {
         printEnvelope(
-          failure(`kit resource update ${id}`, `HTTP ${status}`, `HTTP_${status}`, "Check resource ID, JSON body, and auth.", [
-            { command: "kit site auth status", description: "Check auth" },
-          ]),
+          failure(
+            `kit resource update ${id}`,
+            `HTTP ${status}`,
+            `HTTP_${status}`,
+            "Check resource ID, JSON body, and auth.",
+            [{ command: "kit site auth status", description: "Check auth" }],
+          ),
         );
         return;
       }
@@ -556,16 +593,26 @@ const resourceUpdateCommand = Command.make(
 export const shortlinkCommand = Command.make("shortlink", {}, () =>
   Effect.sync(() => {
     printEnvelope(
-      success("kit shortlink", {
-        description: "Shortlink operations on course-builder sites",
-        commands: [
-          { name: "list", description: "List shortlinks", usage: "kit shortlink list" },
-          { name: "create", description: "Create a shortlink", usage: "kit shortlink create --slug <slug> --url <url>" },
-          { name: "update", description: "Update a shortlink", usage: "kit shortlink update <id> --url <url>" },
-        ],
-      }, [
-        { command: "kit shortlink list", description: "List shortlinks" },
-      ]),
+      success(
+        "kit shortlink",
+        {
+          description: "Shortlink operations on course-builder sites",
+          commands: [
+            { name: "list", description: "List shortlinks", usage: "kit shortlink list" },
+            {
+              name: "create",
+              description: "Create a shortlink",
+              usage: "kit shortlink create --slug <slug> --url <url>",
+            },
+            {
+              name: "update",
+              description: "Update a shortlink",
+              usage: "kit shortlink update <id> --url <url>",
+            },
+          ],
+        },
+        [{ command: "kit shortlink list", description: "List shortlinks" }],
+      ),
     );
   }),
 ).pipe(
@@ -576,15 +623,25 @@ export const shortlinkCommand = Command.make("shortlink", {}, () =>
 export const resourceCommand = Command.make("resource", {}, () =>
   Effect.sync(() => {
     printEnvelope(
-      success("kit resource", {
-        description: "Content resource operations on course-builder sites",
-        commands: [
-          { name: "get", description: "Fetch a resource by slug or ID", usage: "kit resource get <slug> [--type cohort]" },
-          { name: "update", description: "Update a resource's fields", usage: "kit resource update <id> --body '{...}'" },
-        ],
-      }, [
-        { command: "kit resource get <slug>", description: "Fetch a resource" },
-      ]),
+      success(
+        "kit resource",
+        {
+          description: "Content resource operations on course-builder sites",
+          commands: [
+            {
+              name: "get",
+              description: "Fetch a resource by slug or ID",
+              usage: "kit resource get <slug> [--type cohort]",
+            },
+            {
+              name: "update",
+              description: "Update a resource's fields",
+              usage: "kit resource update <id> --body '{...}'",
+            },
+          ],
+        },
+        [{ command: "kit resource get <slug>", description: "Fetch a resource" }],
+      ),
     );
   }),
 ).pipe(
@@ -595,20 +652,24 @@ export const resourceCommand = Command.make("resource", {}, () =>
 export const siteCommand = Command.make("site", {}, () =>
   Effect.sync(() => {
     printEnvelope(
-      success("kit site", {
-        description: "Manage course-builder site connections",
-        commands: [
-          { name: "auth", description: "Authentication commands", usage: "kit site auth status" },
-          { name: "use", description: "Switch active site", usage: "kit site use ai-hero" },
-        ],
-      }, [
-        { command: "kit site auth status", description: "Check auth" },
+      success(
+        "kit site",
         {
-          command: "kit site use <site-id>",
-          description: "Switch site",
-          params: { "site-id": { enum: Object.keys(KNOWN_SITES) } },
+          description: "Manage course-builder site connections",
+          commands: [
+            { name: "auth", description: "Authentication commands", usage: "kit site auth status" },
+            { name: "use", description: "Switch active site", usage: "kit site use ai-hero" },
+          ],
         },
-      ]),
+        [
+          { command: "kit site auth status", description: "Check auth" },
+          {
+            command: "kit site use <site-id>",
+            description: "Switch site",
+            params: { "site-id": { enum: Object.keys(KNOWN_SITES) } },
+          },
+        ],
+      ),
     );
   }),
 ).pipe(

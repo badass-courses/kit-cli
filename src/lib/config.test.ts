@@ -18,7 +18,7 @@ afterEach(async () => {
   await Promise.all(
     tempPaths.map(async (path) => {
       await rm(path, { recursive: true, force: true });
-    })
+    }),
   );
   tempPaths = [];
 });
@@ -111,7 +111,7 @@ describe("mergeBroadcastDefaults", () => {
             ],
           },
         ],
-      }
+      },
     );
 
     expect(merged).toEqual({
@@ -143,7 +143,7 @@ describe("mergeBroadcastDefaults", () => {
         templateId: 4_389_070,
         fromAddress: "newsletter@example.com",
         subscriberFilter: [{ none: [{ type: "tag", ids: [8_244_351] }] }],
-      }
+      },
     );
 
     expect(merged).toEqual({
@@ -160,7 +160,7 @@ describe("mergeBroadcastDefaults", () => {
       },
       {
         subscriberFilter: [{ none: [{ type: "tag", ids: [8_244_351] }] }],
-      }
+      },
     );
 
     expect(merged).toEqual({

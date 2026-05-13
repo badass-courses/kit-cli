@@ -2,29 +2,18 @@ import { readFile } from "node:fs/promises";
 import { Option } from "effect";
 import type { AuthMode, GeneratedOperation } from "../generated/operations";
 import { resolveAuthHeaders } from "./auth";
+import { buildSubscriberFilterFromOptions } from "./broadcast-filters";
 import { mergeBroadcastDefaults, resolveBroadcastDefaults } from "./config";
-import {
-  contextSafeResult,
-  type Envelope,
-  failure,
-  type NextAction,
-  success,
-} from "./response";
+import { contextSafeResult, type Envelope, failure, type NextAction, success } from "./response";
 
 const baseUrl = "https://api.kit.com";
 
-const optionValue = <T>(
-  value: T | Option.Option<T> | undefined
-): T | undefined => {
+const optionValue = <T>(value: T | Option.Option<T> | undefined): T | undefined => {
   if (value === undefined) {
     return undefined;
   }
 
-  return Option.isOption(value)
-    ? Option.isSome(value)
-      ? value.value
-      : undefined
-    : value;
+  return Option.isOption(value) ? (Option.isSome(value) ? value.value : undefined) : value;
 };
 
 const parseScalar = (value: string, type: string) => {
@@ -41,8 +30,7 @@ const parseScalar = (value: string, type: string) => {
 
 const parseJson = (value: string) => JSON.parse(value) as unknown;
 
-const isBroadcastCreate = (operation: GeneratedOperation) =>
-  operation.id === "post__v4_broadcasts";
+const isBroadcastCreate = (operation: GeneratedOperation) => operation.id === "post__v4_broadcasts";
 
 const isBroadcastUpdate = (operation: GeneratedOperation) =>
   operation.id === "put__v4_broadcasts_id_";
@@ -50,10 +38,7 @@ const isBroadcastUpdate = (operation: GeneratedOperation) =>
 const isBroadcastMutation = (operation: GeneratedOperation) =>
   isBroadcastCreate(operation) || isBroadcastUpdate(operation);
 
-const withBroadcastDefaults = async (
-  operation: GeneratedOperation,
-  body: unknown
-) => {
+const withBroadcastDefaults = async (operation: GeneratedOperation, body: unknown) => {
   if (!isBroadcastMutation(operation)) {
     return body;
   }
@@ -67,7 +52,7 @@ const withBroadcastDefaults = async (
  */
 export const fetchBroadcast = async (
   broadcastId: string,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<Record<string, unknown>> => {
   const url = `${baseUrl}/v4/broadcasts/${encodeURIComponent(broadcastId)}`;
   const response = await fetch(url, {
@@ -76,9 +61,7 @@ export const fetchBroadcast = async (
   });
 
   if (!response.ok) {
-    const err = new Error(
-      `Failed to fetch broadcast ${broadcastId}: HTTP ${response.status}`,
-    );
+    const err = new Error(`Failed to fetch broadcast ${broadcastId}: HTTP ${response.status}`);
     err.name = "FetchError";
     throw err;
   }
@@ -116,7 +99,7 @@ const isSupportedBroadcastFilter = (filter: unknown): boolean => {
 
 const mergeWithExistingBroadcast = (
   existing: Record<string, unknown>,
-  userBody: Record<string, unknown>
+  userBody: Record<string, unknown>,
 ): Record<string, unknown> => {
   // Start with a clean subset of existing fields that the Kit API accepts on PUT.
   // We only carry forward fields that are safe to round-trip.
@@ -150,10 +133,7 @@ const mergeWithExistingBroadcast = (
   }
 
   // Carry email_template.id as email_template_id if not already set
-  if (
-    carriedFields.email_template_id === undefined &&
-    existing.email_template
-  ) {
+  if (carriedFields.email_template_id === undefined && existing.email_template) {
     const template = existing.email_template as Record<string, unknown>;
     if (template.id !== undefined) {
       carriedFields.email_template_id = template.id;
@@ -165,14 +145,9 @@ const mergeWithExistingBroadcast = (
 };
 
 /** Build the raw request body without applying broadcast config defaults. */
-const buildBodyRaw = async (
-  _operation: GeneratedOperation,
-  options: Record<string, unknown>
-) => {
+const buildBodyRaw = async (_operation: GeneratedOperation, options: Record<string, unknown>) => {
   const body = optionValue(options.body as Option.Option<string> | undefined);
-  const bodyFile = optionValue(
-    options.bodyFile as Option.Option<string> | undefined
-  );
+  const bodyFile = optionValue(options.bodyFile as Option.Option<string> | undefined);
 
   if (!(body || bodyFile)) {
     return undefined;
@@ -185,43 +160,51 @@ const buildBodyRaw = async (
   return body ? parseJson(body) : undefined;
 };
 
-const buildBody = async (
-  operation: GeneratedOperation,
-  options: Record<string, unknown>
-) => {
+const mergeStructuredBroadcastOptions = async (body: unknown, options: Record<string, unknown>) => {
+  const subscriberFilter = await buildSubscriberFilterFromOptions(options);
+  if (subscriberFilter === undefined) {
+    return body;
+  }
+
+  if (body !== undefined && (typeof body !== "object" || body === null)) {
+    throw new Error("Broadcast body must be a JSON object when using filter flags.");
+  }
+
+  return {
+    ...(body as Record<string, unknown> | undefined),
+    subscriber_filter: subscriberFilter,
+  };
+};
+
+const buildBody = async (operation: GeneratedOperation, options: Record<string, unknown>) => {
   if (!operation.requestBody) {
     return undefined;
   }
 
   const body = optionValue(options.body as Option.Option<string> | undefined);
-  const bodyFile = optionValue(
-    options.bodyFile as Option.Option<string> | undefined
+  const bodyFile = optionValue(options.bodyFile as Option.Option<string> | undefined);
+  const structuredBody = await mergeStructuredBroadcastOptions(
+    bodyFile ? parseJson(await readFile(bodyFile, "utf8")) : body ? parseJson(body) : undefined,
+    options,
   );
 
-  if (!(body || bodyFile)) {
+  if (structuredBody === undefined) {
     if (operation.requestBody.required) {
       throw new Error(
-        "This operation requires a request body. Pass --body '<json>' or --body-file <path>."
+        "This operation requires a request body. Pass --body '<json>' or --body-file <path>.",
       );
     }
 
     return undefined;
   }
 
-  if (bodyFile) {
-    return withBroadcastDefaults(
-      operation,
-      parseJson(await readFile(bodyFile, "utf8"))
-    );
-  }
-
-  return body ? withBroadcastDefaults(operation, parseJson(body)) : undefined;
+  return withBroadcastDefaults(operation, structuredBody);
 };
 
 const buildUrl = (
   operation: GeneratedOperation,
   args: Record<string, string>,
-  options: Record<string, unknown>
+  options: Record<string, unknown>,
 ) => {
   let resolvedPath = operation.path;
 
@@ -231,26 +214,18 @@ const buildUrl = (
       throw new Error(`Missing required path argument: ${parameter.name}`);
     }
 
-    resolvedPath = resolvedPath.replace(
-      `{${parameter.name}}`,
-      encodeURIComponent(value)
-    );
+    resolvedPath = resolvedPath.replace(`{${parameter.name}}`, encodeURIComponent(value));
   }
 
   const url = new URL(`${baseUrl}${resolvedPath}`);
 
   for (const parameter of operation.queryParams) {
-    const rawValue = optionValue(
-      options[parameter.cliName] as Option.Option<string> | undefined
-    );
+    const rawValue = optionValue(options[parameter.cliName] as Option.Option<string> | undefined);
     if (rawValue === undefined) {
       continue;
     }
 
-    url.searchParams.set(
-      parameter.name,
-      String(parseScalar(rawValue, parameter.type))
-    );
+    url.searchParams.set(parameter.name, String(parseScalar(rawValue, parameter.type)));
   }
 
   return url;
@@ -260,7 +235,7 @@ const buildCommandString = (
   operation: GeneratedOperation,
   args: Record<string, string>,
   options: Record<string, unknown>,
-  commandSegments = operation.commandSegments
+  commandSegments = operation.commandSegments,
 ) => {
   const parts = ["kit", ...commandSegments];
 
@@ -272,9 +247,7 @@ const buildCommandString = (
   }
 
   for (const parameter of operation.queryParams) {
-    const rawValue = optionValue(
-      options[parameter.cliName] as Option.Option<string> | undefined
-    );
+    const rawValue = optionValue(options[parameter.cliName] as Option.Option<string> | undefined);
     if (rawValue !== undefined) {
       parts.push(`--${parameter.name}`);
       parts.push(String(rawValue));
@@ -282,9 +255,7 @@ const buildCommandString = (
   }
 
   const body = optionValue(options.body as Option.Option<string> | undefined);
-  const bodyFile = optionValue(
-    options.bodyFile as Option.Option<string> | undefined
-  );
+  const bodyFile = optionValue(options.bodyFile as Option.Option<string> | undefined);
   const auth = options.auth;
 
   if (auth && auth !== "auto") {
@@ -305,7 +276,7 @@ const buildCommandString = (
 const nextActionsFor = (
   operation: GeneratedOperation,
   command: string,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
 ): NextAction[] => {
   const actions: NextAction[] = [
     {
@@ -379,15 +350,10 @@ export const executeOperation = async (
   operation: GeneratedOperation,
   rawArgs: Record<string, string>,
   rawOptions: Record<string, unknown>,
-  commandSegments = operation.commandSegments
+  commandSegments = operation.commandSegments,
 ): Promise<Envelope> => {
   const authMode = (rawOptions.auth as AuthMode | undefined) ?? "auto";
-  const command = buildCommandString(
-    operation,
-    rawArgs,
-    rawOptions,
-    commandSegments
-  );
+  const command = buildCommandString(operation, rawArgs, rawOptions, commandSegments);
 
   try {
     const url = buildUrl(operation, rawArgs, rawOptions);
@@ -403,16 +369,16 @@ export const executeOperation = async (
     // This prevents subscriber_filter and other fields from being silently reset.
     if (isBroadcastUpdate(operation)) {
       // Get the raw user body WITHOUT config defaults applied yet
-      const rawUserBody = await buildBodyRaw(operation, rawOptions);
+      const rawUserBody = await mergeStructuredBroadcastOptions(
+        await buildBodyRaw(operation, rawOptions),
+        rawOptions,
+      );
       if (rawUserBody !== undefined && typeof rawUserBody === "object") {
         const broadcastId = rawArgs.id;
         if (broadcastId) {
           const existing = await fetchBroadcast(broadcastId, auth.headers);
           // Existing state as base, user fields override
-          body = mergeWithExistingBroadcast(
-            existing,
-            rawUserBody as Record<string, unknown>
-          );
+          body = mergeWithExistingBroadcast(existing, rawUserBody as Record<string, unknown>);
         } else {
           body = await withBroadcastDefaults(operation, rawUserBody);
         }
@@ -429,8 +395,7 @@ export const executeOperation = async (
     };
 
     if (body !== undefined) {
-      headers["content-type"] =
-        operation.requestBody?.contentTypes[0] ?? "application/json";
+      headers["content-type"] = operation.requestBody?.contentTypes[0] ?? "application/json";
     }
 
     const response = await fetch(url, {
@@ -445,10 +410,7 @@ export const executeOperation = async (
     if (!response.ok) {
       return failure(
         command,
-        extractMessage(
-          parsed,
-          `Kit API request failed with status ${response.status}.`
-        ),
+        extractMessage(parsed, `Kit API request failed with status ${response.status}.`),
         `HTTP_${response.status}`,
         "Check your auth credentials, request body, and query parameters against the Kit docs for this endpoint.",
         [
@@ -460,7 +422,7 @@ export const executeOperation = async (
             command: `open ${operation.docsUrl}`,
             description: "Open the endpoint documentation",
           },
-        ]
+        ],
       );
     }
 
@@ -476,9 +438,14 @@ export const executeOperation = async (
           auth_mode: auth.mode,
           docs_url: operation.docsUrl,
         },
+        ...(operation.id === "get__v4_email_templates"
+          ? {
+              note: "Use returned email_templates[].id as API email_template_id. Kit editor URL template IDs may differ and are not mapped by this API response.",
+            }
+          : {}),
         response: contextSafe,
       },
-      nextActionsFor(operation, command, contextSafe)
+      nextActionsFor(operation, command, contextSafe),
     );
   } catch (error) {
     return failure(
@@ -495,7 +462,7 @@ export const executeOperation = async (
           command: `open ${operation.docsUrl}`,
           description: "Open the matching Kit documentation",
         },
-      ]
+      ],
     );
   }
 };

@@ -21,19 +21,23 @@ import {
 } from "./credential-store";
 
 const defaultPath = () =>
-  process.env.KIT_CREDENTIALS_PATH ??
-  join(homedir(), ".config", "kit-cli", "credentials.json");
+  process.env.KIT_CREDENTIALS_PATH ?? join(homedir(), ".config", "kit-cli", "credentials.json");
 
 const readRecord = (
   filePath: string,
 ): Effect.Effect<Record<string, unknown>, CredentialStoreError> =>
   Effect.catchAll(
     Effect.tryPromise({
-      try: () => readFile(filePath, "utf-8").then((raw) => JSON.parse(raw) as Record<string, unknown>),
+      try: () =>
+        readFile(filePath, "utf-8").then((raw) => JSON.parse(raw) as Record<string, unknown>),
       catch: (cause) => cause,
     }),
     (cause) => {
-      if (cause instanceof Error && "code" in cause && (cause as NodeJS.ErrnoException).code === "ENOENT") {
+      if (
+        cause instanceof Error &&
+        "code" in cause &&
+        (cause as NodeJS.ErrnoException).code === "ENOENT"
+      ) {
         return Effect.succeed({});
       }
       return Effect.fail(
@@ -56,9 +60,7 @@ const writeRecord = (
       new CredentialStoreError({ reason: "Failed to write credential file", cause }),
   });
 
-export const createFileCredentialStore = (
-  filePath = defaultPath(),
-): CredentialStore => ({
+export const createFileCredentialStore = (filePath = defaultPath()): CredentialStore => ({
   get: (key: CredentialKey) =>
     Effect.map(readRecord(filePath), (record) => {
       const stored = record[formatCredentialId(key)];
@@ -79,7 +81,5 @@ export const createFileCredentialStore = (
     }),
 });
 
-export const FileCredentialStoreLive = (
-  filePath?: string,
-): Layer.Layer<CredentialStore> =>
+export const FileCredentialStoreLive = (filePath?: string): Layer.Layer<CredentialStore> =>
   Layer.succeed(CredentialStore, createFileCredentialStore(filePath));

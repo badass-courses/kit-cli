@@ -9,35 +9,23 @@
  */
 
 import { Effect, Layer } from "effect";
-import {
-  CredentialStore,
-  type CredentialStoreError,
-  type CredentialKey,
-  type StoredCredential,
-} from "./credential-store";
+import { CredentialStore, type CredentialKey, type StoredCredential } from "./credential-store";
 
 export interface CompositeConfig {
   readonly envStore: CredentialStore;
   readonly primaryStore: CredentialStore;
 }
 
-export const createCompositeCredentialStore = (
-  config: CompositeConfig,
-): CredentialStore => ({
+export const createCompositeCredentialStore = (config: CompositeConfig): CredentialStore => ({
   get: (key: CredentialKey) =>
-    Effect.flatMap(
-      config.envStore.get(key),
-      (envResult: StoredCredential | null) =>
-        envResult
-          ? Effect.succeed(envResult)
-          : config.primaryStore.get(key),
+    Effect.flatMap(config.envStore.get(key), (envResult: StoredCredential | null) =>
+      envResult ? Effect.succeed(envResult) : config.primaryStore.get(key),
     ),
 
   set: (key: CredentialKey, credential: StoredCredential) =>
     config.primaryStore.set(key, credential),
 
-  delete: (key: CredentialKey) =>
-    config.primaryStore.delete(key),
+  delete: (key: CredentialKey) => config.primaryStore.delete(key),
 });
 
 export const CompositeCredentialStoreLive = (

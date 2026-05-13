@@ -16,7 +16,7 @@ if (!packageJson.version) {
 const source = await readFile(indexPath, "utf8");
 const updated = source.replace(
   /const CLI_VERSION = "[^"]+";/,
-  `const CLI_VERSION = ${JSON.stringify(packageJson.version)};`
+  `const CLI_VERSION = ${JSON.stringify(packageJson.version)};`,
 );
 
 if (updated === source) {

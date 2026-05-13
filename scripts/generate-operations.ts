@@ -90,15 +90,12 @@ const toCamelCase = (value: string) => {
   return tokens
     .map((token, index) => {
       const lower = token.toLowerCase();
-      return index === 0
-        ? lower
-        : `${lower[0]?.toUpperCase() ?? ""}${lower.slice(1)}`;
+      return index === 0 ? lower : `${lower[0]?.toUpperCase() ?? ""}${lower.slice(1)}`;
     })
     .join("");
 };
 
-const normalizeSegment = (value: string) =>
-  splitIdentifier(value).join("").toLowerCase();
+const normalizeSegment = (value: string) => splitIdentifier(value).join("").toLowerCase();
 
 const extractPathParamNames = (path: string) =>
   [...path.matchAll(/\{([^}]+)\}/g)]
@@ -168,7 +165,7 @@ const qualifyAction = (
     pathParamNames: string[];
     queryParams: ParameterObject[];
   },
-  seenCount: number
+  seenCount: number,
 ) => {
   if (seenCount === 0) {
     return action;
@@ -186,9 +183,7 @@ const qualifyAction = (
 
   const [firstPathParamName] = operation.pathParamNames;
   if (firstPathParamName && operation.pathParamNames.length === 1) {
-    const qualifier = normalizeSegment(
-      firstPathParamName.replace(/_?id$/i, "")
-    );
+    const qualifier = normalizeSegment(firstPathParamName.replace(/_?id$/i, ""));
     if (qualifier && qualifier !== "id") {
       return `${action}by${qualifier}`;
     }
@@ -230,8 +225,7 @@ for (const [path, methods] of Object.entries(spec.paths)) {
     const parameters = operation.parameters ?? [];
     const pathParams = pathParamNames.map((pathParamName) => {
       const parameter = parameters.find(
-        (candidate) =>
-          candidate.in === "path" && candidate.name === pathParamName
+        (candidate) => candidate.in === "path" && candidate.name === pathParamName,
       );
 
       return {
@@ -275,13 +269,11 @@ for (const [path, methods] of Object.entries(spec.paths)) {
         pathParamNames,
         queryParams: parameters.filter((parameter) => parameter.in === "query"),
       },
-      seenCount
+      seenCount,
     );
     seenCommandKeys.set(actionKey, seenCount + 1);
 
-    const securityNames = (operation.security ?? []).flatMap((entry) =>
-      Object.keys(entry)
-    );
+    const securityNames = (operation.security ?? []).flatMap((entry) => Object.keys(entry));
     const supportsApiKey = securityNames.includes("API Key");
     const supportsOAuth = securityNames.includes("OAuth2");
 
@@ -293,9 +285,7 @@ for (const [path, methods] of Object.entries(spec.paths)) {
       description: operation.description?.trim() || undefined,
       tag: operation.tags?.[0] ?? "General",
       commandSegments: [...groupSegments, action],
-      docsUrl:
-        docsByTitle.get(summary) ??
-        "https://developers.kit.com/api-reference/v4.json",
+      docsUrl: docsByTitle.get(summary) ?? "https://developers.kit.com/api-reference/v4.json",
       supportsApiKey,
       supportsOAuth,
       pathParams,
@@ -359,6 +349,4 @@ export const operations = ${JSON.stringify(generatedOperations, null, 2)} as con
 await mkdir(dirname(outputPath), { recursive: true });
 await writeFile(outputPath, fileContents);
 
-console.log(
-  `Generated ${generatedOperations.length} operations → ${outputPath}`
-);
+console.log(`Generated ${generatedOperations.length} operations → ${outputPath}`);
