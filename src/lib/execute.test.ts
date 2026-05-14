@@ -259,4 +259,85 @@ describe("executeOperation broadcast defaults", () => {
       first_name: "Test",
     });
   });
+
+  test("creates sequence email drafts without broadcast defaults", async () => {
+    await writeKitHomeConfig();
+    process.env.KIT_API_KEY = "test-api-key";
+
+    const operation = operations.find(
+      (entry) => entry.id === "post__v4_sequences_sequence_id_emails",
+    );
+    if (!operation) {
+      throw new Error("Sequence email create operation not found");
+    }
+
+    expect(operation.requestBody?.requiredFields).toEqual(["subject", "delay_value", "delay_unit"]);
+    expect(operation.commandSegments).toEqual(["sequences", "emails", "create"]);
+
+    const capture: { url?: string; init?: RequestInit } = {};
+    globalThis.fetch = mock(async (input: unknown, init?: RequestInit) => {
+      capture.url = String(input);
+      capture.init = init;
+      return new Response(
+        JSON.stringify({
+          email: {
+            id: 32,
+            sequence_id: 148,
+            subject: "Welcome",
+            preview_text: "Start here",
+            email_address: "matt@aihero.dev",
+            email_template_id: 4_389_070,
+            published: false,
+            position: 0,
+            delay_value: 0,
+            delay_unit: "days",
+            send_days: ["monday"],
+            content: "<p>Hello.</p>",
+          },
+        }),
+        { status: 201, headers: { "content-type": "application/json" } },
+      );
+    }) as unknown as typeof fetch;
+
+    const envelope = await executeOperation(
+      operation,
+      { sequenceid: "148" },
+      {
+        body: JSON.stringify({
+          subject: "Welcome",
+          preview_text: "Start here",
+          content: "<p>Hello.</p>",
+          delay_value: 0,
+          delay_unit: "days",
+          email_template_id: 4_389_070,
+          published: false,
+          position: 0,
+        }),
+      },
+    );
+
+    if (!envelope.ok) {
+      throw new Error(envelope.error.message);
+    }
+
+    expect(envelope.ok).toBe(true);
+    expect(capture.url).toBe("https://api.kit.com/v4/sequences/148/emails");
+    expect(capture.init?.method).toBe("POST");
+    expect(JSON.parse(String(capture.init?.body))).toEqual({
+      subject: "Welcome",
+      preview_text: "Start here",
+      content: "<p>Hello.</p>",
+      delay_value: 0,
+      delay_unit: "days",
+      email_template_id: 4_389_070,
+      published: false,
+      position: 0,
+    });
+    expect(envelope.result.note).toBe(
+      "Sequence emails are created as drafts by default. Keep published false until the sequence is intentionally ready to send.",
+    );
+    expect(envelope.next_actions.map((action) => action.command)).toContain(
+      "kit sequences emails get 148 32",
+    );
+  });
 });

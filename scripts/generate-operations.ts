@@ -27,7 +27,21 @@ type ParameterObject = {
 
 type RequestBodyObject = {
   required?: boolean;
-  content?: Record<string, unknown>;
+  content?: Record<string, MediaTypeObject>;
+};
+
+type MediaTypeObject = {
+  schema?: SchemaObject;
+};
+
+type SchemaObject = {
+  type?: string;
+  enum?: string[];
+  nullable?: boolean;
+  description?: string;
+  required?: string[];
+  properties?: Record<string, SchemaObject>;
+  items?: SchemaObject;
 };
 
 type GeneratedOperation = {
@@ -60,6 +74,15 @@ type GeneratedOperation = {
   requestBody?: {
     required: boolean;
     contentTypes: string[];
+    requiredFields: string[];
+    properties: Array<{
+      name: string;
+      description?: string;
+      required: boolean;
+      type: string;
+      enumValues?: string[];
+      nullable?: boolean;
+    }>;
   };
 };
 
@@ -204,6 +227,41 @@ const qualifyAction = (
   return `${action}${seenCount + 1}`;
 };
 
+const describeSchemaType = (schema: SchemaObject | undefined): string => {
+  if (!schema) {
+    return "unknown";
+  }
+
+  if (schema.type === "array") {
+    return `array<${describeSchemaType(schema.items)}>`;
+  }
+
+  return schema.type ?? "unknown";
+};
+
+const extractRequestBodyMetadata = (requestBody: RequestBodyObject | undefined) => {
+  if (!requestBody) {
+    return undefined;
+  }
+
+  const jsonSchema = requestBody.content?.["application/json"]?.schema;
+  const requiredFields = jsonSchema?.required ?? [];
+
+  return {
+    required: requestBody.required ?? false,
+    contentTypes: Object.keys(requestBody.content ?? {}),
+    requiredFields,
+    properties: Object.entries(jsonSchema?.properties ?? {}).map(([name, schema]) => ({
+      name,
+      description: schema.description,
+      required: requiredFields.includes(name),
+      type: describeSchemaType(schema),
+      enumValues: schema.enum,
+      nullable: schema.nullable,
+    })),
+  };
+};
+
 const generatedOperations: GeneratedOperation[] = [];
 const seenCommandKeys = new Map<string, number>();
 
@@ -290,12 +348,7 @@ for (const [path, methods] of Object.entries(spec.paths)) {
       supportsOAuth,
       pathParams,
       queryParams,
-      requestBody: operation.requestBody
-        ? {
-            required: operation.requestBody.required ?? false,
-            contentTypes: Object.keys(operation.requestBody.content ?? {}),
-          }
-        : undefined,
+      requestBody: extractRequestBodyMetadata(operation.requestBody),
     });
   }
 }
@@ -338,6 +391,15 @@ export type GeneratedOperation = {
   requestBody?: {
     required: boolean;
     contentTypes: string[];
+    requiredFields: string[];
+    properties: Array<{
+      name: string;
+      description?: string;
+      required: boolean;
+      type: string;
+      enumValues?: string[];
+      nullable?: boolean;
+    }>;
   };
 };
 

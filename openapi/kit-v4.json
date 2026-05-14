@@ -1481,7 +1481,61 @@
             "OAuth2": []
           }
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            },
+            "description": "To fetch next page of results, use `?after=<end_cursor>`"
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            },
+            "description": "To fetch previous page of results, use `?before=<start_cursor>`"
+          },
+          {
+            "name": "include_total_count",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "example": false,
+            "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages."
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            },
+            "description": "Number of results per page. Default 500, maximum 1000."
+          },
+          {
+            "name": "sent_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            }
+          },
+          {
+            "name": "sent_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Returns stats for all broadcasts on the account",
@@ -1556,6 +1610,12 @@
                               "open_tracking_disabled",
                               "click_tracking_disabled"
                             ]
+                          },
+                          "subject": {
+                            "type": "string"
+                          },
+                          "send_at": {
+                            "nullable": true
                           }
                         },
                         "required": ["id", "stats"]
@@ -1594,35 +1654,39 @@
                 "example": {
                   "broadcasts": [
                     {
-                      "id": 183,
+                      "id": 186,
+                      "subject": "... or will you",
+                      "send_at": null,
                       "stats": {
                         "recipients": 0,
-                        "open_rate": 0,
+                        "open_rate": 0.0,
                         "emails_opened": 0,
-                        "click_rate": 0,
-                        "unsubscribe_rate": 0,
+                        "click_rate": 0.0,
+                        "unsubscribe_rate": 0.0,
                         "unsubscribes": 0,
                         "total_clicks": 0,
                         "show_total_clicks": false,
                         "status": "draft",
-                        "progress": 0,
+                        "progress": 0.0,
                         "open_tracking_disabled": false,
                         "click_tracking_disabled": false
                       }
                     },
                     {
-                      "id": 182,
+                      "id": 185,
+                      "subject": "You'll never guess...",
+                      "send_at": null,
                       "stats": {
                         "recipients": 0,
-                        "open_rate": 0,
+                        "open_rate": 0.0,
                         "emails_opened": 0,
-                        "click_rate": 0,
-                        "unsubscribe_rate": 0,
+                        "click_rate": 0.0,
+                        "unsubscribe_rate": 0.0,
                         "unsubscribes": 0,
                         "total_clicks": 0,
                         "show_total_clicks": false,
                         "status": "draft",
-                        "progress": 0,
+                        "progress": 0.0,
                         "open_tracking_disabled": false,
                         "click_tracking_disabled": false
                       }
@@ -1631,8 +1695,8 @@
                   "pagination": {
                     "has_previous_page": false,
                     "has_next_page": false,
-                    "start_cursor": "WzE4M10=",
-                    "end_cursor": "WzE4Ml0=",
+                    "start_cursor": "WzE4Nl0=",
+                    "end_cursor": "WzE4NV0=",
                     "per_page": 500
                   }
                 }
@@ -1884,7 +1948,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 216
+            "example": 242
           }
         ],
         "responses": {
@@ -1968,18 +2032,18 @@
                 },
                 "example": {
                   "broadcast": {
-                    "id": 213,
+                    "id": 239,
                     "stats": {
                       "recipients": 0,
-                      "open_rate": 0,
+                      "open_rate": 0.0,
                       "emails_opened": 0,
-                      "click_rate": 0,
-                      "unsubscribe_rate": 0,
+                      "click_rate": 0.0,
+                      "unsubscribe_rate": 0.0,
                       "unsubscribes": 0,
                       "total_clicks": 0,
                       "show_total_clicks": false,
                       "status": "draft",
-                      "progress": 0,
+                      "progress": 0.0,
                       "open_tracking_disabled": false,
                       "click_tracking_disabled": false
                     }
@@ -2881,24 +2945,24 @@
                 "example": {
                   "custom_fields": [
                     {
-                      "id": 105,
+                      "id": 138,
                       "key": "existing_custom_field",
                       "label": "Existing Custom Field",
-                      "name": "ck_field_105_existing_custom_field",
+                      "name": "ck_field_138_existing_custom_field",
                       "created_at": "2023-02-17T11:43:55Z"
                     },
                     {
-                      "id": 107,
+                      "id": 140,
                       "key": "interests",
                       "label": "Interests",
-                      "name": "ck_field_107_interests",
+                      "name": "ck_field_140_interests",
                       "created_at": "2023-02-17T11:43:55Z"
                     },
                     {
-                      "id": 106,
+                      "id": 139,
                       "key": "last_name",
                       "label": "Last name",
-                      "name": "ck_field_106_last_name",
+                      "name": "ck_field_139_last_name",
                       "created_at": "2023-02-17T11:43:55Z"
                     }
                   ],
@@ -3108,13 +3172,13 @@
                 "example": {
                   "custom_field_values": [
                     {
-                      "subscriber_id": 597,
-                      "subscriber_custom_field_id": 118,
+                      "subscriber_id": 598,
+                      "subscriber_custom_field_id": 119,
                       "value": "Smith"
                     },
                     {
-                      "subscriber_id": 597,
-                      "subscriber_custom_field_id": 119,
+                      "subscriber_id": 598,
+                      "subscriber_custom_field_id": 120,
                       "value": "Acme Inc"
                     }
                   ],
@@ -3123,14 +3187,14 @@
                       "errors": ["Subscriber does not exist"],
                       "custom_field_value": {
                         "subscriber_id": null,
-                        "subscriber_custom_field_id": 118,
+                        "subscriber_custom_field_id": 151,
                         "value": "Jones"
                       }
                     },
                     {
                       "errors": ["Custom field does not exist"],
                       "custom_field_value": {
-                        "subscriber_id": 597,
+                        "subscriber_id": 598,
                         "subscriber_custom_field_id": 999999,
                         "value": "Test"
                       }
@@ -3395,7 +3459,7 @@
                 "example": {
                   "subscribers": [
                     {
-                      "id": 615,
+                      "id": 616,
                       "first_name": "Sub",
                       "email_address": "sub@example.com",
                       "created_at": "2023-02-17T11:43:55Z",
@@ -3410,7 +3474,7 @@
                       }
                     },
                     {
-                      "id": 615,
+                      "id": 616,
                       "first_name": "Sub",
                       "email_address": "sub@example.com",
                       "created_at": "2023-02-17T11:43:55Z",
@@ -3438,7 +3502,7 @@
                       "errors": ["Form does not exist"],
                       "subscription": {
                         "form_id": null,
-                        "subscriber_id": 615,
+                        "subscriber_id": 616,
                         "referrer": "https://mywebsite.com/bfpromo/?utm_source=facebook&utm_medium=cpc&utm_campaign=black_friday&utm_term=car_owners&utm_content=get_10_off"
                       }
                     }
@@ -3674,21 +3738,21 @@
                 "example": {
                   "subscribers": [
                     {
-                      "id": 578,
+                      "id": 579,
                       "first_name": null,
                       "email_address": "brooke@convertkit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z"
                     },
                     {
-                      "id": 579,
+                      "id": 580,
                       "first_name": "Camille",
                       "email_address": "camille@convertkit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z"
                     },
                     {
-                      "id": 577,
+                      "id": 578,
                       "first_name": "Alice",
                       "email_address": "alice@convertkit.dev",
                       "state": "active",
@@ -4264,14 +4328,14 @@
                 "example": {
                   "subscribers": [
                     {
-                      "id": 631,
+                      "id": 632,
                       "first_name": "Sub",
                       "email_address": "sub@example.com",
                       "created_at": "2023-02-17T11:43:55Z",
                       "tagged_at": "2023-02-17T11:43:55Z"
                     },
                     {
-                      "id": 631,
+                      "id": 632,
                       "first_name": "Sub",
                       "email_address": "sub@example.com",
                       "created_at": "2023-02-17T11:43:55Z",
@@ -4290,7 +4354,7 @@
                       "errors": ["Tag does not exist"],
                       "tagging": {
                         "tag_id": null,
-                        "subscriber_id": 631
+                        "subscriber_id": 632
                       }
                     }
                   ]
@@ -4854,7 +4918,7 @@
       },
       "put": {
         "summary": "Update a custom field",
-        "description": "Updates a custom field label (see [Create a custom field](#create-a-custom-field) above for more information on labels). Note that the key will change but the name remains the same when the label is updated.<br/><br/><strong>Warning: </strong>An update to a custom field will break all of the liquid personalization tags in emails that reference it - e.g. if you update a `Zip_Code` custom field to `Post_Code`, all liquid tags referencing `{{ subscriber.Zip_Code }}` would no longer work and need to be replaced with `{{ subscriber.Post_Code }}`.",
+        "description": "Updates a custom field label (see [Create a custom field](/api-reference/custom-fields/create-a-custom-field) for more information on labels). Note that the key will change but the name remains the same when the label is updated.<br/><br/><strong>Warning: </strong>An update to a custom field will break all of the liquid personalization tags in emails that reference it - e.g. if you update a `Zip_Code` custom field to `Post_Code`, all liquid tags referencing `{{ subscriber.Zip_Code }}` would no longer work and need to be replaced with `{{ subscriber.Post_Code }}`.",
         "tags": ["Custom Fields"],
         "security": [
           {
@@ -5641,9 +5705,9 @@
                 "example": {
                   "subscribers": [
                     {
-                      "id": 655,
+                      "id": 656,
                       "first_name": null,
-                      "email_address": "subscriber358@kit.dev",
+                      "email_address": "subscriber354@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "added_at": "2023-02-17T11:43:55Z",
@@ -5660,9 +5724,9 @@
                       }
                     },
                     {
-                      "id": 654,
+                      "id": 655,
                       "first_name": null,
-                      "email_address": "subscriber357@kit.dev",
+                      "email_address": "subscriber353@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "added_at": "2023-02-17T11:43:55Z",
@@ -5679,9 +5743,9 @@
                       }
                     },
                     {
-                      "id": 653,
+                      "id": 654,
                       "first_name": null,
-                      "email_address": "subscriber356@kit.dev",
+                      "email_address": "subscriber352@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "added_at": "2023-02-17T11:43:55Z",
@@ -5701,8 +5765,8 @@
                   "pagination": {
                     "has_previous_page": false,
                     "has_next_page": false,
-                    "start_cursor": "WzY1NV0=",
-                    "end_cursor": "WzY1M10=",
+                    "start_cursor": "WzY1Nl0=",
+                    "end_cursor": "WzY1NF0=",
                     "per_page": 500
                   }
                 }
@@ -5858,7 +5922,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 758,
+                    "id": 759,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -5954,7 +6018,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 759,
+                    "id": 760,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -6101,7 +6165,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 740
+            "example": 741
           }
         ],
         "responses": {
@@ -6181,7 +6245,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 733,
+                    "id": 734,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -6278,7 +6342,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 735,
+                    "id": 736,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -6541,7 +6605,7 @@
                     {
                       "id": 3,
                       "publication_id": 106,
-                      "created_at": "2026-04-28T18:53:51Z",
+                      "created_at": "2026-05-11T19:50:59Z",
                       "title": "Draft Post",
                       "slug": null,
                       "description": null,
@@ -6557,14 +6621,14 @@
                     {
                       "id": 2,
                       "publication_id": 105,
-                      "created_at": "2026-04-28T18:53:51Z",
+                      "created_at": "2026-05-11T19:50:59Z",
                       "title": "Email and Web Post",
                       "slug": "email-and-web-post",
                       "description": null,
                       "meta_description": null,
                       "status": "published",
-                      "published_at": "2026-04-26T18:53:51Z",
-                      "sent_at": "2026-04-28T18:53:51Z",
+                      "published_at": "2026-05-09T19:50:59Z",
+                      "sent_at": "2026-05-11T19:50:59Z",
                       "thumbnail_alt": null,
                       "thumbnail_url": null,
                       "is_paid": false,
@@ -6573,13 +6637,13 @@
                     {
                       "id": 1,
                       "publication_id": 104,
-                      "created_at": "2026-04-28T18:53:51Z",
+                      "created_at": "2026-05-11T19:50:59Z",
                       "title": "Web Only Post",
                       "slug": "web-only-post",
                       "description": null,
                       "meta_description": null,
                       "status": "published",
-                      "published_at": "2026-04-27T18:53:51Z",
+                      "published_at": "2026-05-10T19:50:59Z",
                       "sent_at": null,
                       "thumbnail_alt": null,
                       "thumbnail_url": null,
@@ -6710,13 +6774,13 @@
                   "post": {
                     "id": 25,
                     "publication_id": 128,
-                    "created_at": "2026-04-28T18:53:56Z",
+                    "created_at": "2026-05-11T19:51:03Z",
                     "title": "My Newsletter Post",
                     "slug": "my-newsletter-post",
                     "description": null,
                     "meta_description": null,
                     "status": "published",
-                    "published_at": "2026-04-27T18:53:56Z",
+                    "published_at": "2026-05-10T19:51:03Z",
                     "sent_at": null,
                     "thumbnail_alt": null,
                     "thumbnail_url": null,
@@ -6948,10 +7012,10 @@
                       "subscriber_id": 22,
                       "currency": "USD",
                       "transaction_time": "2023-02-17T11:43:55Z",
-                      "subtotal": 5,
-                      "discount": 0,
-                      "tax": 0,
-                      "total": 5,
+                      "subtotal": 5.0,
+                      "discount": 0.0,
+                      "tax": 0.0,
+                      "total": 5.0,
                       "products": [
                         {
                           "quantity": 1,
@@ -6971,8 +7035,8 @@
                       "subscriber_id": 22,
                       "currency": "USD",
                       "transaction_time": "2023-02-17T11:43:55Z",
-                      "subtotal": 10,
-                      "discount": 0,
+                      "subtotal": 10.0,
+                      "discount": 0.0,
                       "tax": 1.05,
                       "total": 11.05,
                       "products": [
@@ -6995,7 +7059,7 @@
                       "currency": "USD",
                       "transaction_time": "2023-02-17T11:43:55Z",
                       "subtotal": 78.66,
-                      "discount": 5,
+                      "discount": 5.0,
                       "tax": 7.87,
                       "total": 81.53,
                       "products": [
@@ -7175,7 +7239,7 @@
                     "currency": "USD",
                     "transaction_time": "2023-02-17T11:43:55Z",
                     "subtotal": 78.66,
-                    "discount": 5,
+                    "discount": 5.0,
                     "tax": 7.87,
                     "total": 81.53,
                     "products": [
@@ -7360,7 +7424,7 @@
                   "subtotal": 78.66,
                   "tax": 7.87,
                   "shipping": 0,
-                  "discount": 5,
+                  "discount": 5.0,
                   "total": 81.53,
                   "currency": "USD",
                   "transaction_time": "2023-02-17T11:43:55Z",
@@ -7527,7 +7591,7 @@
                     "currency": "USD",
                     "transaction_time": "2023-02-17T11:43:55Z",
                     "subtotal": 78.66,
-                    "discount": 5,
+                    "discount": 5.0,
                     "tax": 7.87,
                     "total": 81.53,
                     "products": [
@@ -7762,6 +7826,7 @@
     "/v4/sequences": {
       "get": {
         "summary": "List sequences",
+        "description": "Returns every sequence on the account. A sequence is a self-contained set of automated emails — subscribers join, then receive each email in order, governed by per-email `delay_value` / `delay_unit` and the sequence's overall `send_days`, `send_hour`, and `time_zone` schedule.\n\nEach entry carries the schedule defaults plus three behavioural toggles: `active` (whether the sequence is delivering), `repeat` (whether subscribers can re-enter), and `hold` (whether subscribers stay active after receiving every published email — an evergreen pattern). See [Create a sequence](/api-reference/sequences/create-a-sequence) for the full sequence model.\n\nOnce you have a sequence's `id`, [List sequence emails](/api-reference/sequence-emails/list-sequence-emails) returns the individual emails inside it.\n\nFor end-user context on how creators build sequences, see the help articles on [creating and sending a sequence](https://help.kit.com/en/articles/2502629-creating-and-sending-a-sequence-in-kit) and [evergreen content](https://help.kit.com/en/articles/2502575-what-is-evergreen-content).",
         "tags": ["Sequences"],
         "security": [
           {
@@ -7966,6 +8031,7 @@
       },
       "post": {
         "summary": "Create a sequence",
+        "description": "Creates an empty sequence — the container that holds sequence emails. After creating the shell, use [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email) to populate it.\n\nOnly `name` is required. Every other field has a sensible default: Kit fills in the account's default sending address, a daily send schedule, and the account time zone — and any of these can be tuned later via [Update a sequence](/api-reference/sequences/update-a-sequence).\n\nTwo behavioural toggles worth flagging up front. `repeat` controls whether a subscriber can re-enter the sequence: by default a subscriber receives the emails once and is marked complete, but with `repeat: true`, re-adding the same subscriber via a Visual Automation, Rule, Bulk Action, or Import resets their position to the start. Filters and exclusions still apply across restarts. `hold` (evergreen) keeps subscribers active in the sequence after they've received every published email — useful when you plan to add more emails later. Without `hold`, subscribers transition to Completed and won't pick up future additions.\n\n`exclude_subscriber_sources` lets you exclude subscribers acquired via specific tags, sequences, forms, or segments — they'll skip this sequence entirely.\n\nFor end-user context, see the help articles on [creating and sending a sequence](https://help.kit.com/en/articles/2502629-creating-and-sending-a-sequence-in-kit), [restarting a sequence](https://help.kit.com/en/articles/5022528-restart-a-sequence), and [holding subscribers in evergreen sequences](https://help.kit.com/en/articles/5192801-how-to-hold-subscribers-in-evergreen-sequences).",
         "tags": ["Sequences"],
         "security": [
           {
@@ -8070,8 +8136,8 @@
                     "name": "Full Series",
                     "hold": true,
                     "repeat": true,
-                    "created_at": "2026-04-28T18:54:46Z",
-                    "updated_at": "2026-04-28T18:54:46Z",
+                    "created_at": "2026-05-11T19:51:46Z",
+                    "updated_at": "2026-05-11T19:51:46Z",
                     "email_address": "joe927@ck.lol",
                     "email_template_id": 11,
                     "send_days": ["monday", "wednesday", "friday"],
@@ -8262,6 +8328,7 @@
     "/v4/sequences/{id}": {
       "delete": {
         "summary": "Delete a sequence",
+        "description": "Soft-deletes a sequence. The sequence is removed from active delivery immediately, with cleanup of associated state happening in the background.\n\n**Warning:** deleting a sequence with active subscribers stops deliveries to those subscribers — they will not receive remaining emails, and any Visual Automations referencing the sequence will need to be updated. Confirm the sequence is not in active use before deleting.\n\nIf you want to pause rather than delete, use [Update a sequence](/api-reference/sequences/update-a-sequence) with `active: false` instead.",
         "tags": ["Sequences"],
         "security": [
           {
@@ -8337,6 +8404,7 @@
       },
       "get": {
         "summary": "Get a sequence",
+        "description": "Fetches a single sequence by `id`. Use this when you need the current schedule, the `active` / `repeat` / `hold` flags, the configured `email_address` and `email_template_id`, or `exclude_subscriber_sources` for a known sequence — for example, to confirm settings before adding subscribers or to render an editor.\n\nFor the individual emails inside the sequence, use [List sequence emails](/api-reference/sequence-emails/list-sequence-emails). For the sequence model and field semantics, see [Create a sequence](/api-reference/sequences/create-a-sequence).",
         "tags": ["Sequences"],
         "security": [
           {
@@ -8510,6 +8578,7 @@
       },
       "put": {
         "summary": "Update a sequence",
+        "description": "Updates any sequence settings — `name`, `email_address`, schedule (`send_days`, `send_hour`, `time_zone`), `email_template_id`, `exclude_subscriber_sources`, or the `active` / `repeat` / `hold` flags. Only fields included in the request body change; everything else is preserved.\n\nSome changes have user-visible side effects on subscribers already in the sequence:\n\n**Note:** flipping `active` from `false` to `true` resumes delivery for queued subscribers. Flipping it back to `false` pauses the sequence — subscribers stay in their current position but no new emails are sent until it's reactivated.\n\n**Note:** changing the schedule (`send_days`, `send_hour`, or `time_zone`) only affects future sends. It does not retroactively reschedule emails already queued for delivery.\n\n**Warning:** turning off `repeat` while subscribers are mid-sequence does not stop them from finishing — but they won't be re-eligible to start over after completing.\n\nSee [Create a sequence](/api-reference/sequences/create-a-sequence) for the full sequence model and what each field controls.",
         "tags": ["Sequences"],
         "security": [
           {
@@ -8624,8 +8693,8 @@
                     "name": "New Name",
                     "hold": true,
                     "repeat": true,
-                    "created_at": "2026-04-28T18:54:49Z",
-                    "updated_at": "2026-04-28T18:54:49Z",
+                    "created_at": "2026-05-11T19:51:49Z",
+                    "updated_at": "2026-05-11T19:51:49Z",
                     "email_address": "joe956@ck.lol",
                     "email_template_id": 12,
                     "send_days": ["tuesday", "thursday"],
@@ -8811,6 +8880,1036 @@
         }
       }
     },
+    "/v4/sequences/{sequence_id}/emails": {
+      "get": {
+        "summary": "List sequence emails",
+        "description": "Returns every email inside a sequence, ordered by `position` (the order subscribers receive them). Each entry carries timing (`delay_value`, `delay_unit`, `send_days`), publish state (`published`), and metadata (`subject`, `preview_text`, `email_template_id`).\n\n**Tip:** the heavier `content` field is omitted by default to keep responses fast on sequences with many emails. Pass `include_content=true` when you need the body — for example, to render a preview, audit Liquid usage, or sync an external draft.\n\nFor the field semantics — particularly how `delay_unit` and `send_days` interact, and what happens when subscribers hit a `published: false` email — see [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email).",
+        "tags": ["Sequence Emails"],
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "OAuth2": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            },
+            "description": "To fetch next page of results, use `?after=<end_cursor>`"
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            },
+            "description": "To fetch previous page of results, use `?before=<start_cursor>`"
+          },
+          {
+            "name": "include_content",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            },
+            "description": "Pass `true` to include the `content` field on each email in the response. Omitted by default because it increases response size for large sequences."
+          },
+          {
+            "name": "include_total_count",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "example": false,
+            "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages."
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "nullable": true
+            },
+            "description": "Number of results per page. Default 500, maximum 1000."
+          },
+          {
+            "name": "sequence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 107
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a paginated list of all sequence emails for your account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "emails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "sequence_id": {
+                            "type": "integer"
+                          },
+                          "subject": {
+                            "type": "string"
+                          },
+                          "preview_text": {
+                            "type": "string"
+                          },
+                          "email_address": {
+                            "type": "string"
+                          },
+                          "email_template_id": {
+                            "nullable": true
+                          },
+                          "published": {
+                            "type": "boolean"
+                          },
+                          "position": {
+                            "type": "integer"
+                          },
+                          "delay_value": {
+                            "type": "integer"
+                          },
+                          "delay_unit": {
+                            "type": "string"
+                          },
+                          "send_days": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "sequence_id",
+                          "subject",
+                          "preview_text",
+                          "email_address",
+                          "email_template_id",
+                          "published",
+                          "position",
+                          "delay_value",
+                          "delay_unit",
+                          "send_days"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "has_previous_page": {
+                          "type": "boolean"
+                        },
+                        "has_next_page": {
+                          "type": "boolean"
+                        },
+                        "start_cursor": {
+                          "type": "string"
+                        },
+                        "end_cursor": {
+                          "type": "string"
+                        },
+                        "per_page": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "has_previous_page",
+                        "has_next_page",
+                        "start_cursor",
+                        "end_cursor",
+                        "per_page"
+                      ]
+                    }
+                  },
+                  "required": ["emails", "pagination"]
+                },
+                "example": {
+                  "emails": [
+                    {
+                      "id": 7,
+                      "sequence_id": 106,
+                      "subject": "Welcome to the series",
+                      "preview_text": "Here's what to expect",
+                      "email_address": "joe2348@ck.lol",
+                      "email_template_id": null,
+                      "published": true,
+                      "position": 0,
+                      "delay_value": 0,
+                      "delay_unit": "days",
+                      "send_days": [
+                        "monday",
+                        "tuesday",
+                        "wednesday",
+                        "thursday",
+                        "friday",
+                        "saturday",
+                        "sunday"
+                      ]
+                    }
+                  ],
+                  "pagination": {
+                    "has_previous_page": false,
+                    "has_next_page": false,
+                    "start_cursor": "WzAsN10=",
+                    "end_cursor": "WzAsN10=",
+                    "per_page": 500
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Returns a 401 if the token and/or account cannot be authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["The access token is invalid"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returns a 404 when the provided id does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["Not Found"]
+                }
+              }
+            }
+          }
+        },
+        "x-mcp": {
+          "enabled": true
+        }
+      },
+      "post": {
+        "summary": "Create a sequence email",
+        "description": "Adds a single email to a sequence. Each sequence email represents one step subscribers receive on their journey through the sequence — its `position` determines order, and `delay_value` / `delay_unit` / `send_days` determine when it fires relative to either the previous email or the subscriber's entry.\n\n`subject`, `delay_value`, and `delay_unit` are required. **Day-based** emails (`delay_unit: \"days\"`) follow the parent sequence's `send_days` and `send_hour`; their per-email `send_days` (e.g. `[\"monday\", \"wednesday\"]`) overrides the sequence schedule for that one email. **Hour-based** emails (`delay_unit: \"hours\"`) ignore the sequence schedule and fire once the delay elapses — Kit checks for hour-delayed sends every 15 minutes — and always return `send_days` as `null`.\n\nNew emails are created in draft (`published: false`) so they don't go out until you flip the flag. `position` is auto-assigned to the end of the sequence if omitted. `content` accepts HTML and can embed snippets with `{{ snippet.<key> }}` — see [Create a snippet](/api-reference/snippets/create-a-snippet) — which Kit resolves at send time, so editing a snippet later updates every email referencing it without a re-publish.\n\n**Note:** only the first email in a sequence can be an immediate send (`delay_value: 0` with `delay_unit: \"days\"`). Subsequent emails need a positive delay.\n\n**Warning:** publishing an immediate first email, or inserting a new email at a `position` earlier than where existing subscribers sit, processes those subscribers and triggers a send right away. Plan around active sequences carefully.\n\nFor end-user context on how creators build sequences in the Kit UI, see the help article on [creating and sending a sequence](https://help.kit.com/en/articles/2502629-creating-and-sending-a-sequence-in-kit).",
+        "tags": ["Sequence Emails"],
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "OAuth2": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "sequence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 148
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates a new sequence email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "sequence_id": {
+                          "type": "integer"
+                        },
+                        "subject": {
+                          "type": "string"
+                        },
+                        "preview_text": {
+                          "nullable": true
+                        },
+                        "email_address": {
+                          "type": "string"
+                        },
+                        "email_template_id": {
+                          "nullable": true
+                        },
+                        "published": {
+                          "type": "boolean"
+                        },
+                        "position": {
+                          "nullable": true
+                        },
+                        "delay_value": {
+                          "type": "integer"
+                        },
+                        "delay_unit": {
+                          "type": "string"
+                        },
+                        "send_days": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "content": {
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "sequence_id",
+                        "subject",
+                        "preview_text",
+                        "email_address",
+                        "email_template_id",
+                        "published",
+                        "position",
+                        "delay_value",
+                        "delay_unit",
+                        "send_days",
+                        "content"
+                      ]
+                    }
+                  },
+                  "required": ["email"]
+                },
+                "example": {
+                  "email": {
+                    "id": 32,
+                    "sequence_id": 147,
+                    "subject": "Welcome to the sequence",
+                    "preview_text": null,
+                    "email_address": "joe2407@ck.lol",
+                    "email_template_id": null,
+                    "published": false,
+                    "position": null,
+                    "delay_value": 1,
+                    "delay_unit": "days",
+                    "send_days": [
+                      "monday",
+                      "tuesday",
+                      "wednesday",
+                      "thursday",
+                      "friday",
+                      "saturday",
+                      "sunday"
+                    ],
+                    "content": null
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Returns a 401 if the token and/or account cannot be authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["The access token is invalid"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returns a 404 when the provided id does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["Not Found"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Returns a 422 with an error message when one or more of the parameters were invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["subject can't be blank"]
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["subject", "delay_value", "delay_unit"],
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "description": "Subject line of the email"
+                  },
+                  "preview_text": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Preview text shown in email clients before the email is opened"
+                  },
+                  "content": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "HTML body content of the email"
+                  },
+                  "delay_value": {
+                    "type": "integer",
+                    "description": "Number of days or hours to wait before sending this email after the previous one"
+                  },
+                  "delay_unit": {
+                    "type": "string",
+                    "enum": ["days", "hours"],
+                    "description": "Unit for the send delay. Use `days` for schedule-aware delivery, `hours` for a fixed hourly delay"
+                  },
+                  "email_template_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "ID of the email template to use for layout and styling"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "description": "Whether the email is active and will be sent to subscribers. Defaults to `false` (draft)"
+                  },
+                  "send_days": {
+                    "type": "array",
+                    "nullable": true,
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Days of the week this email may be sent. Defaults to all 7 days (inherits the sequence schedule). Pass a subset to restrict delivery, or `null` to reset to all days"
+                  },
+                  "position": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Zero-based position of the email in the sequence. Assigned automatically after the last email if omitted"
+                  }
+                }
+              },
+              "example": {
+                "subject": "Welcome to the sequence",
+                "delay_value": 1,
+                "delay_unit": "days",
+                "preview_text": null,
+                "content": null,
+                "email_template_id": null,
+                "published": null,
+                "send_days": null,
+                "position": null
+              }
+            }
+          }
+        },
+        "x-mcp": {
+          "enabled": true
+        }
+      }
+    },
+    "/v4/sequences/{sequence_id}/emails/{id}": {
+      "delete": {
+        "summary": "Delete a sequence email",
+        "description": "Permanently removes one email from a sequence.\n\n**Warning:** subscribers already queued to receive the deleted email will skip it — they'll continue to the next email in sequence order. This is intentional and not retryable. If subscribers need to receive the email's content, send a broadcast or re-add subscribers to the sequence (with `repeat: true`) before deleting.\n\nIf you want to pause rather than delete, use [Update a sequence email](/api-reference/sequence-emails/update-a-sequence-email) with `published: false` instead.",
+        "tags": ["Sequence Emails"],
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "OAuth2": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 78
+          },
+          {
+            "name": "sequence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 195
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deletes the sequence email"
+          },
+          "401": {
+            "description": "Returns a 401 if the token and/or account cannot be authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["The access token is invalid"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returns a 404 when the provided id does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["Not Found"]
+                }
+              }
+            }
+          }
+        },
+        "x-mcp": {
+          "enabled": true
+        }
+      },
+      "get": {
+        "summary": "Get a sequence email",
+        "description": "Fetches a single sequence email by `id`. Unlike [List sequence emails](/api-reference/sequence-emails/list-sequence-emails), this endpoint **always returns the full `content`** — no `include_content` flag needed.\n\nUse this when you have an email's `id` and need the current body, timing, or publish state — for example, to render a preview before pushing an update via [Update a sequence email](/api-reference/sequence-emails/update-a-sequence-email).\n\nFor the field semantics, see [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email).",
+        "tags": ["Sequence Emails"],
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "OAuth2": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 26
+          },
+          {
+            "name": "sequence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 127
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the sequence email details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "sequence_id": {
+                          "type": "integer"
+                        },
+                        "subject": {
+                          "type": "string"
+                        },
+                        "preview_text": {
+                          "type": "string"
+                        },
+                        "email_address": {
+                          "type": "string"
+                        },
+                        "email_template_id": {
+                          "nullable": true
+                        },
+                        "published": {
+                          "type": "boolean"
+                        },
+                        "position": {
+                          "type": "integer"
+                        },
+                        "delay_value": {
+                          "type": "integer"
+                        },
+                        "delay_unit": {
+                          "type": "string"
+                        },
+                        "send_days": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "content": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "sequence_id",
+                        "subject",
+                        "preview_text",
+                        "email_address",
+                        "email_template_id",
+                        "published",
+                        "position",
+                        "delay_value",
+                        "delay_unit",
+                        "send_days",
+                        "content"
+                      ]
+                    }
+                  },
+                  "required": ["email"]
+                },
+                "example": {
+                  "email": {
+                    "id": 25,
+                    "sequence_id": 126,
+                    "subject": "Welcome email",
+                    "preview_text": "Thanks for signing up",
+                    "email_address": "joe2377@ck.lol",
+                    "email_template_id": null,
+                    "published": true,
+                    "position": 0,
+                    "delay_value": 0,
+                    "delay_unit": "days",
+                    "send_days": [
+                      "monday",
+                      "tuesday",
+                      "wednesday",
+                      "thursday",
+                      "friday",
+                      "saturday",
+                      "sunday"
+                    ],
+                    "content": "<p>Welcome!</p>"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Returns a 401 if the token and/or account cannot be authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["The access token is invalid"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returns a 404 when the provided id does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["Not Found"]
+                }
+              }
+            }
+          }
+        },
+        "x-mcp": {
+          "enabled": true
+        }
+      },
+      "put": {
+        "summary": "Update a sequence email",
+        "description": "Updates any field on a sequence email — `subject`, `preview_text`, `content`, `delay_value`, `delay_unit`, `send_days`, `position`, `email_template_id`, or `published`. Only fields included in the request body change; everything else is preserved.\n\n**Note:** pass `send_days: null` to revert a per-email schedule override and inherit the parent sequence's `send_days` again. The response will then return all 7 days, indicating no per-email restriction.\n\n**Warning:** sending `send_days` on an email with `delay_unit: \"hours\"` returns `422` — `send_days` only applies to day-based emails.\n\n**Warning:** changing `position` while subscribers are actively progressing through the sequence can cause emails to be sent out of order or skipped. The same caution applies to flipping `published` on a `position: 0` email — it triggers Kit to process all queued subscribers for that email.\n\nFor the sequence-email model and how `delay_unit` and `send_days` interact, see [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email).",
+        "tags": ["Sequence Emails"],
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "OAuth2": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 56
+          },
+          {
+            "name": "sequence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 173
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updates the sequence email and returns its details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "sequence_id": {
+                          "type": "integer"
+                        },
+                        "subject": {
+                          "type": "string"
+                        },
+                        "preview_text": {
+                          "type": "string"
+                        },
+                        "email_address": {
+                          "type": "string"
+                        },
+                        "email_template_id": {
+                          "nullable": true
+                        },
+                        "published": {
+                          "type": "boolean"
+                        },
+                        "position": {
+                          "nullable": true
+                        },
+                        "delay_value": {
+                          "type": "integer"
+                        },
+                        "delay_unit": {
+                          "type": "string"
+                        },
+                        "send_days": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "content": {
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "sequence_id",
+                        "subject",
+                        "preview_text",
+                        "email_address",
+                        "email_template_id",
+                        "published",
+                        "position",
+                        "delay_value",
+                        "delay_unit",
+                        "send_days",
+                        "content"
+                      ]
+                    }
+                  },
+                  "required": ["email"]
+                },
+                "example": {
+                  "email": {
+                    "id": 55,
+                    "sequence_id": 172,
+                    "subject": "Updated subject",
+                    "preview_text": "Updated preview",
+                    "email_address": "joe2441@ck.lol",
+                    "email_template_id": null,
+                    "published": true,
+                    "position": null,
+                    "delay_value": 3,
+                    "delay_unit": "days",
+                    "send_days": ["monday", "wednesday", "friday"],
+                    "content": null
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Returns a 401 if the token and/or account cannot be authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["The access token is invalid"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returns a 404 when the provided id does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["Not Found"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Returns a 422 with an error message when one or more of the parameters were invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["errors"]
+                },
+                "example": {
+                  "errors": ["delay_unit must be one of: days, hours"]
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "description": "New subject line for the email"
+                  },
+                  "preview_text": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "New preview text shown in email clients before the email is opened"
+                  },
+                  "content": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "New HTML body content of the email"
+                  },
+                  "delay_value": {
+                    "type": "integer",
+                    "description": "New delay value"
+                  },
+                  "delay_unit": {
+                    "type": "string",
+                    "enum": ["days", "hours"],
+                    "description": "New delay unit. Use `days` for schedule-aware delivery, `hours` for a fixed hourly delay"
+                  },
+                  "email_template_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "New email template ID for layout and styling. Pass `null` to clear"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "description": "Pass `true` to publish a draft email or `false` to unpublish it"
+                  },
+                  "send_days": {
+                    "type": "array",
+                    "nullable": true,
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Days of the week this email may be sent. Pass a subset to restrict delivery, or `null` to reset to all days (inherits the sequence schedule)"
+                  },
+                  "position": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "New zero-based position of the email in the sequence"
+                  }
+                }
+              },
+              "example": {
+                "subject": "Updated subject",
+                "preview_text": "Updated preview",
+                "content": null,
+                "delay_value": 3,
+                "delay_unit": "days",
+                "email_template_id": null,
+                "published": true,
+                "send_days": ["monday", "wednesday", "friday"],
+                "position": null
+              }
+            }
+          }
+        },
+        "x-mcp": {
+          "enabled": true
+        }
+      }
+    },
     "/v4/sequences/{sequence_id}/subscribers": {
       "get": {
         "summary": "List subscribers for a sequence",
@@ -8912,7 +10011,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 117
+            "example": 232
           },
           {
             "name": "status",
@@ -9014,9 +10113,9 @@
                 "example": {
                   "subscribers": [
                     {
-                      "id": 873,
+                      "id": 891,
                       "first_name": null,
-                      "email_address": "subscriber484@kit.dev",
+                      "email_address": "subscriber480@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "added_at": "2023-02-17T11:43:55Z",
@@ -9025,9 +10124,9 @@
                       }
                     },
                     {
-                      "id": 872,
+                      "id": 890,
                       "first_name": null,
-                      "email_address": "subscriber483@kit.dev",
+                      "email_address": "subscriber479@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "added_at": "2023-02-17T11:43:55Z",
@@ -9036,9 +10135,9 @@
                       }
                     },
                     {
-                      "id": 871,
+                      "id": 889,
                       "first_name": null,
-                      "email_address": "subscriber482@kit.dev",
+                      "email_address": "subscriber478@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "added_at": "2023-02-17T11:43:55Z",
@@ -9050,8 +10149,8 @@
                   "pagination": {
                     "has_previous_page": false,
                     "has_next_page": false,
-                    "start_cursor": "Wzg3M10=",
-                    "end_cursor": "Wzg3MV0=",
+                    "start_cursor": "Wzg5MV0=",
+                    "end_cursor": "Wzg4OV0=",
                     "per_page": 500
                   }
                 }
@@ -9127,7 +10226,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 186
+            "example": 301
           }
         ],
         "responses": {
@@ -9181,7 +10280,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 977,
+                    "id": 995,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -9243,7 +10342,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 978,
+                    "id": 996,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -9366,7 +10465,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 955
+            "example": 973
           },
           {
             "name": "sequence_id",
@@ -9375,7 +10474,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 155
+            "example": 270
           }
         ],
         "responses": {
@@ -9429,7 +10528,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 951,
+                    "id": 969,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -9491,7 +10590,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 952,
+                    "id": 970,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -9567,6 +10666,7 @@
     "/v4/snippets": {
       "get": {
         "summary": "List snippets",
+        "description": "Returns every snippet on the account. Each snippet's `key` is the identifier used in Liquid — `{{ snippet.key }}` — when creating a broadcast or sequence email. See [Create a snippet](/api-reference/snippets/create-a-snippet) for how snippets work end-to-end.\n\n**Tip:** the heavier `content` and `document` fields are omitted by default to keep responses fast. Pass `include_content=true` when you need the body — for example, to render a preview or audit Liquid usage.\n\nFilter the result with `snippet_type` (`inline` or `block`) and `archived` (defaults to `false`, set `true` to list only archived snippets).",
         "tags": ["Snippets"],
         "security": [
           {
@@ -9757,7 +10857,7 @@
                       "updated_at": "2023-02-17T11:43:55Z",
                       "content": "Hello {{ subscriber.first_name }}",
                       "document": {
-                        "id": 81,
+                        "id": 93,
                         "value": null,
                         "value_html": "content",
                         "value_plain": null,
@@ -9805,6 +10905,7 @@
       },
       "post": {
         "summary": "Create a snippet",
+        "description": "Snippets are reusable pieces of email content you can drop into a broadcast or sequence email using Liquid: `{{ snippet.key }}`. Update the snippet once and every email that references it picks up the new content on next send.\n\nThere are two `snippet_type`s. **`inline`** snippets store plain-text content (with Liquid variable support like `{{ subscriber.first_name }}`) in the `content` field. **`block`** snippets store rich-text HTML — text, lists, images, buttons — in `document_attributes.value_html`. A snippet's type is fixed at creation: it cannot be changed via [Update a snippet](/api-reference/snippets/update-a-snippet).\n\nThe response includes a `key` field. That's the identifier you use in Liquid — for example, a snippet returned with `\"key\": \"welcome-message\"` is referenced inside a broadcast as `{{ snippet.welcome-message }}`. Keys are derived from the snippet name on creation.\n\n**Note:** the API rejects circular references — a snippet cannot reference itself, directly or transitively — with a `422` validation error.\n\nFor end-user context on how creators build and edit snippets in the Kit UI, see the help articles on [content snippets](https://help.kit.com/en/articles/3812712-creating-and-using-content-snippets-in-your-kit-emails) and [code snippets for custom templates](https://help.kit.com/en/articles/2810398-code-snippets-for-custom-email-templates).",
         "tags": ["Snippets"],
         "security": [
           {
@@ -9894,11 +10995,11 @@
                     "snippet_type": "inline",
                     "archived": false,
                     "key": "cat-fact-of-the-day",
-                    "created_at": "2026-04-28T18:55:07Z",
-                    "updated_at": "2026-04-28T18:55:07Z",
+                    "created_at": "2026-05-11T19:52:04Z",
+                    "updated_at": "2026-05-11T19:52:04Z",
                     "content": "Did you know, {{ subscriber.first_name }}? Cats can rotate their ears 180 degrees.",
                     "document": {
-                      "id": 107,
+                      "id": 119,
                       "value": null,
                       "value_html": null,
                       "value_plain": null,
@@ -10024,6 +11125,7 @@
     "/v4/snippets/{id}": {
       "get": {
         "summary": "Get a snippet",
+        "description": "Fetches a single snippet by `id`. Unlike [List snippets](/api-reference/snippets/list-snippets), this endpoint **always returns the full `content` and `document`** — no `include_content` flag needed.\n\nUse this when you have an `id` (e.g. stored from a prior create call) and need the current `key` and body — for example, to preview the resolved HTML or confirm a snippet still exists before referencing it as `{{ snippet.key }}` in a broadcast or sequence email. See [Create a snippet](/api-reference/snippets/create-a-snippet) for the snippet model.",
         "tags": ["Snippets"],
         "security": [
           {
@@ -10127,7 +11229,7 @@
                     "updated_at": "2023-02-17T11:43:55Z",
                     "content": "Hello {{ subscriber.first_name }}",
                     "document": {
-                      "id": 100,
+                      "id": 112,
                       "value": null,
                       "value_html": "content",
                       "value_plain": null,
@@ -10189,6 +11291,7 @@
       },
       "put": {
         "summary": "Update a snippet",
+        "description": "Rename a snippet, replace its body, or archive/restore it. Updates apply on the next send of any email that references the snippet via `{{ snippet.key }}` — there's no per-email versioning, so a content change ripples to every broadcast or sequence email using that key.\n\nThe request body must match the existing `snippet_type`. For an **`inline`** snippet, send `content` (and optionally `name`, `archived`). For a **`block`** snippet, send `document_attributes.value_html` (and optionally `name`, `archived`). Pass `archived: true` to archive, `false` to restore.\n\n**Warning:** `snippet_type` is immutable. Sending a different value, or sending the body shape for the wrong type, returns a `422` with `snippet_type cannot be changed`.\n\nSee [Create a snippet](/api-reference/snippets/create-a-snippet) for the full snippet model and how `key` ties into Liquid.",
         "tags": ["Snippets"],
         "security": [
           {
@@ -10289,10 +11392,10 @@
                     "archived": false,
                     "key": "welcome-message",
                     "created_at": "2023-02-17T11:43:55Z",
-                    "updated_at": "2026-04-28T18:55:11Z",
+                    "updated_at": "2026-05-11T19:52:08Z",
                     "content": "Hello {{ subscriber.first_name }}",
                     "document": {
-                      "id": 133,
+                      "id": 145,
                       "value": null,
                       "value_html": "content",
                       "value_plain": null,
@@ -10499,7 +11602,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "alice@convertkit.dev"
+            "example": "subscriber99@kit.dev,subscriber100@kit.dev,subscriber101@kit.dev"
           },
           {
             "name": "include",
@@ -10585,7 +11688,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns a list of subscribers matching the sort and filter params, defaulting to active subscribers sorted in descending order by id",
+            "description": "Returns subscriber attribution, tags, and primary location when requested via the include param",
             "content": {
               "application/json": {
                 "schema": {
@@ -10617,10 +11720,10 @@
                             "type": "object",
                             "properties": {
                               "category": {
-                                "type": "string"
+                                "type": "string",
+                                "nullable": true
                               }
-                            },
-                            "required": ["category"]
+                            }
                           },
                           "attribution": {
                             "type": "object",
@@ -10662,8 +11765,24 @@
                               "source_mechanism": {
                                 "type": "string",
                                 "nullable": true
+                              },
+                              "source_mechanism_id": {
+                                "type": "integer",
+                                "nullable": true
                               }
-                            }
+                            },
+                            "required": [
+                              "referrer",
+                              "utm_source",
+                              "utm_medium",
+                              "utm_campaign",
+                              "utm_term",
+                              "utm_content",
+                              "source_type",
+                              "source_name",
+                              "source_mechanism",
+                              "source_mechanism_id"
+                            ]
                           },
                           "tags": {
                             "type": "array",
@@ -10672,10 +11791,12 @@
                               "type": "object",
                               "properties": {
                                 "id": {
-                                  "type": "integer"
+                                  "type": "integer",
+                                  "nullable": true
                                 },
                                 "name": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "nullable": true
                                 }
                               }
                             }
@@ -10699,13 +11820,27 @@
                               },
                               "latitude": {
                                 "type": "number",
-                                "nullable": true
+                                "nullable": true,
+                                "format": "float"
                               },
                               "longitude": {
                                 "type": "number",
+                                "nullable": true,
+                                "format": "float"
+                              },
+                              "timezone": {
+                                "type": "string",
                                 "nullable": true
                               }
-                            }
+                            },
+                            "required": [
+                              "city",
+                              "state",
+                              "country",
+                              "latitude",
+                              "longitude",
+                              "timezone"
+                            ]
                           },
                           "canceled_at": {
                             "type": "string",
@@ -10716,9 +11851,9 @@
                         },
                         "required": [
                           "id",
+                          "state",
                           "first_name",
                           "email_address",
-                          "state",
                           "created_at",
                           "fields"
                         ]
@@ -10757,24 +11892,25 @@
                 "example": {
                   "subscribers": [
                     {
-                      "id": 206,
+                      "id": 209,
+                      "state": "active",
                       "first_name": "Alice",
                       "email_address": "alice@convertkit.dev",
-                      "state": "active",
                       "created_at": "2023-01-27T11:43:55Z",
                       "fields": {
                         "category": "One"
                       },
                       "attribution": {
-                        "referrer": "https://example.com",
-                        "utm_source": null,
-                        "utm_medium": null,
-                        "utm_campaign": null,
-                        "utm_term": null,
-                        "utm_content": null,
-                        "source_type": null,
-                        "source_name": null,
-                        "source_mechanism": null
+                        "referrer": "https://t.co/abc123",
+                        "utm_source": "twitter",
+                        "utm_medium": "cpc",
+                        "utm_campaign": "spring_launch",
+                        "utm_term": "newsletter+for+creators",
+                        "utm_content": "hero_cta",
+                        "source_type": "form_subscription",
+                        "source_name": "Welcome Form",
+                        "source_mechanism": "landing_page",
+                        "source_mechanism_id": null
                       },
                       "tags": [
                         {
@@ -10787,15 +11923,106 @@
                         "state": "OR",
                         "country": "US",
                         "latitude": 45.5,
-                        "longitude": -122.6
+                        "longitude": -122.6,
+                        "timezone": "America/Los_Angeles"
+                      }
+                    },
+                    {
+                      "id": 210,
+                      "state": "active",
+                      "first_name": "Benito",
+                      "email_address": "benito@convertkit.dev",
+                      "created_at": "2023-02-03T11:43:55Z",
+                      "fields": {},
+                      "attribution": {
+                        "referrer": "https://creator.kit.com/jane-smith",
+                        "utm_source": "kit",
+                        "utm_medium": "referral",
+                        "utm_campaign": null,
+                        "utm_term": null,
+                        "utm_content": null,
+                        "source_type": "form_subscription",
+                        "source_name": "Jane Smith's Recommendations",
+                        "source_mechanism": "recommendations",
+                        "source_mechanism_id": null
+                      },
+                      "tags": [
+                        {
+                          "id": 2,
+                          "name": "Newsletter"
+                        }
+                      ],
+                      "location": {
+                        "city": "Austin",
+                        "state": "TX",
+                        "country": "US",
+                        "latitude": 30.27,
+                        "longitude": -97.74,
+                        "timezone": "America/Chicago"
+                      }
+                    },
+                    {
+                      "id": 211,
+                      "state": "active",
+                      "first_name": "Camille",
+                      "email_address": "camille@convertkit.dev",
+                      "created_at": "2023-02-10T11:43:55Z",
+                      "fields": {},
+                      "attribution": {
+                        "referrer": null,
+                        "utm_source": null,
+                        "utm_medium": null,
+                        "utm_campaign": null,
+                        "utm_term": null,
+                        "utm_content": null,
+                        "source_type": "api_subscription",
+                        "source_name": "Partner Integration",
+                        "source_mechanism": "api",
+                        "source_mechanism_id": 12345
+                      },
+                      "tags": [],
+                      "location": null
+                    },
+                    {
+                      "id": 212,
+                      "state": "active",
+                      "first_name": "Elliot",
+                      "email_address": "elliot@convertkit.dev",
+                      "created_at": "2023-02-13T11:43:55Z",
+                      "fields": {},
+                      "attribution": {
+                        "referrer": null,
+                        "utm_source": null,
+                        "utm_medium": null,
+                        "utm_campaign": null,
+                        "utm_term": null,
+                        "utm_content": null,
+                        "source_type": null,
+                        "source_name": null,
+                        "source_mechanism": null,
+                        "source_mechanism_id": null
+                      },
+                      "tags": [
+                        {
+                          "id": 3,
+                          "name": "Imported"
+                        }
+                      ],
+                      "location": {
+                        "city": null,
+                        "state": null,
+                        "country": null,
+                        "latitude": null,
+                        "longitude": null,
+                        "timezone": null
                       }
                     }
                   ],
                   "pagination": {
                     "has_previous_page": false,
                     "has_next_page": false,
-                    "start_cursor": "WzIwNl0=",
-                    "end_cursor": "WzIwNl0=",
+                    "start_cursor": "MjAyMy0wMS0yNyAxMTo0Mzo1NSBVVEM=",
+                    "end_cursor": "MjAyMy0wMi0xMyAxMTo0Mzo1NSBVVEM=",
                     "per_page": 500
                   }
                 }
@@ -10853,7 +12080,7 @@
       },
       "post": {
         "summary": "Create a subscriber",
-        "description": "Behaves as an upsert. If a subscriber with the provided email address does not exist, it creates one with the specified first name and state. If a subscriber with the provided email address already exists, it updates the first name.<br/><br/>We will ignore custom fields that don't already exist in your account. We will not return an error if you try to add data to a custom field that does not exist. Please use <a href=\"#create-a-custom-field\">Create a custom field</a> to create custom fields before setting for subscribers.<br/><br/><strong>NOTE:</strong> Updating the subscriber state with this endpoint is not supported at this time.<br/><strong>NOTE:</strong> We support creating/updating a maximum of 140 custom fields at a time.",
+        "description": "Behaves as an upsert. If a subscriber with the provided email address does not exist, it creates one with the specified first name and state. If a subscriber with the provided email address already exists, it updates the first name.<br/><br/>If you include a custom field key that does not exist on your account, the request returns an error. Use [List custom fields](/api-reference/custom-fields/list-custom-fields) to retrieve existing keys, or [Create a custom field](/api-reference/custom-fields/create-a-custom-field) to add new fields before setting them for subscribers.<br/><br/><strong>NOTE:</strong> Updating the subscriber state with this endpoint is not supported at this time.<br/><strong>NOTE:</strong> We support creating/updating a maximum of 140 custom fields at a time.",
         "tags": ["Subscribers"],
         "security": [
           {
@@ -10911,7 +12138,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 357,
+                    "id": 358,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "inactive",
@@ -10951,7 +12178,10 @@
                         },
                         "fields": {
                           "type": "object",
-                          "properties": {}
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "description": "Custom field values for the subscriber, keyed by the custom field's `key`."
                         }
                       },
                       "required": [
@@ -10968,12 +12198,16 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 353,
+                    "id": 354,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
                     "created_at": "2023-02-17T11:43:55Z",
-                    "fields": {}
+                    "fields": {
+                      "birthday": "Feb 17",
+                      "last_name": "Lamarr",
+                      "source": "landing page"
+                    }
                   }
                 }
               }
@@ -11008,7 +12242,54 @@
                         },
                         "fields": {
                           "type": "object",
-                          "properties": {}
+                          "properties": {
+                            "company": {
+                              "nullable": true
+                            },
+                            "coupon": {
+                              "nullable": true
+                            },
+                            "enrolled_in_coaching": {
+                              "nullable": true
+                            },
+                            "how_did_you_hear_about_us": {
+                              "nullable": true
+                            },
+                            "interests": {
+                              "nullable": true
+                            },
+                            "lead_score": {
+                              "nullable": true
+                            },
+                            "phone_number": {
+                              "nullable": true
+                            },
+                            "postal_code": {
+                              "nullable": true
+                            },
+                            "role": {
+                              "nullable": true
+                            },
+                            "social_media": {
+                              "nullable": true
+                            },
+                            "website": {
+                              "nullable": true
+                            }
+                          },
+                          "required": [
+                            "company",
+                            "coupon",
+                            "enrolled_in_coaching",
+                            "how_did_you_hear_about_us",
+                            "interests",
+                            "lead_score",
+                            "phone_number",
+                            "postal_code",
+                            "role",
+                            "social_media",
+                            "website"
+                          ]
                         }
                       },
                       "required": [
@@ -11025,12 +12306,24 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 355,
+                    "id": 356,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
                     "created_at": "2023-02-17T11:43:55Z",
-                    "fields": {}
+                    "fields": {
+                      "company": null,
+                      "coupon": null,
+                      "enrolled_in_coaching": null,
+                      "how_did_you_hear_about_us": null,
+                      "interests": null,
+                      "lead_score": null,
+                      "phone_number": null,
+                      "postal_code": null,
+                      "role": null,
+                      "social_media": null,
+                      "website": null
+                    }
                   }
                 }
               }
@@ -11102,51 +12395,10 @@
                   },
                   "fields": {
                     "type": "object",
-                    "nullable": true,
-                    "properties": {
-                      "Last name": {
-                        "type": "string"
-                      },
-                      "Birthday": {
-                        "type": "string"
-                      },
-                      "Source": {
-                        "type": "string"
-                      },
-                      "Role": {
-                        "type": "string"
-                      },
-                      "Company": {
-                        "type": "string"
-                      },
-                      "Postal code": {
-                        "type": "string"
-                      },
-                      "Website": {
-                        "type": "string"
-                      },
-                      "Social media": {
-                        "type": "string"
-                      },
-                      "How did you hear about us?": {
-                        "type": "string"
-                      },
-                      "Interests": {
-                        "type": "string"
-                      },
-                      "Coupon": {
-                        "type": "string"
-                      },
-                      "Phone Number": {
-                        "type": "string"
-                      },
-                      "Enrolled in Coaching": {
-                        "type": "string"
-                      },
-                      "Lead Score": {
-                        "type": "string"
-                      }
-                    }
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Custom field values keyed by the custom field's `key` (e.g. `last_name`, not `Last Name`). Passing an unknown key returns a 422 error."
                   }
                 },
                 "required": ["email_address"]
@@ -11156,20 +12408,20 @@
                 "email_address": "alice@convertkit.dev",
                 "state": "active",
                 "fields": {
-                  "Last name": "Lamarr",
-                  "Birthday": "Feb 17",
-                  "Source": "landing page",
-                  "Role": "Software developer",
-                  "Company": "Convertkit",
-                  "Postal code": "83702",
-                  "Website": "convertkit.com",
-                  "Social media": "https://www.linkedin.com/company/convertkit",
-                  "How did you hear about us?": "Social media",
-                  "Interests": "Monetization",
-                  "Coupon": "",
-                  "Phone Number": "555-555-5555",
-                  "Enrolled in Coaching": "true",
-                  "Lead Score": "87"
+                  "last_name": "Lamarr",
+                  "birthday": "Feb 17",
+                  "source": "landing page",
+                  "role": "Software developer",
+                  "company": "Convertkit",
+                  "postal_code": "83702",
+                  "website": "convertkit.com",
+                  "social_media": "https://www.linkedin.com/company/convertkit",
+                  "how_did_you_hear_about_us": "Social media",
+                  "interests": "Monetization",
+                  "coupon": "",
+                  "phone_number": "555-555-5555",
+                  "enrolled_in_coaching": "true",
+                  "lead_score": "87"
                 }
               }
             }
@@ -11383,7 +12635,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 329
+            "example": 330
           }
         ],
         "responses": {
@@ -11442,7 +12694,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 328,
+                    "id": 329,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -11507,7 +12759,7 @@
       },
       "put": {
         "summary": "Update a subscriber",
-        "description": "We will ignore custom fields that don't already exist in your account. We will not return an error if you try to add data to a custom field that does not exist. Please use <a href=\"#create-a-custom-field\">Create a custom field</a> to create custom fields before setting for subscribers.<br/><br/><strong>NOTE: </strong>We support creating/updating a maximum of 140 custom fields at a time.",
+        "description": "If you include a custom field key that does not exist on your account, the request returns an error. Use [List custom fields](/api-reference/custom-fields/list-custom-fields) to retrieve existing keys, or [Create a custom field](/api-reference/custom-fields/create-a-custom-field) to add new fields before setting them for subscribers.<br/><br/><strong>NOTE:</strong> We support creating/updating a maximum of 140 custom fields at a time.",
         "tags": ["Subscribers"],
         "security": [
           {
@@ -11525,7 +12777,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 382
+            "example": 383
           }
         ],
         "responses": {
@@ -11558,7 +12810,10 @@
                         },
                         "fields": {
                           "type": "object",
-                          "properties": {}
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "description": "Custom field values for the subscriber, keyed by the custom field's `key`."
                         }
                       },
                       "required": [
@@ -11575,12 +12830,16 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 377,
+                    "id": 378,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
                     "created_at": "2023-02-17T11:43:55Z",
-                    "fields": {}
+                    "fields": {
+                      "birthday": "Feb 17",
+                      "last_name": "Lamarr",
+                      "source": "landing page"
+                    }
                   }
                 }
               }
@@ -11615,7 +12874,54 @@
                         },
                         "fields": {
                           "type": "object",
-                          "properties": {}
+                          "properties": {
+                            "birthday": {
+                              "nullable": true
+                            },
+                            "company": {
+                              "nullable": true
+                            },
+                            "coupon": {
+                              "nullable": true
+                            },
+                            "how_did_you_hear_about_us": {
+                              "nullable": true
+                            },
+                            "interests": {
+                              "nullable": true
+                            },
+                            "last_name": {
+                              "nullable": true
+                            },
+                            "postal_code": {
+                              "nullable": true
+                            },
+                            "role": {
+                              "nullable": true
+                            },
+                            "social_media": {
+                              "nullable": true
+                            },
+                            "source": {
+                              "nullable": true
+                            },
+                            "website": {
+                              "nullable": true
+                            }
+                          },
+                          "required": [
+                            "birthday",
+                            "company",
+                            "coupon",
+                            "how_did_you_hear_about_us",
+                            "interests",
+                            "last_name",
+                            "postal_code",
+                            "role",
+                            "social_media",
+                            "source",
+                            "website"
+                          ]
                         }
                       },
                       "required": [
@@ -11632,12 +12938,24 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 379,
+                    "id": 380,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
                     "created_at": "2023-02-17T11:43:55Z",
-                    "fields": {}
+                    "fields": {
+                      "birthday": null,
+                      "company": null,
+                      "coupon": null,
+                      "how_did_you_hear_about_us": null,
+                      "interests": null,
+                      "last_name": null,
+                      "postal_code": null,
+                      "role": null,
+                      "social_media": null,
+                      "source": null,
+                      "website": null
+                    }
                   }
                 }
               }
@@ -11725,43 +13043,10 @@
                   },
                   "fields": {
                     "type": "object",
-                    "nullable": true,
-                    "properties": {
-                      "Last name": {
-                        "type": "string"
-                      },
-                      "Birthday": {
-                        "type": "string"
-                      },
-                      "Source": {
-                        "type": "string"
-                      },
-                      "Role": {
-                        "type": "string"
-                      },
-                      "Company": {
-                        "type": "string"
-                      },
-                      "Postal code": {
-                        "type": "string"
-                      },
-                      "Website": {
-                        "type": "string"
-                      },
-                      "Social media": {
-                        "type": "string"
-                      },
-                      "How did you hear about us?": {
-                        "type": "string"
-                      },
-                      "Interests": {
-                        "type": "string"
-                      },
-                      "Coupon": {
-                        "type": "string"
-                      }
+                    "additionalProperties": {
+                      "type": "string"
                     },
-                    "required": ["Last name", "Birthday", "Source"]
+                    "description": "Custom field values keyed by the custom field's `key` (e.g. `last_name`, not `Last Name`). Passing an unknown key returns a 422 error."
                   }
                 },
                 "required": ["email_address"]
@@ -11770,17 +13055,17 @@
                 "first_name": "Alice",
                 "email_address": "alice@convertkit.dev",
                 "fields": {
-                  "Last name": "Lamarr",
-                  "Birthday": "Feb 17",
-                  "Source": "landing page",
-                  "Role": "Software developer",
-                  "Company": "Convertkit",
-                  "Postal code": "83702",
-                  "Website": "convertkit.com",
-                  "Social media": "https://www.linkedin.com/company/convertkit",
-                  "How did you hear about us?": "Social media",
-                  "Interests": "Monetization",
-                  "Coupon": ""
+                  "last_name": "Lamarr",
+                  "birthday": "Feb 17",
+                  "source": "landing page",
+                  "role": "Software developer",
+                  "company": "Convertkit",
+                  "postal_code": "83702",
+                  "website": "convertkit.com",
+                  "social_media": "https://www.linkedin.com/company/convertkit",
+                  "how_did_you_hear_about_us": "Social media",
+                  "interests": "Monetization",
+                  "coupon": ""
                 }
               }
             }
@@ -11811,7 +13096,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 348
+            "example": 349
           }
         ],
         "responses": {
@@ -11920,7 +13205,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 1046
+            "example": 1064
           }
         ],
         "responses": {
@@ -11998,7 +13283,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 1046,
+                    "id": 1064,
                     "stats": {
                       "sent": 2,
                       "opened": 1,
@@ -12102,7 +13387,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 1080
+            "example": 1098
           }
         ],
         "responses": {
@@ -12995,9 +14280,9 @@
                 "example": {
                   "subscribers": [
                     {
-                      "id": 1083,
+                      "id": 1101,
                       "first_name": null,
-                      "email_address": "subscriber617@kit.dev",
+                      "email_address": "subscriber613@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "tagged_at": "2023-02-17T11:43:55Z",
@@ -13006,9 +14291,9 @@
                       }
                     },
                     {
-                      "id": 1082,
+                      "id": 1100,
                       "first_name": null,
-                      "email_address": "subscriber616@kit.dev",
+                      "email_address": "subscriber612@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "tagged_at": "2023-02-17T11:43:55Z",
@@ -13017,9 +14302,9 @@
                       }
                     },
                     {
-                      "id": 1081,
+                      "id": 1099,
                       "first_name": null,
-                      "email_address": "subscriber615@kit.dev",
+                      "email_address": "subscriber611@kit.dev",
                       "state": "active",
                       "created_at": "2023-02-17T11:43:55Z",
                       "tagged_at": "2023-02-17T11:43:55Z",
@@ -13162,7 +14447,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 1205,
+                    "id": 1223,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -13224,7 +14509,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 1206,
+                    "id": 1224,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -13346,7 +14631,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 1230
+            "example": 1248
           },
           {
             "name": "tag_id",
@@ -13431,7 +14716,7 @@
             "schema": {
               "type": "integer"
             },
-            "example": 1187
+            "example": 1205
           },
           {
             "name": "tag_id",
@@ -13494,7 +14779,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 1185,
+                    "id": 1203,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",
@@ -13556,7 +14841,7 @@
                 },
                 "example": {
                   "subscriber": {
-                    "id": 1186,
+                    "id": 1204,
                     "first_name": "Alice",
                     "email_address": "alice@convertkit.dev",
                     "state": "active",

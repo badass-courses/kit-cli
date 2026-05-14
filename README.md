@@ -74,6 +74,11 @@ kit bcasts lint <broadcast-id> --auth api-key
 kit bcasts replace <broadcast-id> --auth api-key --find "old" --replace "new"
 kit bcasts filter --exclude-tag 19562218 --exclude-tag 8244351
 kit bcasts filter --segment 548647 --exclude-tag 19562218 --exclude-tag 8244351
+kit sequences list --auth api-key
+kit sequences create --auth api-key --body '{"name":"Welcome sequence"}'
+kit seqemails list <sequence-id> --auth api-key
+kit seqemails create <sequence-id> --auth api-key --body-file sequence-email.json
+kit seqemails update <sequence-id> <email-id> --auth api-key --body '{"published":false}'
 ```
 
 All commands return JSON envelopes with `ok`, `command`, `result`, `next_actions`, and structured error details when something fails.
@@ -102,9 +107,40 @@ kit bcasts update <broadcast-id> --body-file broadcast.json --subscriber-filter-
 
 `kit bcasts replace` fetches a broadcast, performs exact HTML content replacements, and PUTs back a safe update payload. It intentionally avoids round-tripping Kit's default `all_subscribers` subscriber filter because Kit's update endpoint only accepts segment or tag filters.
 
+## Sequence email drafts
+
+Sequence email endpoints are available through both generated commands and short aliases:
+
+```bash
+kit sequences emails list <sequence-id> --auth api-key
+kit sequences emails create <sequence-id> --auth api-key --body-file sequence-email.json
+kit sequences emails get <sequence-id> <email-id> --auth api-key
+kit sequences emails update <sequence-id> <email-id> --auth api-key --body '{"published":false}'
+kit sequences emails delete <sequence-id> <email-id> --auth api-key
+
+kit seqemails create <sequence-id> --auth api-key --body-file sequence-email.json
+```
+
+A draft payload looks like this:
+
+```json
+{
+  "subject": "Welcome to the sequence",
+  "preview_text": "Start here.",
+  "content": "<p>Hello.</p>",
+  "delay_value": 0,
+  "delay_unit": "days",
+  "email_template_id": 4389070,
+  "published": false,
+  "position": 0
+}
+```
+
+Keep `published` false until you intentionally want Kit to process subscribers for that sequence email.
+
 ## Email template IDs
 
-Broadcast payloads require Kit API `email_template_id` values. Use `kit emailtemplates list --auth api-key` or `kit templates list --auth api-key` and copy the returned `id`. Kit editor URL IDs can differ from API email template IDs; this CLI does not claim to map those IDs unless Kit exposes that relationship.
+Broadcast and sequence email payloads require Kit API `email_template_id` values. Use `kit emailtemplates list --auth api-key` or `kit templates list --auth api-key` and copy the returned `id`. Kit editor URL IDs can differ from API email template IDs; this CLI does not claim to map those IDs unless Kit exposes that relationship.
 
 ## Release
 

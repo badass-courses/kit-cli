@@ -122,6 +122,22 @@ const optionalText = (name: string, description?: string) => {
   return description ? pipe(option, Options.withDescription(description)) : option;
 };
 
+const requestBodyDetails = (operation: GeneratedOperation) => {
+  const body = operation.requestBody;
+  if (!body) {
+    return "";
+  }
+
+  const requiredFields = body.requiredFields.length
+    ? ` Required fields: ${body.requiredFields.join(", ")}.`
+    : "";
+  const fieldList = body.properties.length
+    ? ` Accepted fields: ${body.properties.map((field) => field.name).join(", ")}.`
+    : "";
+
+  return `${requiredFields}${fieldList}`;
+};
+
 type AnyCommand = Command.Command<any, any, any, any>;
 
 const withSubcommandsIfAny = <T extends AnyCommand>(command: T, subcommands: AnyCommand[]): T => {
@@ -166,8 +182,12 @@ const makeOperationCommand = (target: CommandTarget): any => {
   }
 
   if (operation.requestBody) {
-    optionShape.body = optionalText("body", "Inline JSON request body");
-    optionShape.bodyFile = optionalText("body-file", "Read JSON request body from a file");
+    const bodyDetails = requestBodyDetails(operation);
+    optionShape.body = optionalText("body", `Inline JSON request body.${bodyDetails}`);
+    optionShape.bodyFile = optionalText(
+      "body-file",
+      `Read JSON request body from a file.${bodyDetails}`,
+    );
 
     if (operation.id === "post__v4_broadcasts" || operation.id === "put__v4_broadcasts_id_") {
       optionShape.excludeTag = Options.text("exclude-tag").pipe(

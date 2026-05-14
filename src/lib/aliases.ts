@@ -98,6 +98,31 @@ export const curatedAliases: CuratedAlias[] = [
     description: "Shortcut for listing sequences",
   },
   {
+    commandSegments: ["seqemails", "list"],
+    targetOperationId: "get__v4_sequences_sequence_id_emails",
+    description: "Shortcut for listing sequence emails",
+  },
+  {
+    commandSegments: ["seqemails", "create"],
+    targetOperationId: "post__v4_sequences_sequence_id_emails",
+    description: "Shortcut for creating a draft sequence email",
+  },
+  {
+    commandSegments: ["seqemails", "get"],
+    targetOperationId: "get__v4_sequences_sequence_id_emails_id_",
+    description: "Shortcut for fetching a sequence email",
+  },
+  {
+    commandSegments: ["seqemails", "update"],
+    targetOperationId: "put__v4_sequences_sequence_id_emails_id_",
+    description: "Shortcut for updating a sequence email",
+  },
+  {
+    commandSegments: ["seqemails", "delete"],
+    targetOperationId: "delete__v4_sequences_sequence_id_emails_id_",
+    description: "Shortcut for deleting a sequence email",
+  },
+  {
     commandSegments: ["posts", "ls"],
     targetOperationId: "get__v4_posts",
     description: "Shortcut for listing posts",

@@ -38,6 +38,9 @@ const isBroadcastUpdate = (operation: GeneratedOperation) =>
 const isBroadcastMutation = (operation: GeneratedOperation) =>
   isBroadcastCreate(operation) || isBroadcastUpdate(operation);
 
+const isSequenceEmailCreate = (operation: GeneratedOperation) =>
+  operation.id === "post__v4_sequences_sequence_id_emails";
+
 const withBroadcastDefaults = async (operation: GeneratedOperation, body: unknown) => {
   if (!isBroadcastMutation(operation)) {
     return body;
@@ -322,6 +325,30 @@ const nextActionsFor = (
     }
   }
 
+  if (isSequenceEmailCreate(operation)) {
+    const email = data.email as Record<string, unknown> | undefined;
+    const sequenceId = email?.sequence_id;
+    const emailId = email?.id;
+
+    if (sequenceId !== undefined) {
+      actions.push({
+        command: `kit sequences emails list ${sequenceId}`,
+        description: "List emails in this sequence",
+      });
+    }
+
+    if (sequenceId !== undefined && emailId !== undefined) {
+      actions.push({
+        command: `kit sequences emails get ${sequenceId} ${emailId}`,
+        description: "Read back the created sequence email",
+      });
+      actions.push({
+        command: `kit sequences emails update ${sequenceId} ${emailId} --body '{"published":false}'`,
+        description: "Keep this sequence email as a draft",
+      });
+    }
+  }
+
   if (operation.docsUrl) {
     actions.push({
       command: `open ${operation.docsUrl}`,
@@ -441,6 +468,11 @@ export const executeOperation = async (
         ...(operation.id === "get__v4_email_templates"
           ? {
               note: "Use returned email_templates[].id as API email_template_id. Kit editor URL template IDs may differ and are not mapped by this API response.",
+            }
+          : {}),
+        ...(isSequenceEmailCreate(operation)
+          ? {
+              note: "Sequence emails are created as drafts by default. Keep published false until the sequence is intentionally ready to send.",
             }
           : {}),
         response: contextSafe,

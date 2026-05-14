@@ -25,2320 +25,3001 @@ export type GeneratedOperation = {
   requestBody?: {
     required: boolean;
     contentTypes: string[];
+    requiredFields: string[];
+    properties: Array<{
+      name: string;
+      description?: string;
+      required: boolean;
+      type: string;
+      enumValues?: string[];
+      nullable?: boolean;
+    }>;
   };
 };
 
-export const generatedAt = "2026-05-04T16:34:01.116Z";
+export const generatedAt = "2026-05-14T15:03:28.054Z";
 
 export const operations = [
   {
-    "id": "get__v4_account_colors",
-    "method": "GET",
-    "path": "/v4/account/colors",
-    "summary": "List colors",
-    "tag": "Accounts",
-    "commandSegments": [
-      "account",
-      "colors",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/accounts/list-colors.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": []
-  },
-  {
-    "id": "put__v4_account_colors",
-    "method": "PUT",
-    "path": "/v4/account/colors",
-    "summary": "Update colors",
-    "tag": "Accounts",
-    "commandSegments": [
-      "account",
-      "colors",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/accounts/update-colors.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_account_creator_profile",
-    "method": "GET",
-    "path": "/v4/account/creator_profile",
-    "summary": "Get Creator Profile",
-    "tag": "Accounts",
-    "commandSegments": [
-      "account",
-      "creatorprofile",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/accounts/get-creator-profile.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_account_email_stats",
-    "method": "GET",
-    "path": "/v4/account/email_stats",
-    "summary": "Get email stats",
-    "tag": "Accounts",
-    "commandSegments": [
-      "account",
-      "emailstats",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/accounts/get-email-stats.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_account",
-    "method": "GET",
-    "path": "/v4/account",
-    "summary": "Get current account",
-    "tag": "Accounts",
-    "commandSegments": [
-      "account",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/accounts/get-current-account.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_account_growth_stats",
-    "method": "GET",
-    "path": "/v4/account/growth_stats",
-    "summary": "Get growth stats",
-    "description": "Get growth stats for a specific time period. Defaults to last 90 days.<br/><br/>NOTE: We return your stats in your sending time zone. This endpoint does not return timestamps in UTC.",
-    "tag": "Accounts",
-    "commandSegments": [
-      "account",
-      "growthstats",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/accounts/get-growth-stats.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "ending",
-        "cliName": "ending",
-        "description": "Get stats for time period ending on this date (format yyyy-mm-dd). Defaults to today.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "starting",
-        "cliName": "starting",
-        "description": "Get stats for time period beginning on this date (format yyyy-mm-dd). Defaults to 90 days ago.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "get__v4_broadcasts_broadcast_id_clicks",
-    "method": "GET",
-    "path": "/v4/broadcasts/{broadcast_id}/clicks",
-    "summary": "Get link clicks for a broadcast",
-    "description": "NOTE: Pagination parameters control the list of clicks for the top level broadcast.",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "clicks",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/get-link-clicks-for-a-broadcast.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "broadcast_id",
-        "cliName": "broadcastid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "post__v4_broadcasts",
-    "method": "POST",
-    "path": "/v4/broadcasts",
-    "summary": "Create a broadcast",
-    "description": "Draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `send_at` to `null`.<br/><br/>To publish to the web, set `public` to `true`.<br/><br/>To schedule the broadcast for sending, provide a `send_at` timestamp. Scheduled broadcasts should contain a subject and your content, at a minimum.<br/><br/>We currently support targeting your subscribers based on segment or tag ids.<aside class='notice'>Starting point templates are not currently supported.</aside>",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/create-a-broadcast.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "delete__v4_broadcasts_id_",
-    "method": "DELETE",
-    "path": "/v4/broadcasts/{id}",
-    "summary": "Delete a broadcast",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "delete"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/delete-a-broadcast.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_broadcasts_id_",
-    "method": "GET",
-    "path": "/v4/broadcasts/{id}",
-    "summary": "Get a broadcast",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/get-a-broadcast.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_broadcasts",
-    "method": "GET",
-    "path": "/v4/broadcasts",
-    "summary": "List broadcasts",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/list-broadcasts.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "sent_after",
-        "cliName": "sentAfter",
-        "description": "Get broadcasts sent after this date (format yyyy-mm-dd).",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "sent_before",
-        "cliName": "sentBefore",
-        "description": "Get broadcasts sent before this date (format yyyy-mm-dd).",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "get__v4_broadcasts_stats",
-    "method": "GET",
-    "path": "/v4/broadcasts/stats",
-    "summary": "Get stats for a list of broadcasts",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "stats",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/get-stats-for-a-list-of-broadcasts.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_broadcasts_broadcast_id_stats",
-    "method": "GET",
-    "path": "/v4/broadcasts/{broadcast_id}/stats",
-    "summary": "Get stats for a broadcast",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "stats",
-      "getbybroadcast"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/get-stats-for-a-broadcast.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "broadcast_id",
-        "cliName": "broadcastid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "put__v4_broadcasts_id_",
-    "method": "PUT",
-    "path": "/v4/broadcasts/{id}",
-    "summary": "Update a broadcast",
-    "description": "Update an existing broadcast. Continue to draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `public` to false.<br/><br/>To schedule the broadcast for sending, set `public` to true and provide `send_at`. Scheduled broadcasts should contain a subject and your content, at a minimum.<br/><br/>We currently support targeting your subscribers based on segment or tag ids.",
-    "tag": "Broadcasts",
-    "commandSegments": [
-      "broadcasts",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/broadcasts/update-a-broadcast.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_bulk_custom_fields",
-    "method": "POST",
-    "path": "/v4/bulk/custom_fields",
-    "summary": "Bulk create custom fields",
-    "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-    "tag": "Custom Fields",
-    "commandSegments": [
-      "bulk",
-      "customfields",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/custom-fields/bulk-create-custom-fields.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_bulk_custom_fields_subscribers",
-    "method": "POST",
-    "path": "/v4/bulk/custom_fields/subscribers",
-    "summary": "Bulk update subscriber custom field values",
-    "tag": "Custom Fields",
-    "commandSegments": [
-      "bulk",
-      "customfields",
-      "subscribers",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/custom-fields/bulk-update-subscriber-custom-field-values.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_bulk_forms_subscribers",
-    "method": "POST",
-    "path": "/v4/bulk/forms/subscribers",
-    "summary": "Bulk add subscribers to forms",
-    "description": "Adding subscribers to double opt-in forms will trigger sending an Incentive Email. Subscribers already added to the specified form will not receive the Incentive Email again. For more information about double opt-in see \"[Double opt-in](#double-opt-in)\". <br/><br/>The subscribers being added to the form must already exist. Subscribers can be created in bulk using the \"[Bulk create subscriber](#bulk-create-subscribers)\" endpoint.<br/><br/>See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-    "tag": "Forms",
-    "commandSegments": [
-      "bulk",
-      "forms",
-      "subscribers",
-      "add"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/forms/bulk-add-subscribers-to-forms.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_bulk_subscribers",
-    "method": "POST",
-    "path": "/v4/bulk/subscribers",
-    "summary": "Bulk create subscribers",
-    "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "bulk",
-      "subscribers",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/bulk-create-subscribers.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_bulk_tags",
-    "method": "POST",
-    "path": "/v4/bulk/tags",
-    "summary": "Bulk create tags",
-    "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-    "tag": "Tags",
-    "commandSegments": [
-      "bulk",
-      "tags",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/bulk-create-tags.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "delete__v4_bulk_tags_subscribers",
-    "method": "DELETE",
-    "path": "/v4/bulk/tags/subscribers",
-    "summary": "Bulk remove tags from subscribers",
-    "description": "See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-    "tag": "Tags",
-    "commandSegments": [
-      "bulk",
-      "tags",
-      "subscribers",
-      "remove"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/bulk-remove-tags-from-subscribers.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": []
-  },
-  {
-    "id": "post__v4_bulk_tags_subscribers",
-    "method": "POST",
-    "path": "/v4/bulk/tags/subscribers",
-    "summary": "Bulk tag subscribers",
-    "description": "The subscribers being tagged must already exist. Subscribers can be created in bulk using the \"[Bulk create subscriber](#bulk-create-subscribers)\" endpoint.<br/><br/>See \"[Bulk & async processing](#bulk-amp-async-processing)\" for more information.",
-    "tag": "Tags",
-    "commandSegments": [
-      "bulk",
-      "tags",
-      "subscribers",
-      "tag"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/bulk-tag-subscribers.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_custom_fields",
-    "method": "POST",
-    "path": "/v4/custom_fields",
-    "summary": "Create a custom field",
-    "description": "Create a custom field for your account. The label field must be unique to your account. Whitespace will be removed from the beginning and the end of your label.<br/><br/>Additionally, a key field and a name field will be generated for you. The key is an ASCII-only, lowercased, underscored representation of your label. This key must be unique to your account. Keys are used in personalization tags in sequences and broadcasts. Names are unique identifiers for use in the HTML of custom forms. They are made up of a combination of ID and the key of the custom field prefixed with \"ck_field\".",
-    "tag": "Custom Fields",
-    "commandSegments": [
-      "customfields",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/custom-fields/create-a-custom-field.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "delete__v4_custom_fields_id_",
-    "method": "DELETE",
-    "path": "/v4/custom_fields/{id}",
-    "summary": "Delete custom field",
-    "description": "This will remove all data in this field from your subscribers.",
-    "tag": "Custom Fields",
-    "commandSegments": [
-      "customfields",
-      "delete"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/custom-fields/delete-custom-field.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_custom_fields",
-    "method": "GET",
-    "path": "/v4/custom_fields",
-    "summary": "List custom fields",
-    "description": "A custom field allows you to collect subscriber information beyond the standard fields of first name and email address. An example would be a custom field called last name so you can get the full names of your subscribers.<br/><br/>You create a custom field, and then you're able to use that in your forms or emails.",
-    "tag": "Custom Fields",
-    "commandSegments": [
-      "customfields",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/custom-fields/list-custom-fields.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "put__v4_custom_fields_id_",
-    "method": "PUT",
-    "path": "/v4/custom_fields/{id}",
-    "summary": "Update a custom field",
-    "description": "Updates a custom field label (see [Create a custom field](#create-a-custom-field) above for more information on labels). Note that the key will change but the name remains the same when the label is updated.<br/><br/><strong>Warning: </strong>An update to a custom field will break all of the liquid personalization tags in emails that reference it - e.g. if you update a `Zip_Code` custom field to `Post_Code`, all liquid tags referencing `{{ subscriber.Zip_Code }}` would no longer work and need to be replaced with `{{ subscriber.Post_Code }}`.",
-    "tag": "Custom Fields",
-    "commandSegments": [
-      "customfields",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/custom-fields/update-a-custom-field.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_email_templates",
-    "method": "GET",
-    "path": "/v4/email_templates",
-    "summary": "List email templates",
-    "tag": "Email Templates",
-    "commandSegments": [
-      "emailtemplates",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/email-templates/list-email-templates.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "get__v4_forms",
-    "method": "GET",
-    "path": "/v4/forms",
-    "summary": "List forms",
-    "tag": "Forms",
-    "commandSegments": [
-      "forms",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/forms/list-forms.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "status",
-        "cliName": "status",
-        "description": "Filter forms that have this status (`active`, `archived`, `trashed`, or `all`). Defaults to `active`.",
-        "required": false,
-        "type": "string",
-        "enumValues": [
-          "active",
-          "archived",
-          "trashed",
-          "all"
-        ]
-      },
-      {
-        "name": "type",
-        "cliName": "type",
-        "description": "Filter forms and landing pages by type. Use `embed` for embedded forms. Use `hosted` for landing pages.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "post__v4_forms_form_id_subscribers",
-    "method": "POST",
-    "path": "/v4/forms/{form_id}/subscribers",
-    "summary": "Add subscriber to form by email address",
-    "description": "The subscriber being added to the form must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-    "tag": "Forms",
-    "commandSegments": [
-      "forms",
-      "subscribers",
-      "add"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/forms/add-subscriber-to-form-by-email-address.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "form_id",
-        "cliName": "formid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_forms_form_id_subscribers_id_",
-    "method": "POST",
-    "path": "/v4/forms/{form_id}/subscribers/{id}",
-    "summary": "Add subscriber to form",
-    "description": "The subscriber being added to the form must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-    "tag": "Forms",
-    "commandSegments": [
-      "forms",
-      "subscribers",
-      "addbyid"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/forms/add-subscriber-to-form.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "form_id",
-        "cliName": "formid",
-        "required": true,
-        "type": "integer"
-      },
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_forms_form_id_subscribers",
-    "method": "GET",
-    "path": "/v4/forms/{form_id}/subscribers",
-    "summary": "List subscribers for a form",
-    "tag": "Forms",
-    "commandSegments": [
-      "forms",
-      "subscribers",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/forms/list-subscribers-for-a-form.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "form_id",
-        "cliName": "formid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "added_after",
-        "cliName": "addedAfter",
-        "description": "Filter subscribers who have been added to the form after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "added_before",
-        "cliName": "addedBefore",
-        "description": "Filter subscribers who have been added to the form before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_after",
-        "cliName": "createdAfter",
-        "description": "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_before",
-        "cliName": "createdBefore",
-        "description": "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "status",
-        "cliName": "status",
-        "description": "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
-        "required": false,
-        "type": "string",
-        "enumValues": [
-          "active",
-          "inactive",
-          "bounced",
-          "complained",
-          "cancelled",
-          "all"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "get__v4_posts_id_",
-    "method": "GET",
-    "path": "/v4/posts/{id}",
-    "summary": "Get a post",
-    "tag": "Posts",
-    "commandSegments": [
-      "posts",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/posts/get-a-post.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_posts",
-    "method": "GET",
-    "path": "/v4/posts",
-    "summary": "List posts",
-    "tag": "Posts",
-    "commandSegments": [
-      "posts",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/posts/list-posts.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_content",
-        "cliName": "includeContent",
-        "description": "To include the `content` field on each post in the response, use `true`. Omitted by default because it significantly increases response size and latency for large collections.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "post__v4_purchases",
-    "method": "POST",
-    "path": "/v4/purchases",
-    "summary": "Create a purchase",
-    "tag": "Purchases",
-    "commandSegments": [
-      "purchases",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/purchases/create-a-purchase.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_purchases_id_",
-    "method": "GET",
-    "path": "/v4/purchases/{id}",
-    "summary": "Get a purchase",
-    "tag": "Purchases",
-    "commandSegments": [
-      "purchases",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/purchases/get-a-purchase.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_purchases",
-    "method": "GET",
-    "path": "/v4/purchases",
-    "summary": "List purchases",
-    "tag": "Purchases",
-    "commandSegments": [
-      "purchases",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/purchases/list-purchases.md",
-    "supportsApiKey": false,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "get__v4_segments",
-    "method": "GET",
-    "path": "/v4/segments",
-    "summary": "List segments",
-    "tag": "Segments",
-    "commandSegments": [
-      "segments",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/segments/list-segments.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "post__v4_sequences",
-    "method": "POST",
-    "path": "/v4/sequences",
-    "summary": "Create a sequence",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/create-a-sequence.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "delete__v4_sequences_id_",
-    "method": "DELETE",
-    "path": "/v4/sequences/{id}",
-    "summary": "Delete a sequence",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "delete"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/delete-a-sequence.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_sequences_id_",
-    "method": "GET",
-    "path": "/v4/sequences/{id}",
-    "summary": "Get a sequence",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/get-a-sequence.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_sequences",
-    "method": "GET",
-    "path": "/v4/sequences",
-    "summary": "List sequences",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/list-sequences.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "post__v4_sequences_sequence_id_subscribers",
-    "method": "POST",
-    "path": "/v4/sequences/{sequence_id}/subscribers",
-    "summary": "Add subscriber to sequence by email address",
-    "description": "The subscriber being added to the sequence must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "subscribers",
-      "add"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence-by-email-address.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "sequence_id",
-        "cliName": "sequenceid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_sequences_sequence_id_subscribers_id_",
-    "method": "POST",
-    "path": "/v4/sequences/{sequence_id}/subscribers/{id}",
-    "summary": "Add subscriber to sequence",
-    "description": "The subscriber being added to the sequence must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "subscribers",
-      "addbyid"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "sequence_id",
-        "cliName": "sequenceid",
-        "required": true,
-        "type": "integer"
-      },
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_sequences_sequence_id_subscribers",
-    "method": "GET",
-    "path": "/v4/sequences/{sequence_id}/subscribers",
-    "summary": "List subscribers for a sequence",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "subscribers",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/list-subscribers-for-a-sequence.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "sequence_id",
-        "cliName": "sequenceid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "added_after",
-        "cliName": "addedAfter",
-        "description": "Filter subscribers who have been added to the form after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "added_before",
-        "cliName": "addedBefore",
-        "description": "Filter subscribers who have been added to the form before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_after",
-        "cliName": "createdAfter",
-        "description": "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_before",
-        "cliName": "createdBefore",
-        "description": "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "status",
-        "cliName": "status",
-        "description": "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
-        "required": false,
-        "type": "string",
-        "enumValues": [
-          "active",
-          "inactive",
-          "bounced",
-          "complained",
-          "cancelled",
-          "all"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "put__v4_sequences_id_",
-    "method": "PUT",
-    "path": "/v4/sequences/{id}",
-    "summary": "Update a sequence",
-    "tag": "Sequences",
-    "commandSegments": [
-      "sequences",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/sequences/update-a-sequence.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_snippets",
-    "method": "POST",
-    "path": "/v4/snippets",
-    "summary": "Create a snippet",
-    "tag": "Snippets",
-    "commandSegments": [
-      "snippets",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/snippets/create-a-snippet.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_snippets_id_",
-    "method": "GET",
-    "path": "/v4/snippets/{id}",
-    "summary": "Get a snippet",
-    "tag": "Snippets",
-    "commandSegments": [
-      "snippets",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/snippets/get-a-snippet.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_snippets",
-    "method": "GET",
-    "path": "/v4/snippets",
-    "summary": "List snippets",
-    "tag": "Snippets",
-    "commandSegments": [
-      "snippets",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/snippets/list-snippets.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "archived",
-        "cliName": "archived",
-        "description": "When `true`, returns only archived snippets. Defaults to `false`.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_content",
-        "cliName": "includeContent",
-        "description": "When `true`, includes both the `content` and `document` fields for each snippet in the response. Defaults to `false`.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "snippet_type",
-        "cliName": "snippetType",
-        "description": "Filter snippets by type. Use `inline` for text snippets or `block` for rich-text block snippets.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "put__v4_snippets_id_",
-    "method": "PUT",
-    "path": "/v4/snippets/{id}",
-    "summary": "Update a snippet",
-    "tag": "Snippets",
-    "commandSegments": [
-      "snippets",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/snippets/update-a-snippet.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_subscribers",
-    "method": "POST",
-    "path": "/v4/subscribers",
-    "summary": "Create a subscriber",
-    "description": "Behaves as an upsert. If a subscriber with the provided email address does not exist, it creates one with the specified first name and state. If a subscriber with the provided email address already exists, it updates the first name.<br/><br/>We will ignore custom fields that don't already exist in your account. We will not return an error if you try to add data to a custom field that does not exist. Please use <a href=\"#create-a-custom-field\">Create a custom field</a> to create custom fields before setting for subscribers.<br/><br/><strong>NOTE:</strong> Updating the subscriber state with this endpoint is not supported at this time.<br/><strong>NOTE:</strong> We support creating/updating a maximum of 140 custom fields at a time.",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/create-a-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_subscribers_filter",
-    "method": "POST",
-    "path": "/v4/subscribers/filter",
-    "summary": "Filter subscribers based on engagement",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "filter",
-      "apply"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/filter-subscribers-based-on-engagement.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_subscribers_id_",
-    "method": "GET",
-    "path": "/v4/subscribers/{id}",
-    "summary": "Get a subscriber",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "get"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/get-a-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_subscribers",
-    "method": "GET",
-    "path": "/v4/subscribers",
-    "summary": "List subscribers",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/list-subscribers.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_after",
-        "cliName": "createdAfter",
-        "description": "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_before",
-        "cliName": "createdBefore",
-        "description": "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "email_address",
-        "cliName": "emailAddress",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include",
-        "cliName": "include",
-        "description": "Comma-separated list of additional fields to include on each subscriber. Valid options: `attribution`, `tags`, `location`, `canceled_at`. `canceled_at` may only be used together with `status=cancelled`.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "number"
-      },
-      {
-        "name": "sort_field",
-        "cliName": "sortField",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "sort_order",
-        "cliName": "sortOrder",
-        "required": false,
-        "type": "string",
-        "enumValues": [
-          "asc",
-          "desc"
-        ]
-      },
-      {
-        "name": "status",
-        "cliName": "status",
-        "description": "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
-        "required": false,
-        "type": "string",
-        "enumValues": [
-          "active",
-          "inactive",
-          "bounced",
-          "complained",
-          "cancelled",
-          "all"
-        ]
-      },
-      {
-        "name": "updated_after",
-        "cliName": "updatedAfter",
-        "description": "Filter subscribers who have been updated after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "updated_before",
-        "cliName": "updatedBefore",
-        "description": "Filter subscribers who have been updated before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "get__v4_subscribers_subscriber_id_stats",
-    "method": "GET",
-    "path": "/v4/subscribers/{subscriber_id}/stats",
-    "summary": "List stats for a subscriber",
-    "description": "Retrieve email stats for a specific subscriber. You can filter the stats by providing `email_sent_after` and/or `email_sent_before` query parameters to limit the stats to emails sent within a specific date range.\nNote: this functionality was added in June 2025, so no data for events before that date will be included.",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "stats",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/list-stats-for-a-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "subscriber_id",
-        "cliName": "subscriberid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "email_sent_after",
-        "cliName": "emailSentAfter",
-        "description": "Filter to stats for emails sent after this date (YYYY-MM-DD)/nNOTE: This functionality was added 2025-06-28 and will only include stats for emails sent before this date.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "email_sent_before",
-        "cliName": "emailSentBefore",
-        "description": "Filter to stats for emails sent before this date (YYYY-MM-DD)/nNote: this functionality was added in June 2025, so no data for events before that date will be included.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "get__v4_subscribers_subscriber_id_tags",
-    "method": "GET",
-    "path": "/v4/subscribers/{subscriber_id}/tags",
-    "summary": "List tags for a subscriber",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "tags",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/list-tags-for-a-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "subscriber_id",
-        "cliName": "subscriberid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "post__v4_subscribers_id_unsubscribe",
-    "method": "POST",
-    "path": "/v4/subscribers/{id}/unsubscribe",
-    "summary": "Unsubscribe subscriber",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "unsubscribe",
-      "apply"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/unsubscribe-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "put__v4_subscribers_id_",
-    "method": "PUT",
-    "path": "/v4/subscribers/{id}",
-    "summary": "Update a subscriber",
-    "description": "We will ignore custom fields that don't already exist in your account. We will not return an error if you try to add data to a custom field that does not exist. Please use <a href=\"#create-a-custom-field\">Create a custom field</a> to create custom fields before setting for subscribers.<br/><br/><strong>NOTE: </strong>We support creating/updating a maximum of 140 custom fields at a time.",
-    "tag": "Subscribers",
-    "commandSegments": [
-      "subscribers",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/subscribers/update-a-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_tags",
-    "method": "POST",
-    "path": "/v4/tags",
-    "summary": "Create a tag",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/create-a-tag.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "get__v4_tags",
-    "method": "GET",
-    "path": "/v4/tags",
-    "summary": "List tags",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/list-tags.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "get__v4_tags_tag_id_subscribers",
-    "method": "GET",
-    "path": "/v4/tags/{tag_id}/subscribers",
-    "summary": "List subscribers for a tag",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "subscribers",
-      "list"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/list-subscribers-for-a-tag.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "tag_id",
-        "cliName": "tagid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_after",
-        "cliName": "createdAfter",
-        "description": "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "created_before",
-        "cliName": "createdBefore",
-        "description": "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "status",
-        "cliName": "status",
-        "description": "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
-        "required": false,
-        "type": "string",
-        "enumValues": [
-          "active",
-          "inactive",
-          "bounced",
-          "complained",
-          "cancelled",
-          "all"
-        ]
-      },
-      {
-        "name": "tagged_after",
-        "cliName": "taggedAfter",
-        "description": "Filter subscribers who have been tagged after this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "tagged_before",
-        "cliName": "taggedBefore",
-        "description": "Filter subscribers who have been tagged before this date (format yyyy-mm-dd)",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  },
-  {
-    "id": "delete__v4_tags_tag_id_subscribers",
-    "method": "DELETE",
-    "path": "/v4/tags/{tag_id}/subscribers",
-    "summary": "Remove tag from subscriber by email address",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "subscribers",
-      "remove"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/remove-tag-from-subscriber-by-email-address.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "tag_id",
-        "cliName": "tagid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "delete__v4_tags_tag_id_subscribers_id_",
-    "method": "DELETE",
-    "path": "/v4/tags/{tag_id}/subscribers/{id}",
-    "summary": "Remove tag from subscriber",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "subscribers",
-      "removebyid"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/remove-tag-from-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "tag_id",
-        "cliName": "tagid",
-        "required": true,
-        "type": "integer"
-      },
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "post__v4_tags_tag_id_subscribers",
-    "method": "POST",
-    "path": "/v4/tags/{tag_id}/subscribers",
-    "summary": "Tag a subscriber by email address",
-    "description": "The subscriber being tagged must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "subscribers",
-      "tag"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/tag-a-subscriber-by-email-address.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "tag_id",
-        "cliName": "tagid",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_tags_tag_id_subscribers_id_",
-    "method": "POST",
-    "path": "/v4/tags/{tag_id}/subscribers/{id}",
-    "summary": "Tag a subscriber",
-    "description": "The subscriber being tagged must already exist. Subscribers can be created using the \"[Create a subscriber](#create-a-subscriber)\" endpoint.",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "subscribers",
-      "tagbyid"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/tag-a-subscriber.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "tag_id",
-        "cliName": "tagid",
-        "required": true,
-        "type": "integer"
-      },
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "put__v4_tags_id_",
-    "method": "PUT",
-    "path": "/v4/tags/{id}",
-    "summary": "Update tag name",
-    "tag": "Tags",
-    "commandSegments": [
-      "tags",
-      "update"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/tags/update-tag-name.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "post__v4_webhooks",
-    "method": "POST",
-    "path": "/v4/webhooks",
-    "summary": "Create a webhook",
-    "description": "Available event types:<br/>- `subscriber.subscriber_activate`<br/>- `subscriber.subscriber_unsubscribe`<br/>- `subscriber.subscriber_bounce`<br/>- `subscriber.subscriber_complain`<br/>- `subscriber.form_subscribe`, required parameter `form_id` [Integer]<br/>- `subscriber.course_subscribe`, required parameter `sequence_id` [Integer]<br/>- `subscriber.course_complete`, required parameter `sequence_id` [Integer]<br/>- `subscriber.link_click`, required parameter `initiator_value` [String] as a link URL<br/>- `subscriber.product_purchase`, required parameter `product_id` [Integer]<br/>- `subscriber.tag_add`, required parameter `tag_id` [Integer]<br/>- `subscriber.tag_remove`, required parameter `tag_id` [Integer]<br/>- `purchase.purchase_create`<br/>- `custom_field.field_created`<br/>- `custom_field.field_deleted`<br/>- `custom_field.field_value_updated`, required parameter `custom_field_id` [Integer]",
-    "tag": "Webhooks",
-    "commandSegments": [
-      "webhooks",
-      "create"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/webhooks/create-a-webhook.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [],
-    "requestBody": {
-      "required": false,
-      "contentTypes": [
-        "application/json"
-      ]
-    }
-  },
-  {
-    "id": "delete__v4_webhooks_id_",
-    "method": "DELETE",
-    "path": "/v4/webhooks/{id}",
-    "summary": "Delete a webhook",
-    "tag": "Webhooks",
-    "commandSegments": [
-      "webhooks",
-      "delete"
-    ],
-    "docsUrl": "https://developers.kit.com/api-reference/webhooks/delete-a-webhook.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [
-      {
-        "name": "id",
-        "cliName": "id",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "queryParams": []
-  },
-  {
-    "id": "get__v4_webhooks",
-    "method": "GET",
-    "path": "/v4/webhooks",
-    "summary": "List webhooks",
-    "description": "Webhooks are automations that will receive subscriber data when a subscriber event is triggered, such as when a subscriber completes a sequence.<br/><br/>When a webhook is triggered, a `POST` request will be made to your URL with a JSON payload.",
-    "tag": "Webhooks",
-    "commandSegments": [
-      "webhooks",
-      "list"
+    id: "get__v4_account_colors",
+    method: "GET",
+    path: "/v4/account/colors",
+    summary: "List colors",
+    tag: "Accounts",
+    commandSegments: ["account", "colors", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/accounts/list-colors.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+  },
+  {
+    id: "put__v4_account_colors",
+    method: "PUT",
+    path: "/v4/account/colors",
+    summary: "Update colors",
+    tag: "Accounts",
+    commandSegments: ["account", "colors", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/accounts/update-colors.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["colors"],
+      properties: [
+        {
+          name: "colors",
+          description: "An array of up to 10 color hex codes",
+          required: true,
+          type: "array<string>",
+        },
+      ],
+    },
+  },
+  {
+    id: "get__v4_account_creator_profile",
+    method: "GET",
+    path: "/v4/account/creator_profile",
+    summary: "Get Creator Profile",
+    tag: "Accounts",
+    commandSegments: ["account", "creatorprofile", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/accounts/get-creator-profile.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_account_email_stats",
+    method: "GET",
+    path: "/v4/account/email_stats",
+    summary: "Get email stats",
+    tag: "Accounts",
+    commandSegments: ["account", "emailstats", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/accounts/get-email-stats.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_account",
+    method: "GET",
+    path: "/v4/account",
+    summary: "Get current account",
+    tag: "Accounts",
+    commandSegments: ["account", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/accounts/get-current-account.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_account_growth_stats",
+    method: "GET",
+    path: "/v4/account/growth_stats",
+    summary: "Get growth stats",
+    description:
+      "Get growth stats for a specific time period. Defaults to last 90 days.<br/><br/>NOTE: We return your stats in your sending time zone. This endpoint does not return timestamps in UTC.",
+    tag: "Accounts",
+    commandSegments: ["account", "growthstats", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/accounts/get-growth-stats.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "ending",
+        cliName: "ending",
+        description:
+          "Get stats for time period ending on this date (format yyyy-mm-dd). Defaults to today.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "starting",
+        cliName: "starting",
+        description:
+          "Get stats for time period beginning on this date (format yyyy-mm-dd). Defaults to 90 days ago.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_broadcasts_broadcast_id_clicks",
+    method: "GET",
+    path: "/v4/broadcasts/{broadcast_id}/clicks",
+    summary: "Get link clicks for a broadcast",
+    description:
+      "NOTE: Pagination parameters control the list of clicks for the top level broadcast.",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "clicks", "get"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/broadcasts/get-link-clicks-for-a-broadcast.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "broadcast_id",
+        cliName: "broadcastid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "post__v4_broadcasts",
+    method: "POST",
+    path: "/v4/broadcasts",
+    summary: "Create a broadcast",
+    description:
+      "Draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `send_at` to `null`.<br/><br/>To publish to the web, set `public` to `true`.<br/><br/>To schedule the broadcast for sending, provide a `send_at` timestamp. Scheduled broadcasts should contain a subject and your content, at a minimum.<br/><br/>We currently support targeting your subscribers based on segment or tag ids.<aside class='notice'>Starting point templates are not currently supported.</aside>",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/broadcasts/create-a-broadcast.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [
+        "content",
+        "description",
+        "public",
+        "published_at",
+        "preview_text",
+        "subject",
+        "subscriber_filter",
+      ],
+      properties: [
+        {
+          name: "email_template_id",
+          description:
+            "Id of the email template to use. Uses the account's default template if not provided. 'Starting point' template is not supported.",
+          required: false,
+          type: "integer",
+        },
+        {
+          name: "email_address",
+          description:
+            "The sending email address to use. Uses the account's sending email address if not provided.",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "content",
+          description: "The HTML content of the email.",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "description",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "public",
+          description:
+            "`true` to publish this broadcast to the web. The broadcast will appear in a newsletter feed on your Creator Profile and Landing Pages.",
+          required: true,
+          type: "boolean",
+        },
+        {
+          name: "published_at",
+          description:
+            "The published timestamp to display in ISO8601 format. If no timezone is provided, UTC is assumed.",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "send_at",
+          description:
+            "The scheduled send time for this broadcast in ISO8601 format. If no timezone is provided, UTC is assumed.",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "thumbnail_alt",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "thumbnail_url",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "preview_text",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "subject",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "subscriber_filter",
+          description:
+            "Filters your subscribers. At this time, we only support using only one filter group type via the API (e.g. `all`, `any`, or `none` but no combinations). If nothing is provided, will default to all of your subscribers.",
+          required: true,
+          type: "array<object>",
+        },
+      ],
+    },
+  },
+  {
+    id: "delete__v4_broadcasts_id_",
+    method: "DELETE",
+    path: "/v4/broadcasts/{id}",
+    summary: "Delete a broadcast",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "delete"],
+    docsUrl: "https://developers.kit.com/api-reference/broadcasts/delete-a-broadcast.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_broadcasts_id_",
+    method: "GET",
+    path: "/v4/broadcasts/{id}",
+    summary: "Get a broadcast",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/broadcasts/get-a-broadcast.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_broadcasts",
+    method: "GET",
+    path: "/v4/broadcasts",
+    summary: "List broadcasts",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/broadcasts/list-broadcasts.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "sent_after",
+        cliName: "sentAfter",
+        description: "Get broadcasts sent after this date (format yyyy-mm-dd).",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "sent_before",
+        cliName: "sentBefore",
+        description: "Get broadcasts sent before this date (format yyyy-mm-dd).",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_broadcasts_stats",
+    method: "GET",
+    path: "/v4/broadcasts/stats",
+    summary: "Get stats for a list of broadcasts",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "stats", "get"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/broadcasts/get-stats-for-a-list-of-broadcasts.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "sent_after",
+        cliName: "sentAfter",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "sent_before",
+        cliName: "sentBefore",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_broadcasts_broadcast_id_stats",
+    method: "GET",
+    path: "/v4/broadcasts/{broadcast_id}/stats",
+    summary: "Get stats for a broadcast",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "stats", "getbybroadcast"],
+    docsUrl: "https://developers.kit.com/api-reference/broadcasts/get-stats-for-a-broadcast.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "broadcast_id",
+        cliName: "broadcastid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "put__v4_broadcasts_id_",
+    method: "PUT",
+    path: "/v4/broadcasts/{id}",
+    summary: "Update a broadcast",
+    description:
+      "Update an existing broadcast. Continue to draft or schedule to send a broadcast to all or a subset of your subscribers.<br/><br/>To save a draft, set `public` to false.<br/><br/>To schedule the broadcast for sending, set `public` to true and provide `send_at`. Scheduled broadcasts should contain a subject and your content, at a minimum.<br/><br/>We currently support targeting your subscribers based on segment or tag ids.",
+    tag: "Broadcasts",
+    commandSegments: ["broadcasts", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/broadcasts/update-a-broadcast.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [
+        "email_template_id",
+        "email_address",
+        "content",
+        "description",
+        "public",
+        "published_at",
+        "send_at",
+        "thumbnail_alt",
+        "thumbnail_url",
+        "preview_text",
+        "subject",
+        "subscriber_filter",
+      ],
+      properties: [
+        {
+          name: "email_template_id",
+          description:
+            "Id of the email template to use. Uses the account's default template if not provided. 'Starting point' template is not supported.",
+          required: true,
+          type: "integer",
+        },
+        {
+          name: "email_address",
+          description:
+            "The sending email address to use. Uses the account's sending email address if not provided.",
+          required: true,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "content",
+          description: "The HTML content of the email.",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "description",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "public",
+          description:
+            "`true` to publish this broadcast to the web. The broadcast will appear in a newsletter feed on your Creator Profile and Landing Pages.",
+          required: true,
+          type: "boolean",
+        },
+        {
+          name: "published_at",
+          description:
+            "The published timestamp to display in ISO8601 format. If no timezone is provided, UTC is assumed.",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "send_at",
+          description:
+            "The scheduled send time for this broadcast in ISO8601 format. If no timezone is provided, UTC is assumed.",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "thumbnail_alt",
+          required: true,
+          type: "unknown",
+          nullable: true,
+        },
+        {
+          name: "thumbnail_url",
+          required: true,
+          type: "unknown",
+          nullable: true,
+        },
+        {
+          name: "preview_text",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "subject",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "subscriber_filter",
+          description:
+            "Filters your subscribers. At this time, we only support using only one filter group type via the API (e.g. `all`, `any`, or `none` but no combinations). If nothing is provided, will default to all of your subscribers.",
+          required: true,
+          type: "array<object>",
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_bulk_custom_fields",
+    method: "POST",
+    path: "/v4/bulk/custom_fields",
+    summary: "Bulk create custom fields",
+    description:
+      'See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.',
+    tag: "Custom Fields",
+    commandSegments: ["bulk", "customfields", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/custom-fields/bulk-create-custom-fields.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["custom_fields"],
+      properties: [
+        {
+          name: "custom_fields",
+          required: true,
+          type: "array<object>",
+        },
+        {
+          name: "callback_url",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_bulk_custom_fields_subscribers",
+    method: "POST",
+    path: "/v4/bulk/custom_fields/subscribers",
+    summary: "Bulk update subscriber custom field values",
+    tag: "Custom Fields",
+    commandSegments: ["bulk", "customfields", "subscribers", "update"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/custom-fields/bulk-update-subscriber-custom-field-values.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["custom_field_values", "callback_url"],
+      properties: [
+        {
+          name: "custom_field_values",
+          required: true,
+          type: "array<object>",
+        },
+        {
+          name: "callback_url",
+          required: true,
+          type: "unknown",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_bulk_forms_subscribers",
+    method: "POST",
+    path: "/v4/bulk/forms/subscribers",
+    summary: "Bulk add subscribers to forms",
+    description:
+      'Adding subscribers to double opt-in forms will trigger sending an Incentive Email. Subscribers already added to the specified form will not receive the Incentive Email again. For more information about double opt-in see "[Double opt-in](#double-opt-in)". <br/><br/>The subscribers being added to the form must already exist. Subscribers can be created in bulk using the "[Bulk create subscriber](#bulk-create-subscribers)" endpoint.<br/><br/>See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.',
+    tag: "Forms",
+    commandSegments: ["bulk", "forms", "subscribers", "add"],
+    docsUrl: "https://developers.kit.com/api-reference/forms/bulk-add-subscribers-to-forms.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["additions"],
+      properties: [
+        {
+          name: "additions",
+          required: true,
+          type: "array<object>",
+        },
+        {
+          name: "callback_url",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_bulk_subscribers",
+    method: "POST",
+    path: "/v4/bulk/subscribers",
+    summary: "Bulk create subscribers",
+    description:
+      'See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.',
+    tag: "Subscribers",
+    commandSegments: ["bulk", "subscribers", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/bulk-create-subscribers.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["subscribers"],
+      properties: [
+        {
+          name: "subscribers",
+          required: true,
+          type: "array<object>",
+        },
+        {
+          name: "callback_url",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_bulk_tags",
+    method: "POST",
+    path: "/v4/bulk/tags",
+    summary: "Bulk create tags",
+    description:
+      'See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.',
+    tag: "Tags",
+    commandSegments: ["bulk", "tags", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/bulk-create-tags.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["tags"],
+      properties: [
+        {
+          name: "tags",
+          required: true,
+          type: "array<object>",
+        },
+        {
+          name: "callback_url",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "delete__v4_bulk_tags_subscribers",
+    method: "DELETE",
+    path: "/v4/bulk/tags/subscribers",
+    summary: "Bulk remove tags from subscribers",
+    description:
+      'See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.',
+    tag: "Tags",
+    commandSegments: ["bulk", "tags", "subscribers", "remove"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/bulk-remove-tags-from-subscribers.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+  },
+  {
+    id: "post__v4_bulk_tags_subscribers",
+    method: "POST",
+    path: "/v4/bulk/tags/subscribers",
+    summary: "Bulk tag subscribers",
+    description:
+      'The subscribers being tagged must already exist. Subscribers can be created in bulk using the "[Bulk create subscriber](#bulk-create-subscribers)" endpoint.<br/><br/>See "[Bulk & async processing](#bulk-amp-async-processing)" for more information.',
+    tag: "Tags",
+    commandSegments: ["bulk", "tags", "subscribers", "tag"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/bulk-tag-subscribers.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["taggings"],
+      properties: [
+        {
+          name: "taggings",
+          required: true,
+          type: "array<object>",
+        },
+        {
+          name: "callback_url",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_custom_fields",
+    method: "POST",
+    path: "/v4/custom_fields",
+    summary: "Create a custom field",
+    description:
+      'Create a custom field for your account. The label field must be unique to your account. Whitespace will be removed from the beginning and the end of your label.<br/><br/>Additionally, a key field and a name field will be generated for you. The key is an ASCII-only, lowercased, underscored representation of your label. This key must be unique to your account. Keys are used in personalization tags in sequences and broadcasts. Names are unique identifiers for use in the HTML of custom forms. They are made up of a combination of ID and the key of the custom field prefixed with "ck_field".',
+    tag: "Custom Fields",
+    commandSegments: ["customfields", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/custom-fields/create-a-custom-field.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["label"],
+      properties: [
+        {
+          name: "label",
+          required: true,
+          type: "string",
+        },
+      ],
+    },
+  },
+  {
+    id: "delete__v4_custom_fields_id_",
+    method: "DELETE",
+    path: "/v4/custom_fields/{id}",
+    summary: "Delete custom field",
+    description: "This will remove all data in this field from your subscribers.",
+    tag: "Custom Fields",
+    commandSegments: ["customfields", "delete"],
+    docsUrl: "https://developers.kit.com/api-reference/custom-fields/delete-custom-field.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_custom_fields",
+    method: "GET",
+    path: "/v4/custom_fields",
+    summary: "List custom fields",
+    description:
+      "A custom field allows you to collect subscriber information beyond the standard fields of first name and email address. An example would be a custom field called last name so you can get the full names of your subscribers.<br/><br/>You create a custom field, and then you're able to use that in your forms or emails.",
+    tag: "Custom Fields",
+    commandSegments: ["customfields", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/custom-fields/list-custom-fields.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "put__v4_custom_fields_id_",
+    method: "PUT",
+    path: "/v4/custom_fields/{id}",
+    summary: "Update a custom field",
+    description:
+      "Updates a custom field label (see [Create a custom field](/api-reference/custom-fields/create-a-custom-field) for more information on labels). Note that the key will change but the name remains the same when the label is updated.<br/><br/><strong>Warning: </strong>An update to a custom field will break all of the liquid personalization tags in emails that reference it - e.g. if you update a `Zip_Code` custom field to `Post_Code`, all liquid tags referencing `{{ subscriber.Zip_Code }}` would no longer work and need to be replaced with `{{ subscriber.Post_Code }}`.",
+    tag: "Custom Fields",
+    commandSegments: ["customfields", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/custom-fields/update-a-custom-field.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["label"],
+      properties: [
+        {
+          name: "label",
+          required: true,
+          type: "string",
+        },
+      ],
+    },
+  },
+  {
+    id: "get__v4_email_templates",
+    method: "GET",
+    path: "/v4/email_templates",
+    summary: "List email templates",
+    tag: "Email Templates",
+    commandSegments: ["emailtemplates", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/email-templates/list-email-templates.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_forms",
+    method: "GET",
+    path: "/v4/forms",
+    summary: "List forms",
+    tag: "Forms",
+    commandSegments: ["forms", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/forms/list-forms.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "status",
+        cliName: "status",
+        description:
+          "Filter forms that have this status (`active`, `archived`, `trashed`, or `all`). Defaults to `active`.",
+        required: false,
+        type: "string",
+        enumValues: ["active", "archived", "trashed", "all"],
+      },
+      {
+        name: "type",
+        cliName: "type",
+        description:
+          "Filter forms and landing pages by type. Use `embed` for embedded forms. Use `hosted` for landing pages.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "post__v4_forms_form_id_subscribers",
+    method: "POST",
+    path: "/v4/forms/{form_id}/subscribers",
+    summary: "Add subscriber to form by email address",
+    description:
+      'The subscriber being added to the form must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.',
+    tag: "Forms",
+    commandSegments: ["forms", "subscribers", "add"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/forms/add-subscriber-to-form-by-email-address.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "form_id",
+        cliName: "formid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["email_address"],
+      properties: [
+        {
+          name: "email_address",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "referrer",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_forms_form_id_subscribers_id_",
+    method: "POST",
+    path: "/v4/forms/{form_id}/subscribers/{id}",
+    summary: "Add subscriber to form",
+    description:
+      'The subscriber being added to the form must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.',
+    tag: "Forms",
+    commandSegments: ["forms", "subscribers", "addbyid"],
+    docsUrl: "https://developers.kit.com/api-reference/forms/add-subscriber-to-form.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "form_id",
+        cliName: "formid",
+        required: true,
+        type: "integer",
+      },
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["referrer"],
+      properties: [
+        {
+          name: "referrer",
+          required: true,
+          type: "string",
+        },
+      ],
+    },
+  },
+  {
+    id: "get__v4_forms_form_id_subscribers",
+    method: "GET",
+    path: "/v4/forms/{form_id}/subscribers",
+    summary: "List subscribers for a form",
+    tag: "Forms",
+    commandSegments: ["forms", "subscribers", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/forms/list-subscribers-for-a-form.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "form_id",
+        cliName: "formid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [
+      {
+        name: "added_after",
+        cliName: "addedAfter",
+        description:
+          "Filter subscribers who have been added to the form after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "added_before",
+        cliName: "addedBefore",
+        description:
+          "Filter subscribers who have been added to the form before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_after",
+        cliName: "createdAfter",
+        description: "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_before",
+        cliName: "createdBefore",
+        description:
+          "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "status",
+        cliName: "status",
+        description:
+          "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
+        required: false,
+        type: "string",
+        enumValues: ["active", "inactive", "bounced", "complained", "cancelled", "all"],
+      },
+    ],
+  },
+  {
+    id: "get__v4_posts_id_",
+    method: "GET",
+    path: "/v4/posts/{id}",
+    summary: "Get a post",
+    tag: "Posts",
+    commandSegments: ["posts", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/posts/get-a-post.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_posts",
+    method: "GET",
+    path: "/v4/posts",
+    summary: "List posts",
+    tag: "Posts",
+    commandSegments: ["posts", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/posts/list-posts.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_content",
+        cliName: "includeContent",
+        description:
+          "To include the `content` field on each post in the response, use `true`. Omitted by default because it significantly increases response size and latency for large collections.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "post__v4_purchases",
+    method: "POST",
+    path: "/v4/purchases",
+    summary: "Create a purchase",
+    tag: "Purchases",
+    commandSegments: ["purchases", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/purchases/create-a-purchase.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["purchase"],
+      properties: [
+        {
+          name: "purchase",
+          required: true,
+          type: "object",
+        },
+      ],
+    },
+  },
+  {
+    id: "get__v4_purchases_id_",
+    method: "GET",
+    path: "/v4/purchases/{id}",
+    summary: "Get a purchase",
+    tag: "Purchases",
+    commandSegments: ["purchases", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/purchases/get-a-purchase.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_purchases",
+    method: "GET",
+    path: "/v4/purchases",
+    summary: "List purchases",
+    tag: "Purchases",
+    commandSegments: ["purchases", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/purchases/list-purchases.md",
+    supportsApiKey: false,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_segments",
+    method: "GET",
+    path: "/v4/segments",
+    summary: "List segments",
+    tag: "Segments",
+    commandSegments: ["segments", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/segments/list-segments.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "post__v4_sequences",
+    method: "POST",
+    path: "/v4/sequences",
+    summary: "Create a sequence",
+    description:
+      "Creates an empty sequence — the container that holds sequence emails. After creating the shell, use [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email) to populate it.\n\nOnly `name` is required. Every other field has a sensible default: Kit fills in the account's default sending address, a daily send schedule, and the account time zone — and any of these can be tuned later via [Update a sequence](/api-reference/sequences/update-a-sequence).\n\nTwo behavioural toggles worth flagging up front. `repeat` controls whether a subscriber can re-enter the sequence: by default a subscriber receives the emails once and is marked complete, but with `repeat: true`, re-adding the same subscriber via a Visual Automation, Rule, Bulk Action, or Import resets their position to the start. Filters and exclusions still apply across restarts. `hold` (evergreen) keeps subscribers active in the sequence after they've received every published email — useful when you plan to add more emails later. Without `hold`, subscribers transition to Completed and won't pick up future additions.\n\n`exclude_subscriber_sources` lets you exclude subscribers acquired via specific tags, sequences, forms, or segments — they'll skip this sequence entirely.\n\nFor end-user context, see the help articles on [creating and sending a sequence](https://help.kit.com/en/articles/2502629-creating-and-sending-a-sequence-in-kit), [restarting a sequence](https://help.kit.com/en/articles/5022528-restart-a-sequence), and [holding subscribers in evergreen sequences](https://help.kit.com/en/articles/5192801-how-to-hold-subscribers-in-evergreen-sequences).",
+    tag: "Sequences",
+    commandSegments: ["sequences", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/sequences/create-a-sequence.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [
+        {
+          name: "name",
+          description: "The name of the sequence.",
+          required: false,
+          type: "string",
+        },
+        {
+          name: "email_address",
+          description:
+            "The sending email address to use. Uses the account's sending email address if not provided.",
+          required: false,
+          type: "string",
+        },
+        {
+          name: "email_template_id",
+          description: "Id of the email template to use.",
+          required: false,
+          type: "integer",
+        },
+        {
+          name: "send_days",
+          description:
+            "The days of the week to send the sequence on. Must be one of: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.",
+          required: false,
+          type: "array<string>",
+        },
+        {
+          name: "send_hour",
+          description:
+            "The hour of the day to send the sequence at. Must be an integer between 0 and 23.",
+          required: false,
+          type: "integer",
+        },
+        {
+          name: "time_zone",
+          description:
+            "The timezone to use for the sequence. Must be a valid IANA timezone string.",
+          required: false,
+          type: "string",
+        },
+        {
+          name: "active",
+          description: "`true` to activate the sequence, `false` to deactivate it.",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "repeat",
+          description: "When `true`, subscribers can restart the sequence multiple times.",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "hold",
+          description:
+            "When `true`, subscribers added via Visual Automations stay in the sequence after receiving the last email.",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "exclude_subscriber_sources",
+          description: "The subscriber sources to exclude from the sequence.",
+          required: false,
+          type: "array<object>",
+        },
+      ],
+    },
+  },
+  {
+    id: "delete__v4_sequences_id_",
+    method: "DELETE",
+    path: "/v4/sequences/{id}",
+    summary: "Delete a sequence",
+    description:
+      "Soft-deletes a sequence. The sequence is removed from active delivery immediately, with cleanup of associated state happening in the background.\n\n**Warning:** deleting a sequence with active subscribers stops deliveries to those subscribers — they will not receive remaining emails, and any Visual Automations referencing the sequence will need to be updated. Confirm the sequence is not in active use before deleting.\n\nIf you want to pause rather than delete, use [Update a sequence](/api-reference/sequences/update-a-sequence) with `active: false` instead.",
+    tag: "Sequences",
+    commandSegments: ["sequences", "delete"],
+    docsUrl: "https://developers.kit.com/api-reference/sequences/delete-a-sequence.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "post__v4_sequences_sequence_id_emails",
+    method: "POST",
+    path: "/v4/sequences/{sequence_id}/emails",
+    summary: "Create a sequence email",
+    description:
+      'Adds a single email to a sequence. Each sequence email represents one step subscribers receive on their journey through the sequence — its `position` determines order, and `delay_value` / `delay_unit` / `send_days` determine when it fires relative to either the previous email or the subscriber\'s entry.\n\n`subject`, `delay_value`, and `delay_unit` are required. **Day-based** emails (`delay_unit: "days"`) follow the parent sequence\'s `send_days` and `send_hour`; their per-email `send_days` (e.g. `["monday", "wednesday"]`) overrides the sequence schedule for that one email. **Hour-based** emails (`delay_unit: "hours"`) ignore the sequence schedule and fire once the delay elapses — Kit checks for hour-delayed sends every 15 minutes — and always return `send_days` as `null`.\n\nNew emails are created in draft (`published: false`) so they don\'t go out until you flip the flag. `position` is auto-assigned to the end of the sequence if omitted. `content` accepts HTML and can embed snippets with `{{ snippet.<key> }}` — see [Create a snippet](/api-reference/snippets/create-a-snippet) — which Kit resolves at send time, so editing a snippet later updates every email referencing it without a re-publish.\n\n**Note:** only the first email in a sequence can be an immediate send (`delay_value: 0` with `delay_unit: "days"`). Subsequent emails need a positive delay.\n\n**Warning:** publishing an immediate first email, or inserting a new email at a `position` earlier than where existing subscribers sit, processes those subscribers and triggers a send right away. Plan around active sequences carefully.\n\nFor end-user context on how creators build sequences in the Kit UI, see the help article on [creating and sending a sequence](https://help.kit.com/en/articles/2502629-creating-and-sending-a-sequence-in-kit).',
+    tag: "Sequence Emails",
+    commandSegments: ["sequences", "emails", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/sequence-emails/create-a-sequence-email.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["subject", "delay_value", "delay_unit"],
+      properties: [
+        {
+          name: "subject",
+          description: "Subject line of the email",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "preview_text",
+          description: "Preview text shown in email clients before the email is opened",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "content",
+          description: "HTML body content of the email",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "delay_value",
+          description:
+            "Number of days or hours to wait before sending this email after the previous one",
+          required: true,
+          type: "integer",
+        },
+        {
+          name: "delay_unit",
+          description:
+            "Unit for the send delay. Use `days` for schedule-aware delivery, `hours` for a fixed hourly delay",
+          required: true,
+          type: "string",
+          enumValues: ["days", "hours"],
+        },
+        {
+          name: "email_template_id",
+          description: "ID of the email template to use for layout and styling",
+          required: false,
+          type: "integer",
+          nullable: true,
+        },
+        {
+          name: "published",
+          description:
+            "Whether the email is active and will be sent to subscribers. Defaults to `false` (draft)",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "send_days",
+          description:
+            "Days of the week this email may be sent. Defaults to all 7 days (inherits the sequence schedule). Pass a subset to restrict delivery, or `null` to reset to all days",
+          required: false,
+          type: "array<string>",
+          nullable: true,
+        },
+        {
+          name: "position",
+          description:
+            "Zero-based position of the email in the sequence. Assigned automatically after the last email if omitted",
+          required: false,
+          type: "integer",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "delete__v4_sequences_sequence_id_emails_id_",
+    method: "DELETE",
+    path: "/v4/sequences/{sequence_id}/emails/{id}",
+    summary: "Delete a sequence email",
+    description:
+      "Permanently removes one email from a sequence.\n\n**Warning:** subscribers already queued to receive the deleted email will skip it — they'll continue to the next email in sequence order. This is intentional and not retryable. If subscribers need to receive the email's content, send a broadcast or re-add subscribers to the sequence (with `repeat: true`) before deleting.\n\nIf you want to pause rather than delete, use [Update a sequence email](/api-reference/sequence-emails/update-a-sequence-email) with `published: false` instead.",
+    tag: "Sequence Emails",
+    commandSegments: ["sequences", "emails", "delete"],
+    docsUrl: "https://developers.kit.com/api-reference/sequence-emails/delete-a-sequence-email.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_sequences_sequence_id_emails_id_",
+    method: "GET",
+    path: "/v4/sequences/{sequence_id}/emails/{id}",
+    summary: "Get a sequence email",
+    description:
+      "Fetches a single sequence email by `id`. Unlike [List sequence emails](/api-reference/sequence-emails/list-sequence-emails), this endpoint **always returns the full `content`** — no `include_content` flag needed.\n\nUse this when you have an email's `id` and need the current body, timing, or publish state — for example, to render a preview before pushing an update via [Update a sequence email](/api-reference/sequence-emails/update-a-sequence-email).\n\nFor the field semantics, see [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email).",
+    tag: "Sequence Emails",
+    commandSegments: ["sequences", "emails", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/sequence-emails/get-a-sequence-email.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_sequences_sequence_id_emails",
+    method: "GET",
+    path: "/v4/sequences/{sequence_id}/emails",
+    summary: "List sequence emails",
+    description:
+      "Returns every email inside a sequence, ordered by `position` (the order subscribers receive them). Each entry carries timing (`delay_value`, `delay_unit`, `send_days`), publish state (`published`), and metadata (`subject`, `preview_text`, `email_template_id`).\n\n**Tip:** the heavier `content` field is omitted by default to keep responses fast on sequences with many emails. Pass `include_content=true` when you need the body — for example, to render a preview, audit Liquid usage, or sync an external draft.\n\nFor the field semantics — particularly how `delay_unit` and `send_days` interact, and what happens when subscribers hit a `published: false` email — see [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email).",
+    tag: "Sequence Emails",
+    commandSegments: ["sequences", "emails", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/sequence-emails/list-sequence-emails.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_content",
+        cliName: "includeContent",
+        description:
+          "Pass `true` to include the `content` field on each email in the response. Omitted by default because it increases response size for large sequences.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "put__v4_sequences_sequence_id_emails_id_",
+    method: "PUT",
+    path: "/v4/sequences/{sequence_id}/emails/{id}",
+    summary: "Update a sequence email",
+    description:
+      'Updates any field on a sequence email — `subject`, `preview_text`, `content`, `delay_value`, `delay_unit`, `send_days`, `position`, `email_template_id`, or `published`. Only fields included in the request body change; everything else is preserved.\n\n**Note:** pass `send_days: null` to revert a per-email schedule override and inherit the parent sequence\'s `send_days` again. The response will then return all 7 days, indicating no per-email restriction.\n\n**Warning:** sending `send_days` on an email with `delay_unit: "hours"` returns `422` — `send_days` only applies to day-based emails.\n\n**Warning:** changing `position` while subscribers are actively progressing through the sequence can cause emails to be sent out of order or skipped. The same caution applies to flipping `published` on a `position: 0` email — it triggers Kit to process all queued subscribers for that email.\n\nFor the sequence-email model and how `delay_unit` and `send_days` interact, see [Create a sequence email](/api-reference/sequence-emails/create-a-sequence-email).',
+    tag: "Sequence Emails",
+    commandSegments: ["sequences", "emails", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/sequence-emails/update-a-sequence-email.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [
+        {
+          name: "subject",
+          description: "New subject line for the email",
+          required: false,
+          type: "string",
+        },
+        {
+          name: "preview_text",
+          description: "New preview text shown in email clients before the email is opened",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "content",
+          description: "New HTML body content of the email",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "delay_value",
+          description: "New delay value",
+          required: false,
+          type: "integer",
+        },
+        {
+          name: "delay_unit",
+          description:
+            "New delay unit. Use `days` for schedule-aware delivery, `hours` for a fixed hourly delay",
+          required: false,
+          type: "string",
+          enumValues: ["days", "hours"],
+        },
+        {
+          name: "email_template_id",
+          description: "New email template ID for layout and styling. Pass `null` to clear",
+          required: false,
+          type: "integer",
+          nullable: true,
+        },
+        {
+          name: "published",
+          description: "Pass `true` to publish a draft email or `false` to unpublish it",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "send_days",
+          description:
+            "Days of the week this email may be sent. Pass a subset to restrict delivery, or `null` to reset to all days (inherits the sequence schedule)",
+          required: false,
+          type: "array<string>",
+          nullable: true,
+        },
+        {
+          name: "position",
+          description: "New zero-based position of the email in the sequence",
+          required: false,
+          type: "integer",
+          nullable: true,
+        },
+      ],
+    },
+  },
+  {
+    id: "get__v4_sequences_id_",
+    method: "GET",
+    path: "/v4/sequences/{id}",
+    summary: "Get a sequence",
+    description:
+      "Fetches a single sequence by `id`. Use this when you need the current schedule, the `active` / `repeat` / `hold` flags, the configured `email_address` and `email_template_id`, or `exclude_subscriber_sources` for a known sequence — for example, to confirm settings before adding subscribers or to render an editor.\n\nFor the individual emails inside the sequence, use [List sequence emails](/api-reference/sequence-emails/list-sequence-emails). For the sequence model and field semantics, see [Create a sequence](/api-reference/sequences/create-a-sequence).",
+    tag: "Sequences",
+    commandSegments: ["sequences", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/sequences/get-a-sequence.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_sequences",
+    method: "GET",
+    path: "/v4/sequences",
+    summary: "List sequences",
+    description:
+      "Returns every sequence on the account. A sequence is a self-contained set of automated emails — subscribers join, then receive each email in order, governed by per-email `delay_value` / `delay_unit` and the sequence's overall `send_days`, `send_hour`, and `time_zone` schedule.\n\nEach entry carries the schedule defaults plus three behavioural toggles: `active` (whether the sequence is delivering), `repeat` (whether subscribers can re-enter), and `hold` (whether subscribers stay active after receiving every published email — an evergreen pattern). See [Create a sequence](/api-reference/sequences/create-a-sequence) for the full sequence model.\n\nOnce you have a sequence's `id`, [List sequence emails](/api-reference/sequence-emails/list-sequence-emails) returns the individual emails inside it.\n\nFor end-user context on how creators build sequences, see the help articles on [creating and sending a sequence](https://help.kit.com/en/articles/2502629-creating-and-sending-a-sequence-in-kit) and [evergreen content](https://help.kit.com/en/articles/2502575-what-is-evergreen-content).",
+    tag: "Sequences",
+    commandSegments: ["sequences", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/sequences/list-sequences.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "post__v4_sequences_sequence_id_subscribers",
+    method: "POST",
+    path: "/v4/sequences/{sequence_id}/subscribers",
+    summary: "Add subscriber to sequence by email address",
+    description:
+      'The subscriber being added to the sequence must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.',
+    tag: "Sequences",
+    commandSegments: ["sequences", "subscribers", "add"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence-by-email-address.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["email_address"],
+      properties: [
+        {
+          name: "email_address",
+          required: true,
+          type: "string",
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_sequences_sequence_id_subscribers_id_",
+    method: "POST",
+    path: "/v4/sequences/{sequence_id}/subscribers/{id}",
+    summary: "Add subscriber to sequence",
+    description:
+      'The subscriber being added to the sequence must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.',
+    tag: "Sequences",
+    commandSegments: ["sequences", "subscribers", "addbyid"],
+    docsUrl: "https://developers.kit.com/api-reference/sequences/add-subscriber-to-sequence.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [],
+    },
+  },
+  {
+    id: "get__v4_sequences_sequence_id_subscribers",
+    method: "GET",
+    path: "/v4/sequences/{sequence_id}/subscribers",
+    summary: "List subscribers for a sequence",
+    tag: "Sequences",
+    commandSegments: ["sequences", "subscribers", "list"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/sequences/list-subscribers-for-a-sequence.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "sequence_id",
+        cliName: "sequenceid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [
+      {
+        name: "added_after",
+        cliName: "addedAfter",
+        description:
+          "Filter subscribers who have been added to the form after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "added_before",
+        cliName: "addedBefore",
+        description:
+          "Filter subscribers who have been added to the form before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_after",
+        cliName: "createdAfter",
+        description: "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_before",
+        cliName: "createdBefore",
+        description:
+          "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "status",
+        cliName: "status",
+        description:
+          "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
+        required: false,
+        type: "string",
+        enumValues: ["active", "inactive", "bounced", "complained", "cancelled", "all"],
+      },
+    ],
+  },
+  {
+    id: "put__v4_sequences_id_",
+    method: "PUT",
+    path: "/v4/sequences/{id}",
+    summary: "Update a sequence",
+    description:
+      "Updates any sequence settings — `name`, `email_address`, schedule (`send_days`, `send_hour`, `time_zone`), `email_template_id`, `exclude_subscriber_sources`, or the `active` / `repeat` / `hold` flags. Only fields included in the request body change; everything else is preserved.\n\nSome changes have user-visible side effects on subscribers already in the sequence:\n\n**Note:** flipping `active` from `false` to `true` resumes delivery for queued subscribers. Flipping it back to `false` pauses the sequence — subscribers stay in their current position but no new emails are sent until it's reactivated.\n\n**Note:** changing the schedule (`send_days`, `send_hour`, or `time_zone`) only affects future sends. It does not retroactively reschedule emails already queued for delivery.\n\n**Warning:** turning off `repeat` while subscribers are mid-sequence does not stop them from finishing — but they won't be re-eligible to start over after completing.\n\nSee [Create a sequence](/api-reference/sequences/create-a-sequence) for the full sequence model and what each field controls.",
+    tag: "Sequences",
+    commandSegments: ["sequences", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/sequences/update-a-sequence.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [
+        {
+          name: "name",
+          description: "The name of the sequence.",
+          required: false,
+          type: "string",
+        },
+        {
+          name: "email_address",
+          description:
+            "The sending email address to use. Uses the account's sending email address if not provided.",
+          required: false,
+          type: "string",
+        },
+        {
+          name: "email_template_id",
+          description: "Id of the email template to use.",
+          required: false,
+          type: "integer",
+        },
+        {
+          name: "send_days",
+          description:
+            "The days of the week to send the sequence on. Must be one of: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.",
+          required: false,
+          type: "array<string>",
+        },
+        {
+          name: "send_hour",
+          description:
+            "The hour of the day to send the sequence at. Must be an integer between 0 and 23.",
+          required: false,
+          type: "integer",
+        },
+        {
+          name: "time_zone",
+          description:
+            "The timezone to use for the sequence. Must be a valid IANA timezone string.",
+          required: false,
+          type: "string",
+        },
+        {
+          name: "active",
+          description: "`true` to activate the sequence, `false` to deactivate it.",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "repeat",
+          description: "When `true`, subscribers can restart the sequence multiple times.",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "hold",
+          description:
+            "When `true`, subscribers added via Visual Automations stay in the sequence after receiving the last email.",
+          required: false,
+          type: "boolean",
+        },
+        {
+          name: "exclude_subscriber_sources",
+          description: "The subscriber sources to exclude from the sequence.",
+          required: false,
+          type: "array<object>",
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_snippets",
+    method: "POST",
+    path: "/v4/snippets",
+    summary: "Create a snippet",
+    description:
+      'Snippets are reusable pieces of email content you can drop into a broadcast or sequence email using Liquid: `{{ snippet.key }}`. Update the snippet once and every email that references it picks up the new content on next send.\n\nThere are two `snippet_type`s. **`inline`** snippets store plain-text content (with Liquid variable support like `{{ subscriber.first_name }}`) in the `content` field. **`block`** snippets store rich-text HTML — text, lists, images, buttons — in `document_attributes.value_html`. A snippet\'s type is fixed at creation: it cannot be changed via [Update a snippet](/api-reference/snippets/update-a-snippet).\n\nThe response includes a `key` field. That\'s the identifier you use in Liquid — for example, a snippet returned with `"key": "welcome-message"` is referenced inside a broadcast as `{{ snippet.welcome-message }}`. Keys are derived from the snippet name on creation.\n\n**Note:** the API rejects circular references — a snippet cannot reference itself, directly or transitively — with a `422` validation error.\n\nFor end-user context on how creators build and edit snippets in the Kit UI, see the help articles on [content snippets](https://help.kit.com/en/articles/3812712-creating-and-using-content-snippets-in-your-kit-emails) and [code snippets for custom templates](https://help.kit.com/en/articles/2810398-code-snippets-for-custom-email-templates).',
+    tag: "Snippets",
+    commandSegments: ["snippets", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/snippets/create-a-snippet.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [],
+    },
+  },
+  {
+    id: "get__v4_snippets_id_",
+    method: "GET",
+    path: "/v4/snippets/{id}",
+    summary: "Get a snippet",
+    description:
+      "Fetches a single snippet by `id`. Unlike [List snippets](/api-reference/snippets/list-snippets), this endpoint **always returns the full `content` and `document`** — no `include_content` flag needed.\n\nUse this when you have an `id` (e.g. stored from a prior create call) and need the current `key` and body — for example, to preview the resolved HTML or confirm a snippet still exists before referencing it as `{{ snippet.key }}` in a broadcast or sequence email. See [Create a snippet](/api-reference/snippets/create-a-snippet) for the snippet model.",
+    tag: "Snippets",
+    commandSegments: ["snippets", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/snippets/get-a-snippet.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_snippets",
+    method: "GET",
+    path: "/v4/snippets",
+    summary: "List snippets",
+    description:
+      "Returns every snippet on the account. Each snippet's `key` is the identifier used in Liquid — `{{ snippet.key }}` — when creating a broadcast or sequence email. See [Create a snippet](/api-reference/snippets/create-a-snippet) for how snippets work end-to-end.\n\n**Tip:** the heavier `content` and `document` fields are omitted by default to keep responses fast. Pass `include_content=true` when you need the body — for example, to render a preview or audit Liquid usage.\n\nFilter the result with `snippet_type` (`inline` or `block`) and `archived` (defaults to `false`, set `true` to list only archived snippets).",
+    tag: "Snippets",
+    commandSegments: ["snippets", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/snippets/list-snippets.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "archived",
+        cliName: "archived",
+        description: "When `true`, returns only archived snippets. Defaults to `false`.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_content",
+        cliName: "includeContent",
+        description:
+          "When `true`, includes both the `content` and `document` fields for each snippet in the response. Defaults to `false`.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "snippet_type",
+        cliName: "snippetType",
+        description:
+          "Filter snippets by type. Use `inline` for text snippets or `block` for rich-text block snippets.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "put__v4_snippets_id_",
+    method: "PUT",
+    path: "/v4/snippets/{id}",
+    summary: "Update a snippet",
+    description:
+      "Rename a snippet, replace its body, or archive/restore it. Updates apply on the next send of any email that references the snippet via `{{ snippet.key }}` — there's no per-email versioning, so a content change ripples to every broadcast or sequence email using that key.\n\nThe request body must match the existing `snippet_type`. For an **`inline`** snippet, send `content` (and optionally `name`, `archived`). For a **`block`** snippet, send `document_attributes.value_html` (and optionally `name`, `archived`). Pass `archived: true` to archive, `false` to restore.\n\n**Warning:** `snippet_type` is immutable. Sending a different value, or sending the body shape for the wrong type, returns a `422` with `snippet_type cannot be changed`.\n\nSee [Create a snippet](/api-reference/snippets/create-a-snippet) for the full snippet model and how `key` ties into Liquid.",
+    tag: "Snippets",
+    commandSegments: ["snippets", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/snippets/update-a-snippet.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [],
+    },
+  },
+  {
+    id: "post__v4_subscribers",
+    method: "POST",
+    path: "/v4/subscribers",
+    summary: "Create a subscriber",
+    description:
+      "Behaves as an upsert. If a subscriber with the provided email address does not exist, it creates one with the specified first name and state. If a subscriber with the provided email address already exists, it updates the first name.<br/><br/>If you include a custom field key that does not exist on your account, the request returns an error. Use [List custom fields](/api-reference/custom-fields/list-custom-fields) to retrieve existing keys, or [Create a custom field](/api-reference/custom-fields/create-a-custom-field) to add new fields before setting them for subscribers.<br/><br/><strong>NOTE:</strong> Updating the subscriber state with this endpoint is not supported at this time.<br/><strong>NOTE:</strong> We support creating/updating a maximum of 140 custom fields at a time.",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/create-a-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["email_address"],
+      properties: [
+        {
+          name: "first_name",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "email_address",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "state",
+          description:
+            "Create subscriber in this state (`active`, `bounced`, `cancelled`, `complained` or `inactive`). Defaults to `active`.",
+          required: false,
+          type: "string",
+          enumValues: ["active", "cancelled", "bounced", "complained", "inactive"],
+          nullable: true,
+        },
+        {
+          name: "fields",
+          description:
+            "Custom field values keyed by the custom field's `key` (e.g. `last_name`, not `Last Name`). Passing an unknown key returns a 422 error.",
+          required: false,
+          type: "object",
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_subscribers_filter",
+    method: "POST",
+    path: "/v4/subscribers/filter",
+    summary: "Filter subscribers based on engagement",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "filter", "apply"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/subscribers/filter-subscribers-based-on-engagement.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [],
+    },
+  },
+  {
+    id: "get__v4_subscribers_id_",
+    method: "GET",
+    path: "/v4/subscribers/{id}",
+    summary: "Get a subscriber",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "get"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/get-a-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_subscribers",
+    method: "GET",
+    path: "/v4/subscribers",
+    summary: "List subscribers",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/list-subscribers.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_after",
+        cliName: "createdAfter",
+        description: "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_before",
+        cliName: "createdBefore",
+        description:
+          "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "email_address",
+        cliName: "emailAddress",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include",
+        cliName: "include",
+        description:
+          "Comma-separated list of additional fields to include on each subscriber. Valid options: `attribution`, `tags`, `location`, `canceled_at`. `canceled_at` may only be used together with `status=cancelled`.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "number",
+      },
+      {
+        name: "sort_field",
+        cliName: "sortField",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "sort_order",
+        cliName: "sortOrder",
+        required: false,
+        type: "string",
+        enumValues: ["asc", "desc"],
+      },
+      {
+        name: "status",
+        cliName: "status",
+        description:
+          "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
+        required: false,
+        type: "string",
+        enumValues: ["active", "inactive", "bounced", "complained", "cancelled", "all"],
+      },
+      {
+        name: "updated_after",
+        cliName: "updatedAfter",
+        description: "Filter subscribers who have been updated after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "updated_before",
+        cliName: "updatedBefore",
+        description:
+          "Filter subscribers who have been updated before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_subscribers_subscriber_id_stats",
+    method: "GET",
+    path: "/v4/subscribers/{subscriber_id}/stats",
+    summary: "List stats for a subscriber",
+    description:
+      "Retrieve email stats for a specific subscriber. You can filter the stats by providing `email_sent_after` and/or `email_sent_before` query parameters to limit the stats to emails sent within a specific date range.\nNote: this functionality was added in June 2025, so no data for events before that date will be included.",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "stats", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/list-stats-for-a-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "subscriber_id",
+        cliName: "subscriberid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [
+      {
+        name: "email_sent_after",
+        cliName: "emailSentAfter",
+        description:
+          "Filter to stats for emails sent after this date (YYYY-MM-DD)/nNOTE: This functionality was added 2025-06-28 and will only include stats for emails sent before this date.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "email_sent_before",
+        cliName: "emailSentBefore",
+        description:
+          "Filter to stats for emails sent before this date (YYYY-MM-DD)/nNote: this functionality was added in June 2025, so no data for events before that date will be included.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_subscribers_subscriber_id_tags",
+    method: "GET",
+    path: "/v4/subscribers/{subscriber_id}/tags",
+    summary: "List tags for a subscriber",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "tags", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/list-tags-for-a-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "subscriber_id",
+        cliName: "subscriberid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "post__v4_subscribers_id_unsubscribe",
+    method: "POST",
+    path: "/v4/subscribers/{id}/unsubscribe",
+    summary: "Unsubscribe subscriber",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "unsubscribe", "apply"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/unsubscribe-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [],
+    },
+  },
+  {
+    id: "put__v4_subscribers_id_",
+    method: "PUT",
+    path: "/v4/subscribers/{id}",
+    summary: "Update a subscriber",
+    description:
+      "If you include a custom field key that does not exist on your account, the request returns an error. Use [List custom fields](/api-reference/custom-fields/list-custom-fields) to retrieve existing keys, or [Create a custom field](/api-reference/custom-fields/create-a-custom-field) to add new fields before setting them for subscribers.<br/><br/><strong>NOTE:</strong> We support creating/updating a maximum of 140 custom fields at a time.",
+    tag: "Subscribers",
+    commandSegments: ["subscribers", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/subscribers/update-a-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["email_address"],
+      properties: [
+        {
+          name: "first_name",
+          required: false,
+          type: "string",
+          nullable: true,
+        },
+        {
+          name: "email_address",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "fields",
+          description:
+            "Custom field values keyed by the custom field's `key` (e.g. `last_name`, not `Last Name`). Passing an unknown key returns a 422 error.",
+          required: false,
+          type: "object",
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_tags",
+    method: "POST",
+    path: "/v4/tags",
+    summary: "Create a tag",
+    tag: "Tags",
+    commandSegments: ["tags", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/create-a-tag.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["name"],
+      properties: [
+        {
+          name: "name",
+          required: true,
+          type: "string",
+        },
+      ],
+    },
+  },
+  {
+    id: "get__v4_tags",
+    method: "GET",
+    path: "/v4/tags",
+    summary: "List tags",
+    tag: "Tags",
+    commandSegments: ["tags", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/list-tags.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "get__v4_tags_tag_id_subscribers",
+    method: "GET",
+    path: "/v4/tags/{tag_id}/subscribers",
+    summary: "List subscribers for a tag",
+    tag: "Tags",
+    commandSegments: ["tags", "subscribers", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/list-subscribers-for-a-tag.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "tag_id",
+        cliName: "tagid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_after",
+        cliName: "createdAfter",
+        description: "Filter subscribers who have been created after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "created_before",
+        cliName: "createdBefore",
+        description:
+          "Filter subscribers who have been created before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "status",
+        cliName: "status",
+        description:
+          "Filter subscribers who have this status (`active`, `inactive`, `bounced`, `complained`, `cancelled` or `all`). Defaults to `active`.",
+        required: false,
+        type: "string",
+        enumValues: ["active", "inactive", "bounced", "complained", "cancelled", "all"],
+      },
+      {
+        name: "tagged_after",
+        cliName: "taggedAfter",
+        description: "Filter subscribers who have been tagged after this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "tagged_before",
+        cliName: "taggedBefore",
+        description: "Filter subscribers who have been tagged before this date (format yyyy-mm-dd)",
+        required: false,
+        type: "string",
+      },
+    ],
+  },
+  {
+    id: "delete__v4_tags_tag_id_subscribers",
+    method: "DELETE",
+    path: "/v4/tags/{tag_id}/subscribers",
+    summary: "Remove tag from subscriber by email address",
+    tag: "Tags",
+    commandSegments: ["tags", "subscribers", "remove"],
+    docsUrl:
+      "https://developers.kit.com/api-reference/tags/remove-tag-from-subscriber-by-email-address.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "tag_id",
+        cliName: "tagid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "delete__v4_tags_tag_id_subscribers_id_",
+    method: "DELETE",
+    path: "/v4/tags/{tag_id}/subscribers/{id}",
+    summary: "Remove tag from subscriber",
+    tag: "Tags",
+    commandSegments: ["tags", "subscribers", "removebyid"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/remove-tag-from-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "tag_id",
+        cliName: "tagid",
+        required: true,
+        type: "integer",
+      },
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "post__v4_tags_tag_id_subscribers",
+    method: "POST",
+    path: "/v4/tags/{tag_id}/subscribers",
+    summary: "Tag a subscriber by email address",
+    description:
+      'The subscriber being tagged must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.',
+    tag: "Tags",
+    commandSegments: ["tags", "subscribers", "tag"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/tag-a-subscriber-by-email-address.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "tag_id",
+        cliName: "tagid",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["email_address"],
+      properties: [
+        {
+          name: "email_address",
+          required: true,
+          type: "string",
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_tags_tag_id_subscribers_id_",
+    method: "POST",
+    path: "/v4/tags/{tag_id}/subscribers/{id}",
+    summary: "Tag a subscriber",
+    description:
+      'The subscriber being tagged must already exist. Subscribers can be created using the "[Create a subscriber](#create-a-subscriber)" endpoint.',
+    tag: "Tags",
+    commandSegments: ["tags", "subscribers", "tagbyid"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/tag-a-subscriber.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "tag_id",
+        cliName: "tagid",
+        required: true,
+        type: "integer",
+      },
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: [],
+      properties: [],
+    },
+  },
+  {
+    id: "put__v4_tags_id_",
+    method: "PUT",
+    path: "/v4/tags/{id}",
+    summary: "Update tag name",
+    tag: "Tags",
+    commandSegments: ["tags", "update"],
+    docsUrl: "https://developers.kit.com/api-reference/tags/update-tag-name.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["name"],
+      properties: [
+        {
+          name: "name",
+          required: true,
+          type: "string",
+        },
+      ],
+    },
+  },
+  {
+    id: "post__v4_webhooks",
+    method: "POST",
+    path: "/v4/webhooks",
+    summary: "Create a webhook",
+    description:
+      "Available event types:<br/>- `subscriber.subscriber_activate`<br/>- `subscriber.subscriber_unsubscribe`<br/>- `subscriber.subscriber_bounce`<br/>- `subscriber.subscriber_complain`<br/>- `subscriber.form_subscribe`, required parameter `form_id` [Integer]<br/>- `subscriber.course_subscribe`, required parameter `sequence_id` [Integer]<br/>- `subscriber.course_complete`, required parameter `sequence_id` [Integer]<br/>- `subscriber.link_click`, required parameter `initiator_value` [String] as a link URL<br/>- `subscriber.product_purchase`, required parameter `product_id` [Integer]<br/>- `subscriber.tag_add`, required parameter `tag_id` [Integer]<br/>- `subscriber.tag_remove`, required parameter `tag_id` [Integer]<br/>- `purchase.purchase_create`<br/>- `custom_field.field_created`<br/>- `custom_field.field_deleted`<br/>- `custom_field.field_value_updated`, required parameter `custom_field_id` [Integer]",
+    tag: "Webhooks",
+    commandSegments: ["webhooks", "create"],
+    docsUrl: "https://developers.kit.com/api-reference/webhooks/create-a-webhook.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [],
+    requestBody: {
+      required: false,
+      contentTypes: ["application/json"],
+      requiredFields: ["target_url", "event"],
+      properties: [
+        {
+          name: "target_url",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "event",
+          required: true,
+          type: "object",
+        },
+      ],
+    },
+  },
+  {
+    id: "delete__v4_webhooks_id_",
+    method: "DELETE",
+    path: "/v4/webhooks/{id}",
+    summary: "Delete a webhook",
+    tag: "Webhooks",
+    commandSegments: ["webhooks", "delete"],
+    docsUrl: "https://developers.kit.com/api-reference/webhooks/delete-a-webhook.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [
+      {
+        name: "id",
+        cliName: "id",
+        required: true,
+        type: "integer",
+      },
+    ],
+    queryParams: [],
+  },
+  {
+    id: "get__v4_webhooks",
+    method: "GET",
+    path: "/v4/webhooks",
+    summary: "List webhooks",
+    description:
+      "Webhooks are automations that will receive subscriber data when a subscriber event is triggered, such as when a subscriber completes a sequence.<br/><br/>When a webhook is triggered, a `POST` request will be made to your URL with a JSON payload.",
+    tag: "Webhooks",
+    commandSegments: ["webhooks", "list"],
+    docsUrl: "https://developers.kit.com/api-reference/webhooks/list-webhooks.md",
+    supportsApiKey: true,
+    supportsOAuth: true,
+    pathParams: [],
+    queryParams: [
+      {
+        name: "after",
+        cliName: "after",
+        description: "To fetch next page of results, use `?after=<end_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "before",
+        cliName: "before",
+        description: "To fetch previous page of results, use `?before=<start_cursor>`",
+        required: false,
+        type: "string",
+      },
+      {
+        name: "include_total_count",
+        cliName: "includeTotalCount",
+        description:
+          "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
+        required: false,
+        type: "boolean",
+      },
+      {
+        name: "per_page",
+        cliName: "perPage",
+        description: "Number of results per page. Default 500, maximum 1000.",
+        required: false,
+        type: "string",
+      },
     ],
-    "docsUrl": "https://developers.kit.com/api-reference/webhooks/list-webhooks.md",
-    "supportsApiKey": true,
-    "supportsOAuth": true,
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "after",
-        "cliName": "after",
-        "description": "To fetch next page of results, use `?after=<end_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "before",
-        "cliName": "before",
-        "description": "To fetch previous page of results, use `?before=<start_cursor>`",
-        "required": false,
-        "type": "string"
-      },
-      {
-        "name": "include_total_count",
-        "cliName": "includeTotalCount",
-        "description": "Set to `true` to include the `total_count` in the response. This option can cause slow responses; if paging through results, request it only on the first page and reuse the value for subsequent pages.",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "name": "per_page",
-        "cliName": "perPage",
-        "description": "Number of results per page. Default 500, maximum 1000.",
-        "required": false,
-        "type": "string"
-      }
-    ]
-  }
+  },
 ] as const satisfies readonly GeneratedOperation[];
