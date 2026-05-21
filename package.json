@@ -39,7 +39,7 @@
     "version": "bun run scripts/sync-version.ts && git add package.json src/index.ts"
   },
   "dependencies": {
-    "@effect/cli": "^0.73.0",
+    "@effect/cli": "^0.75.1",
     "@effect/platform": "^0.93.0",
     "@effect/platform-node": "^0.104.0",
     "effect": "^3.19.2"
