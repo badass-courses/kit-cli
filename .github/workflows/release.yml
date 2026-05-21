@@ -27,7 +27,7 @@ jobs:
       - name: Build standalone binaries with Bun runtime embedded
         run: bash scripts/build-release-binaries.sh
       - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: release/*
           generate_release_notes: true
