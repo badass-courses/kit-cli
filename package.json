@@ -45,7 +45,7 @@
     "effect": "^3.19.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
+    "@biomejs/biome": "2.4.15",
     "@types/bun": "latest",
     "oxfmt": "^0.38.0",
     "oxlint": "^1.32.0",
